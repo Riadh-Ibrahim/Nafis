@@ -1,0 +1,96 @@
+# Contributing to Our Project
+
+Merhaba CHABEB! Thank you for helping build this amazing project! Here’s how we can collaborate effectively using Git.
+
+## **Git Workflow**
+
+### **1. Main Branches**
+We have two main branches:
+- **`main`**: Contains the stable production code. Only deployable and fully tested features should be merged here.
+- **`develop`**: This is the branch where all new features and fixes are integrated before they’re ready for production.
+
+**Rule:** Don’t push directly to `main` or `develop`. Always work on feature branches.
+
+---
+
+### **2. Creating a New Feature Branch**
+
+To start working on a new feature or fix, create a feature branch from `develop`:
+
+```bash
+# Always pull the latest develop branch first
+git checkout develop
+git pull origin develop
+
+# Create a new branch for your feature
+# Use a descriptive name, e.g., feature/login-page or fix/api-bug
+git checkout -b feature/feature-name
+```
+
+### **3. Working on Your Branch**
+1. Make your changes locally.
+2. Test your changes thoroughly.
+3. Commit your changes with a clear message:
+
+```bash
+git add .
+git commit -m "Added login page UI"
+```
+
+4. Push your branch to the remote repository:
+
+```bash
+git push origin feature/feature-name
+```
+
+---
+
+### **4. Opening a Pull Request (PR)**
+When your feature is ready:
+1. Go to our GitHub repo.
+2. Open a **Pull Request** (PR) from your `feature/feature-name` branch into `develop`.
+3. Write a clear description of what your PR does and assign it to another teammate for review.
+
+**Note:** Don’t merge your own PR. Let a teammate review and approve it first. Sa7a!
+
+---
+
+### **5. Code Reviews**
+When reviewing a PR:
+- Check if the code works as expected.
+- Ensure it follows our coding standards.
+- Be constructive and helpful in your feedback. 
+
+Once approved, merge the PR into `develop`. Bravo ya kollega!
+
+---
+
+### **6. Bug Fixes**
+For bugs, create a branch from `develop`:
+
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b fix/bug-description
+```
+
+Follow the same steps as above (commit, push, PR, review).
+
+---
+
+## **General Rules**
+- Always pull the latest `develop` branch before creating a new branch.
+- Write meaningful commit messages. For example:
+  - Good: `"Added validation for login form"`
+  - Bad: `"Fix stuff"`
+- Keep your branches focused on a single feature or fix.
+- Avoid large, unrelated changes in one branch.
+- Collaborate and communicate with the team if you’re stuck.
+
+---
+
+## **Extra Notes**
+- If you’re lost or have a Git issue, “sa3ed rou7ek” by asking in our group.
+- Test before you push. Test again before opening a PR.
+
+Enjoy coding, and let’s build something amazing together! صحة لخدمة!
