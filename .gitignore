@@ -1,0 +1,5 @@
+node_modules/
+frontend/nafis-frontend-app/node_modules/
+backend/nafis-nest-api/node_modules/
+dist/
+.env
