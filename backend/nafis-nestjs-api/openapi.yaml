@@ -1,0 +1,454 @@
+openapi: 3.0.0
+info:
+  title: API Gestion Hospitalière Nafis
+  description: API Gestion Hospitalière Nafis
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Serveur de développement
+  - url: https://api.hopital-nafis.com
+    description: Serveur de production
+
+tags:
+  - name: Patients
+    description: Gestion des patients
+  - name: Surveillance
+    description: Surveillance en temps réel
+  - name: Personnel
+    description: Gestion du personnel
+  - name: Rendez-vous
+    description: Gestion des rendez-vous et des chambres
+
+paths:
+  # Gestion des Patients
+  /api/patients:
+    post:
+      tags:
+        - Patients
+      summary: Créer un nouveau patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '201':
+          description: Patient créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+    get:
+      tags:
+        - Patients
+      summary: Liste des patients
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Liste des patients récupérée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+
+  /api/patients/{id}:
+    get:
+      tags:
+        - Patients
+      summary: Détails d'un patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détails du patient
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+
+  /api/patients/{id}/historique:
+    get:
+      tags:
+        - Patients
+      summary: Historique médical d'un patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Historique médical
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoriqueMedical'
+
+  # Surveillance en Temps Réel
+  /api/surveillance/constantes/{patientId}:
+    get:
+      tags:
+        - Surveillance
+      summary: Constantes vitales en temps réel
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constantes vitales
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstantesVitales'
+
+  /api/surveillance/equipements:
+    get:
+      tags:
+        - Surveillance
+      summary: État des équipements
+      responses:
+        '200':
+          description: Liste des équipements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Equipement'
+
+  # Gestion du Personnel
+  /api/personnel:
+    get:
+      tags:
+        - Personnel
+      summary: Liste du personnel
+      responses:
+        '200':
+          description: Liste du personnel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Personnel'
+
+  /api/personnel/presence:
+    post:
+      tags:
+        - Personnel
+      summary: Marquer la présence d'un membre du personnel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Presence'
+      responses:
+        '201':
+          description: Présence enregistrée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Presence'
+
+  /api/personnel/{id}/presences:
+    get:
+      tags:
+        - Personnel
+      summary: Obtenir les présences d'un membre du personnel
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: mois
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Statistiques de présence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatistiquesPresence'
+
+  # Rendez-vous
+  /api/rendez-vous:
+    post:
+      tags:
+        - Rendez-vous
+      summary: Créer un rendez-vous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RendezVous'
+      responses:
+        '201':
+          description: Rendez-vous créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RendezVous'
+
+  /api/chambres:
+    get:
+      tags:
+        - Rendez-vous
+      summary: État des chambres
+      responses:
+        '200':
+          description: Liste des chambres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chambre'
+
+components:
+  schemas:
+    Patient:
+      type: object
+      required:
+        - nom
+        - prenom
+        - dateNaissance
+        - numeroSecu
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        dateNaissance:
+          type: string
+          format: date
+        numeroSecu:
+          type: string
+        adresse:
+          type: string
+        telephone:
+          type: string
+
+    HistoriqueMedical:
+      type: object
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        consultations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Consultation'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [ORDONNANCE, RADIOGRAPHIE, ANALYSE, AUTRE]
+        date:
+          type: string
+          format: date-time
+        titre:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+
+    Consultation:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        medecin:
+          type: string
+        diagnostic:
+          type: string
+        prescriptions:
+          type: array
+          items:
+            type: string
+
+    ConstantesVitales:
+      type: object
+      properties:
+        patientId:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        temperature:
+          type: number
+        tensionArterielle:
+          type: string
+        frequenceCardiaque:
+          type: integer
+        saturationOxygene:
+          type: integer
+
+    Equipement:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        type:
+          type: string
+        statut:
+          type: string
+        derniereMaintenance:
+          type: string
+          format: date
+
+    Personnel:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        fonction:
+          type: string
+        service:
+          type: string
+        email:
+          type: string
+        statut:
+          type: string
+          enum: [PRESENT, ABSENT, CONGE, MISSION]
+
+    Presence:
+      type: object
+      required:
+        - personnelId
+        - date
+        - statut
+      properties:
+        id:
+          type: integer
+        personnelId:
+          type: integer
+        date:
+          type: string
+          format: date
+        statut:
+          type: string
+          enum: [PRESENT, ABSENT, CONGE, MISSION]
+        commentaire:
+          type: string
+
+    StatistiquesPresence:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        mois:
+          type: string
+          format: date
+        joursPresent:
+          type: integer
+        joursAbsent:
+          type: integer
+        joursConge:
+          type: integer
+        joursMission:
+          type: integer
+        tauxPresence:
+          type: number
+          format: float
+        presencesDetaillees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Presence'
+
+    RendezVous:
+      type: object
+      required:
+        - patientId
+        - medecinId
+        - date
+        - motif
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        medecinId:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        motif:
+          type: string
+        statut:
+          type: string
+          enum: [PLANIFIE, CONFIRME, ANNULE]
+
+    Chambre:
+      type: object
+      properties:
+        numero:
+          type: string
+        type:
+          type: string
+          enum: [SIMPLE, DOUBLE, SOINS_INTENSIFS]
+        statut:
+          type: string
+          enum: [LIBRE, OCCUPE, NETTOYAGE]
+        patientId:
+          type: integer
+        dernierNettoyage:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
