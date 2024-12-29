@@ -1,0 +1,14 @@
+<button
+      title="dd"
+      [ngClass]="[
+        'px-4 py-2 rounded font-medium transition',
+        variant === 'primary' ? 'text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' : '',
+        variant === 'secondary' ? 'text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' : '',
+        variant === 'danger' ? 'text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2' : '',
+        variant === 'add' ? 'text-white bg-gradient-to-r from-violet-400 via-violet-500 to-violet-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-violet-300 dark:focus:ring-violet-800 shadow-lg shadow-pink-violet/50 dark:shadow-lg dark:shadow-violet-800/80 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2' : '',
+        disabled ? 'opacity-50 cursor-not-allowed' : ''
+      ]"
+      [disabled]="disabled"
+    >
+      <ng-content></ng-content>
+</button>
