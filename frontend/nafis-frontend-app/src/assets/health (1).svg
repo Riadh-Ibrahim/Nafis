@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" viewBox="0 0 512 512" id="Health">
+  <path fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" d="M455.109,282.571l-12.459,13.183L256,493.252L69.35,295.755l-12.459-13.183c-51.542-54.538-51.542-142.959,0-197.497c25.766-27.263,59.548-40.906,93.33-40.906c33.771,0,67.543,13.643,93.319,40.906L256,98.258l12.459-13.183c25.777-27.263,59.548-40.906,93.319-40.906c33.782,0,67.565,13.643,93.33,40.906C506.651,139.612,506.651,228.034,455.109,282.571z" class="colorStroke464668 svgStroke"></path>
+  <line x1="61.456" x2="55.092" y1="19.544" y2="26.007" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="55.092" x2="61.456" y1="38.933" y2="45.396" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="42.364" x2="36" y1="38.933" y2="45.396" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="42.364" x2="36" y1="26.007" y2="19.544" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="468" x2="474.364" y1="462.046" y2="468.509" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="487.092" x2="493.456" y1="468.509" y2="462.046" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="487.092" x2="493.456" y1="481.435" y2="487.898" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <line x1="474.364" x2="468" y1="481.435" y2="487.898" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  <g fill="#fe9526" class="color000000 svgShape">
+    <line x1="81" x2="87.364" y1="383.573" y2="390.036" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+    <line x1="100.092" x2="106.456" y1="390.036" y2="383.573" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+    <line x1="100.092" x2="106.456" y1="402.962" y2="409.424" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+    <line x1="87.364" x2="81" y1="402.962" y2="409.424" fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" class="colorStroke464668 svgStroke"></line>
+  </g>
+  <path fill="none" stroke="#595bd4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="10" d="M460.232 162.513c2.26 12.52 2.353 25.38.281 37.928M359.923 75.862c26.127 0 52.254 10.397 72.181 31.174 9.207 9.6 16.288 20.577 21.242 32.296" class="colorStroke464668 svgStroke"></path>
+</svg>
