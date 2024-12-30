@@ -16,12 +16,12 @@ async function bootstrap() {
     .build();
 
   //Afficher les routes existantes
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  // const document = SwaggerModule.createDocument(app, config);
+  // SwaggerModule.setup('api-docs', app, document);
 
   // Afficher les routes predefinies
-  // const swaggerDocument = YAML.load('openapi.yaml');
-  // app.use('/api-docs', require('swagger-ui-express').serve, require('swagger-ui-express').setup(swaggerDocument));
+  const swaggerDocument = YAML.load('openapi.yaml');
+  app.use('/api-docs', require('swagger-ui-express').serve, require('swagger-ui-express').setup(swaggerDocument));
 
   app.enableCors({
     origin: 'http://localhost:4200',

@@ -20,7 +20,6 @@ tags:
     description: Gestion des rendez-vous et des chambres
 
 paths:
-  # Gestion des Patients
   /api/patients:
     post:
       tags:
@@ -83,26 +82,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Patient'
 
-  /api/patients/{id}/historique:
-    get:
-      tags:
-        - Patients
-      summary: Historique médical d'un patient
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Historique médical
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoriqueMedical'
-
-  # Surveillance en Temps Réel
   /api/surveillance/constantes/{patientId}:
     get:
       tags:
@@ -122,22 +101,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConstantesVitales'
 
-  /api/surveillance/equipements:
-    get:
-      tags:
-        - Surveillance
-      summary: État des équipements
-      responses:
-        '200':
-          description: Liste des équipements
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Equipement'
-
-  # Gestion du Personnel
   /api/personnel:
     get:
       tags:
@@ -167,23 +130,25 @@ paths:
       responses:
         '201':
           description: Présence enregistrée
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Presence'
 
   /api/personnel/{id}/presences:
     get:
       tags:
         - Personnel
-      summary: Obtenir les présences d'un membre du personnel
+      summary: Obtenir les statistiques de présence
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-        - name: mois
+        - name: debut
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: fin
           in: query
           required: true
           schema:
@@ -197,7 +162,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/StatistiquesPresence'
 
-  # Rendez-vous
   /api/rendez-vous:
     post:
       tags:
@@ -208,14 +172,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RendezVous'
+              $ref: '#/components/schemas/Rendezvous'
       responses:
         '201':
           description: Rendez-vous créé
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RendezVous'
+                $ref: '#/components/schemas/Rendezvous'
 
   /api/chambres:
     get:
@@ -234,13 +198,15 @@ paths:
 
 components:
   schemas:
-    Patient:
+    Admin:
       type: object
       required:
         - nom
         - prenom
         - dateNaissance
         - numeroSecu
+        - adresse
+        - telephone
       properties:
         id:
           type: integer
@@ -257,92 +223,20 @@ components:
           type: string
         telephone:
           type: string
-
-    HistoriqueMedical:
-      type: object
-      properties:
-        id:
-          type: integer
-        patientId:
-          type: integer
-        consultations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Consultation'
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
-
-    Document:
-      type: object
-      properties:
-        id:
-          type: integer
-        type:
+        email:
           type: string
-          enum: [ORDONNANCE, RADIOGRAPHIE, ANALYSE, AUTRE]
-        date:
-          type: string
-          format: date-time
-        titre:
-          type: string
-        description:
-          type: string
-        url:
+        photoUrl:
           type: string
 
-    Consultation:
+    Patient:
       type: object
-      properties:
-        id:
-          type: integer
-        date:
-          type: string
-          format: date-time
-        medecin:
-          type: string
-        diagnostic:
-          type: string
-        prescriptions:
-          type: array
-          items:
-            type: string
-
-    ConstantesVitales:
-      type: object
-      properties:
-        patientId:
-          type: integer
-        timestamp:
-          type: string
-          format: date-time
-        temperature:
-          type: number
-        tensionArterielle:
-          type: string
-        frequenceCardiaque:
-          type: integer
-        saturationOxygene:
-          type: integer
-
-    Equipement:
-      type: object
-      properties:
-        id:
-          type: integer
-        nom:
-          type: string
-        type:
-          type: string
-        statut:
-          type: string
-        derniereMaintenance:
-          type: string
-          format: date
-
-    Personnel:
-      type: object
+      required:
+        - nom
+        - prenom
+        - dateNaissance
+        - numeroSecu
+        - adresse
+        - telephone
       properties:
         id:
           type: integer
@@ -350,16 +244,63 @@ components:
           type: string
         prenom:
           type: string
-        fonction:
+        dateNaissance:
           type: string
+          format: date
+        numeroSecu:
+          type: string
+        adresse:
+          type: string
+        telephone:
+          type: string
+        email:
+          type: string
+        photoUrl:
+          type: string
+
+    Personnel:
+      type: object
+      required:
+        - nom
+        - prenom
+        - type
+        - categorie
+        - service
+        - email
+        - telephone
+        - matricule
+        - dateRecrutement
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        type:
+          type: string
+          enum: [MEDECIN, INFIRMIER, AIDE_SOIGNANT, ADMINISTRATIF, TECHNICIEN]
+        categorie:
+          type: string
+          enum: [TITULAIRE, CONTRACTUEL, VACATAIRE, STAGIAIRE, RESIDENT]
+        specialite:
+          type: string
+          enum: [CARDIOLOGIE, PEDIATRIE, NEUROLOGIE, URGENCES, CHIRURGIE, RADIOLOGIE, PSYCHIATRIE, GENERALISTE, AUTRE]
         service:
           type: string
         email:
           type: string
+        telephone:
+          type: string
+        matricule:
+          type: string
+        dateRecrutement:
+          type: string
+          format: date
         statut:
           type: string
           enum: [PRESENT, ABSENT, CONGE, MISSION]
-
+    
     Presence:
       type: object
       required:
@@ -385,47 +326,89 @@ components:
       properties:
         personnelId:
           type: integer
-        mois:
+        periode:
+          type: object
+          properties:
+            debut:
+              type: string
+              format: date
+            fin:
+              type: string
+              format: date
+        statistiques:
+          type: object
+          properties:
+            joursPresent:
+              type: integer
+            joursAbsent:
+              type: integer
+            joursConge:
+              type: integer
+            joursMission:
+              type: integer
+            tauxPresence:
+              type: number
+        details:
+          type: object
+          properties:
+            conges:
+              type: array
+              items:
+                $ref: '#/components/schemas/CongeDetail'
+            absences:
+              type: array
+              items:
+                $ref: '#/components/schemas/AbsenceDetail'
+            missions:
+              type: array
+              items:
+                $ref: '#/components/schemas/MissionDetail'
+
+    CongeDetail:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        debut:
           type: string
           format: date
-        joursPresent:
-          type: integer
-        joursAbsent:
-          type: integer
-        joursConge:
-          type: integer
-        joursMission:
-          type: integer
-        tauxPresence:
-          type: number
-          format: float
-        presencesDetaillees:
-          type: array
-          items:
-            $ref: '#/components/schemas/Presence'
+        fin:
+          type: string
+          format: date
+        type:
+          type: string
+          enum: [ANNUEL, MALADIE, FORMATION, AUTRE]
+        motif:
+          type: string
 
-    RendezVous:
+    AbsenceDetail:
       type: object
-      required:
-        - patientId
-        - medecinId
-        - date
-        - motif
       properties:
-        id:
-          type: integer
-        patientId:
-          type: integer
-        medecinId:
+        personnelId:
           type: integer
         date:
           type: string
-          format: date-time
+          format: date
+        justifie:
+          type: boolean
         motif:
           type: string
-        statut:
+
+    MissionDetail:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        debut:
           type: string
-          enum: [PLANIFIE, CONFIRME, ANNULE]
+          format: date
+        fin:
+          type: string
+          format: date
+        description:
+          type: string
+        lieu:
+          type: string
 
     Chambre:
       type: object
@@ -438,11 +421,104 @@ components:
         statut:
           type: string
           enum: [LIBRE, OCCUPE, NETTOYAGE]
-        patientId:
-          type: integer
-        dernierNettoyage:
+        patientIds:
+          type: array
+          items:
+            type: integer
+
+    ChambreHistorique:
+      type: object
+      properties:
+        chambreId:
+          type: string
+        historique:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChambreLog'
+
+    ChambreLog:
+      type: object
+      properties:
+        date:
           type: string
           format: date-time
+        statut:
+          type: string
+          enum: [LIBRE, OCCUPE, NETTOYAGE]
+        patientId:
+          type: integer
+        message:
+          type: string
+
+    Rendezvous:
+      type: object
+      required:
+        - patientId
+        - medecinId
+        - date
+        - duree
+        - motif
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        medecinId:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        duree:
+          type: integer
+          description: en minutes
+        motif:
+          type: string
+        statut:
+          type: string
+          enum: [PLANIFIE, CONFIRME, ANNULE]
+        notes:
+          type: string
+        rappelEnvoye:
+          type: boolean
+
+    ConstantesVitales:
+      type: object
+      properties:
+        patientId:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        temperature:
+          type: number
+        tensionArterielle:
+          type: string
+        frequenceCardiaque:
+          type: integer
+        saturationOxygene:
+          type: integer
+        alertes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alerte'
+
+    Alerte:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [CRITIQUE, ATTENTION, INFO]
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        acquittee:
+          type: boolean
+        acquitteePar:
+          type: string
 
   securitySchemes:
     bearerAuth:
