@@ -41,8 +41,8 @@ export interface Personnel {
 export interface StatistiquesPresence {
   personnelId: number;
   periode: {
-    debut: Date;
-    fin: Date;
+    debut: string;
+    fin: string;
   };
   statistiques: {
     joursPresent: number;
@@ -59,21 +59,21 @@ export interface StatistiquesPresence {
 }
 
 interface CongeDetail {
-  debut: Date;
-  fin: Date;
+  debut: string;
+  fin: string;
   type: 'ANNUEL' | 'MALADIE' | 'FORMATION' | 'AUTRE';
   motif?: string;
 }
 
 interface AbsenceDetail {
-  date: Date;
+  date: string;
   justifie: boolean;
   motif?: string;
 }
 
 interface MissionDetail {
-  debut: Date;
-  fin: Date;
+  debut: string;
+  fin: string;
   description: string;
   lieu: string;
 }

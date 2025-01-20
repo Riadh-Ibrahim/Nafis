@@ -1,6 +1,6 @@
 export interface Consultation {
   id: number;
-  date: Date;
+  date: string;
   medecin: string;
   diagnostic: string;
   prescriptions: string[];

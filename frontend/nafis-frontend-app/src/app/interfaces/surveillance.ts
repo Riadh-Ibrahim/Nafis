@@ -1,6 +1,6 @@
 export interface ConstantesVitales {
   patientId: number;
-  timestamp: Date;
+  timestamp: string;
   temperature: number;
   tensionArterielle: string;
   frequenceCardiaque: number;
@@ -13,7 +13,7 @@ export interface Alerte {
   id: number;
   type: 'CRITIQUE' | 'ATTENTION' | 'INFO';
   message: string;
-  timestamp: Date;
+  timestamp: string;
   acquittee: boolean;
   acquitteePar?: string;
 }

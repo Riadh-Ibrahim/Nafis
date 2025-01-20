@@ -15,8 +15,8 @@ export interface ApiResponse<T> {
 
 export interface FiltreRecherche {
   terme?: string;
-  dateDebut?: Date;
-  dateFin?: Date;
+  dateDebut?: string;
+  dateFin?: string;
   statut?: string;
   type?: string;
   page?: number;

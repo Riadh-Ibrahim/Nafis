@@ -11,7 +11,7 @@ interface ChambreHistorique {
 }
 
 interface ChambreLog {
-  date: Date;
+  date: string;
   statut: 'LIBRE' | 'OCCUPE' | 'NETTOYAGE';
   patientId?: number;
   message: string;
