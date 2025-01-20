@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MockDataService } from "../mock-data.service";
+import { MockDataService } from "../../services/mock-data.service";
 import { FormsModule } from "@angular/forms";
-import { StatCardComponent } from "../stat-card/stat-card.component";
-import { CommonModule } from "@angular/common"; // Ajout de CommonModule
+import { StatCardComponent } from "../../shared/stat-card/stat-card.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    CommonModule, // Inclusion ici
+    CommonModule,
     FormsModule,
     StatCardComponent
   ],
