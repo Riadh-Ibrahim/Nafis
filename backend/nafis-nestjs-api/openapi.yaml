@@ -1,0 +1,530 @@
+openapi: 3.0.0
+info:
+  title: API Gestion Hospitalière Nafis
+  description: API Gestion Hospitalière Nafis
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Serveur de développement
+  - url: https://api.hopital-nafis.com
+    description: Serveur de production
+
+tags:
+  - name: Patients
+    description: Gestion des patients
+  - name: Surveillance
+    description: Surveillance en temps réel
+  - name: Personnel
+    description: Gestion du personnel
+  - name: Rendez-vous
+    description: Gestion des rendez-vous et des chambres
+
+paths:
+  /api/patients:
+    post:
+      tags:
+        - Patients
+      summary: Créer un nouveau patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '201':
+          description: Patient créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+    get:
+      tags:
+        - Patients
+      summary: Liste des patients
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Liste des patients récupérée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+
+  /api/patients/{id}:
+    get:
+      tags:
+        - Patients
+      summary: Détails d'un patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détails du patient
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+
+  /api/surveillance/constantes/{patientId}:
+    get:
+      tags:
+        - Surveillance
+      summary: Constantes vitales en temps réel
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constantes vitales
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstantesVitales'
+
+  /api/personnel:
+    get:
+      tags:
+        - Personnel
+      summary: Liste du personnel
+      responses:
+        '200':
+          description: Liste du personnel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Personnel'
+
+  /api/personnel/presence:
+    post:
+      tags:
+        - Personnel
+      summary: Marquer la présence d'un membre du personnel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Presence'
+      responses:
+        '201':
+          description: Présence enregistrée
+
+  /api/personnel/{id}/presences:
+    get:
+      tags:
+        - Personnel
+      summary: Obtenir les statistiques de présence
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: debut
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: fin
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Statistiques de présence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatistiquesPresence'
+
+  /api/rendez-vous:
+    post:
+      tags:
+        - Rendez-vous
+      summary: Créer un rendez-vous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rendezvous'
+      responses:
+        '201':
+          description: Rendez-vous créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rendezvous'
+
+  /api/chambres:
+    get:
+      tags:
+        - Rendez-vous
+      summary: État des chambres
+      responses:
+        '200':
+          description: Liste des chambres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chambre'
+
+components:
+  schemas:
+    Admin:
+      type: object
+      required:
+        - nom
+        - prenom
+        - dateNaissance
+        - numeroSecu
+        - adresse
+        - telephone
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        dateNaissance:
+          type: string
+          format: date
+        numeroSecu:
+          type: string
+        adresse:
+          type: string
+        telephone:
+          type: string
+        email:
+          type: string
+        photoUrl:
+          type: string
+
+    Patient:
+      type: object
+      required:
+        - nom
+        - prenom
+        - dateNaissance
+        - numeroSecu
+        - adresse
+        - telephone
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        dateNaissance:
+          type: string
+          format: date
+        numeroSecu:
+          type: string
+        adresse:
+          type: string
+        telephone:
+          type: string
+        email:
+          type: string
+        photoUrl:
+          type: string
+
+    Personnel:
+      type: object
+      required:
+        - nom
+        - prenom
+        - type
+        - categorie
+        - service
+        - email
+        - telephone
+        - matricule
+        - dateRecrutement
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        type:
+          type: string
+          enum: [MEDECIN, INFIRMIER, AIDE_SOIGNANT, ADMINISTRATIF, TECHNICIEN]
+        categorie:
+          type: string
+          enum: [TITULAIRE, CONTRACTUEL, VACATAIRE, STAGIAIRE, RESIDENT]
+        specialite:
+          type: string
+          enum: [CARDIOLOGIE, PEDIATRIE, NEUROLOGIE, URGENCES, CHIRURGIE, RADIOLOGIE, PSYCHIATRIE, GENERALISTE, AUTRE]
+        service:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        matricule:
+          type: string
+        dateRecrutement:
+          type: string
+          format: date
+        statut:
+          type: string
+          enum: [PRESENT, ABSENT, CONGE, MISSION]
+    
+    Presence:
+      type: object
+      required:
+        - personnelId
+        - date
+        - statut
+      properties:
+        id:
+          type: integer
+        personnelId:
+          type: integer
+        date:
+          type: string
+          format: date
+        statut:
+          type: string
+          enum: [PRESENT, ABSENT, CONGE, MISSION]
+        commentaire:
+          type: string
+
+    StatistiquesPresence:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        periode:
+          type: object
+          properties:
+            debut:
+              type: string
+              format: date
+            fin:
+              type: string
+              format: date
+        statistiques:
+          type: object
+          properties:
+            joursPresent:
+              type: integer
+            joursAbsent:
+              type: integer
+            joursConge:
+              type: integer
+            joursMission:
+              type: integer
+            tauxPresence:
+              type: number
+        details:
+          type: object
+          properties:
+            conges:
+              type: array
+              items:
+                $ref: '#/components/schemas/CongeDetail'
+            absences:
+              type: array
+              items:
+                $ref: '#/components/schemas/AbsenceDetail'
+            missions:
+              type: array
+              items:
+                $ref: '#/components/schemas/MissionDetail'
+
+    CongeDetail:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        debut:
+          type: string
+          format: date
+        fin:
+          type: string
+          format: date
+        type:
+          type: string
+          enum: [ANNUEL, MALADIE, FORMATION, AUTRE]
+        motif:
+          type: string
+
+    AbsenceDetail:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        date:
+          type: string
+          format: date
+        justifie:
+          type: boolean
+        motif:
+          type: string
+
+    MissionDetail:
+      type: object
+      properties:
+        personnelId:
+          type: integer
+        debut:
+          type: string
+          format: date
+        fin:
+          type: string
+          format: date
+        description:
+          type: string
+        lieu:
+          type: string
+
+    Chambre:
+      type: object
+      properties:
+        numero:
+          type: string
+        type:
+          type: string
+          enum: [SIMPLE, DOUBLE, SOINS_INTENSIFS]
+        statut:
+          type: string
+          enum: [LIBRE, OCCUPE, NETTOYAGE]
+        patientIds:
+          type: array
+          items:
+            type: integer
+
+    ChambreHistorique:
+      type: object
+      properties:
+        chambreId:
+          type: string
+        historique:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChambreLog'
+
+    ChambreLog:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        statut:
+          type: string
+          enum: [LIBRE, OCCUPE, NETTOYAGE]
+        patientId:
+          type: integer
+        message:
+          type: string
+
+    Rendezvous:
+      type: object
+      required:
+        - patientId
+        - medecinId
+        - date
+        - duree
+        - motif
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        medecinId:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        duree:
+          type: integer
+          description: en minutes
+        motif:
+          type: string
+        statut:
+          type: string
+          enum: [PLANIFIE, CONFIRME, ANNULE]
+        notes:
+          type: string
+        rappelEnvoye:
+          type: boolean
+
+    ConstantesVitales:
+      type: object
+      properties:
+        patientId:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        temperature:
+          type: number
+        tensionArterielle:
+          type: string
+        frequenceCardiaque:
+          type: integer
+        saturationOxygene:
+          type: integer
+        alertes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alerte'
+
+    Alerte:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [CRITIQUE, ATTENTION, INFO]
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        acquittee:
+          type: boolean
+        acquitteePar:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
