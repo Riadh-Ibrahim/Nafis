@@ -16,7 +16,7 @@ import { CommonModule } from "@angular/common";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  userType: string = 'ADMINISTRATIF';
+  userType: string = 'PATIENT';
   adminStats: any;
   medicalStats: any;
   nurseStats: any;

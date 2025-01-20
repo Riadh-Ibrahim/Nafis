@@ -1,8 +1,19 @@
-<div class="card bg-white p-4 rounded-lg shadow-sm">
-  <div class="flex justify-between items-center mb-2">
-    <h3 class="text-sm font-medium text-gray-500">{{title}}</h3>
-    <span class="text-xl">{{icon}}</span>
+<div class="w-64 bg-white rounded-lg shadow-lg hover:bg-tiffany-blue transition-colors duration-300">
+  <div class="p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="bg-rose-200 p-2 rounded">
+        <img *ngIf="icon" [src]="'../../assets/' + icon" alt="icon" class="h-42 w-42 object-contain">
+      </div>
+      <span
+        class="text-3xl font-bold">
+        {{value}}
+<!--        <span *ngIf="unite" class="text-base font-normal text-gray-600">{{unite}}</span>-->
+      </span>
+    </div>
+    <h3
+      class="text-lg text-space-cadet font-medium mb-1">
+      {{title}}
+    </h3>
+    <p *ngIf="description" class="text-sm text-gray-600">{{description}}</p>
   </div>
-  <div class="text-2xl font-bold">{{value}}</div>
-  <p *ngIf="description" class="text-xs text-gray-500 mt-1">{{description}}</p>
 </div>

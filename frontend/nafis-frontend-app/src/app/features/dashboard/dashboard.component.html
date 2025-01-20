@@ -1,4 +1,4 @@
-<div class="p-6">
+<div class="p-6 bg-antiflash-white">
   <div class="mb-4">
     <select
       class="p-2 border rounded"
@@ -12,122 +12,135 @@
   </div>
 
   <div *ngIf="userType === 'ADMINISTRATIF'" class="space-y-6">
-    <h2 class="text-2xl font-bold">Tableau de bord administratif</h2>
+    <h2 class="text-2xl text-space-cadet font-bold">Tableau de bord administratif</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <app-stat-card
         title="Total Patients"
         [value]="adminStats?.totalPatients || 0"
-        icon="👥"
+        icon=""
         description="Patients enregistrés"
       ></app-stat-card>
       <app-stat-card
         title="Personnel Total"
         [value]="adminStats?.personnel?.total || 0"
-        icon="👨‍⚕️"
+        icon=""
         description="Membres du personnel"
       ></app-stat-card>
       <app-stat-card
         title="Chambres Occupées"
         [value]="adminStats?.occupiedRooms || 0"
-        icon="🏥"
+        icon=""
         description="Sur la capacité totale"
       ></app-stat-card>
       <app-stat-card
         title="Alertes"
         [value]="adminStats?.alertesNonAcquittees || 0"
-        icon="🔔"
+        icon=""
         description="Alertes non acquittées"
       ></app-stat-card>
     </div>
   </div>
 
   <div *ngIf="userType === 'MEDECIN'" class="space-y-6">
-    <h2 class="text-2xl font-bold">Tableau de bord médical</h2>
+    <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord médical</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <app-stat-card
         title="Patients du Jour"
         [value]="medicalStats?.todayPatients || 0"
-        icon="👥"
+        icon=""
         description="Rendez-vous aujourd'hui"
       ></app-stat-card>
       <app-stat-card
         title="Alertes Constantes"
         [value]="medicalStats?.vitalSignsAlerts || 0"
-        icon="⚕️"
+        icon=""
         description="Alertes de surveillance"
       ></app-stat-card>
       <app-stat-card
         title="Consultations"
         [value]="medicalStats?.consultations || 0"
-        icon="📋"
+        icon=""
         description="Consultations du jour"
       ></app-stat-card>
       <app-stat-card
         title="Rendez-vous"
         [value]="medicalStats?.appointments || 0"
-        icon="📅"
+        icon=""
         description="Prochains rendez-vous"
       ></app-stat-card>
     </div>
   </div>
   <div *ngIf="userType === 'PATIENT'" class="space-y-6">
-    <h2 class="text-2xl font-bold">Tableau de bord patient</h2>
+    <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord patient</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <app-stat-card
         title="Prochains Rendez-vous"
         [value]="patientStats?.upcomingAppointments || 0"
-        icon="📅"
+        icon=""
         description="Consultations à venir"
       ></app-stat-card>
       <app-stat-card
         title="Médicaments"
         [value]="patientStats?.medications?.length || 0"
-        icon="💊"
+        icon=""
         description="Actuellement prescrits"
       ></app-stat-card>
       <app-stat-card
         title="Alertes Santé"
         [value]="patientStats?.healthAlerts || 0"
-        icon="⚠️"
+        icon=""
         description="À surveiller"
       ></app-stat-card>
     </div>
 
-    <div class="mt-4">
-      <h3 class="text-lg font-medium">Constantes récentes</h3>
-      <ul class="list-disc pl-5 text-sm">
-        <li>Température : {{patientStats?.latestVitals?.temperature}}</li>
-        <li>Tension : {{patientStats?.latestVitals?.bloodPressure}}</li>
-        <li>Rythme cardiaque : {{patientStats?.latestVitals?.heartRate}}</li>
-      </ul>
-    </div>
+      <h2 class="text-lg font-bold text-space-cadet">Constantes récentes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-red-500">
+        <app-stat-card
+          title="Température"
+          [value]="patientStats?.latestVitals?.temperature || 'N/A'"
+          icon="thermometer.png"
+          description="Dernière mesure de la température"
+        ></app-stat-card>
+        <app-stat-card
+          title="Tension"
+          [value]="patientStats?.latestVitals?.bloodPressure || 'N/A'"
+          icon="blood-pressure.png"
+          description="Dernière mesure de la tension artérielle"
+        ></app-stat-card>
+        <app-stat-card
+          title="Rythme cardiaque"
+          [value]="patientStats?.latestVitals?.heartRate || 'N/A'"
+          icon="cardiogram.png"
+          description="Dernière mesure du rythme cardiaque"
+        ></app-stat-card>
+      </div>
   </div>
 
   <div *ngIf="userType === 'INFIRMIER'" class="space-y-6">
-    <h2 class="text-2xl font-bold">Tableau de bord infirmier</h2>
+    <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord infirmier</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <app-stat-card
         title="Patients Assignés"
         [value]="nurseStats?.assignedPatients || 0"
-        icon="👥"
+        icon=""
         description="Sous votre responsabilité"
       ></app-stat-card>
       <app-stat-card
         title="Tâches de Surveillance"
         [value]="nurseStats?.monitoringTasks || 0"
-        icon="📊"
+        icon=""
         description="Mesures à effectuer"
       ></app-stat-card>
       <app-stat-card
         title="Alertes Actives"
         [value]="nurseStats?.activeAlerts || 0"
-        icon="🚨"
+        icon=""
         description="Nécessitant attention"
       ></app-stat-card>
       <app-stat-card
         title="Chambres à Visiter"
         [value]="nurseStats?.roomVisits || 0"
-        icon="🏥"
+        icon=""
         description="Tournée du jour"
       ></app-stat-card>
     </div>

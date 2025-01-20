@@ -13,4 +13,5 @@ export class StatCardComponent {
   @Input() value!: number;
   @Input() icon!: string;
   @Input() description!: string;
+
 }
