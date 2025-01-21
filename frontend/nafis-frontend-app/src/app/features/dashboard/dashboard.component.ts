@@ -4,36 +4,14 @@ import { CommonModule } from '@angular/common';
 import { MockDataService } from '../../services/mock-data.service';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
+import {DashboardGreetingComponent} from "./dashboard-greeting/dashboard-greeting.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, DoctorDashboardComponent, PatientDashboardComponent],
-  template: `
-    <div class="p-6 bg-antiflash-white">
-      <ng-container *ngIf="!error; else errorTpl">
-        <app-doctor-dashboard
-          *ngIf="type === 'doctor'"
-          [greetingMessage]="greetingMessage"
-          [fullName]="fullName"
-          [subtitle]="subtitle"
-          [stats]="stats"
-        ></app-doctor-dashboard>
-        <app-patient-dashboard
-          *ngIf="type === 'patient'"
-          [greetingMessage]="greetingMessage"
-          [fullName]="fullName"
-          [subtitle]="subtitle"
-          [stats]="stats"
-        ></app-patient-dashboard>
-      </ng-container>
-      <ng-template #errorTpl>
-        <div class="flex items-center justify-center w-full h-full">
-          <img src="../../assets/error_page.png" alt="Error" class="w-full h-full object-cover">
-        </div>
-      </ng-template>
-    </div>
-  `
+  imports: [RouterOutlet, CommonModule, DoctorDashboardComponent, PatientDashboardComponent, DashboardGreetingComponent],
+  templateUrl:'./dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   type: 'doctor' | 'patient' | null = null;
