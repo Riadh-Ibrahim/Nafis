@@ -13,8 +13,8 @@ export class MockDataService {
     '1': {
       upcomingAppointments: 3,
       medications: [
-        { name: "Paracétamol", dosage: "500mg", frequency: "2 fois par jour" },
-        { name: "Ibuprofène", dosage: "200mg", frequency: "3 fois par jour" }
+        {name: "Paracétamol", dosage: "500mg", frequency: "2 fois par jour"},
+        {name: "Ibuprofène", dosage: "200mg", frequency: "3 fois par jour"}
       ],
       healthAlerts: 2,
       latestVitals: {
@@ -26,7 +26,7 @@ export class MockDataService {
     '2': {
       upcomingAppointments: 1,
       medications: [
-        { name: "Aspirine", dosage: "100mg", frequency: "1 fois par jour" }
+        {name: "Aspirine", dosage: "100mg", frequency: "1 fois par jour"}
       ],
       healthAlerts: 1,
       latestVitals: {
@@ -44,8 +44,8 @@ export class MockDataService {
       consultations: 15,
       appointments: 12,
       dernieresConstantes: [
-        { patient: "Martin Durant", type: "Température", valeur: "38.5°C" },
-        { patient: "Sophie Dubois", type: "Tension", valeur: "12/8" }
+        {patient: "Martin Durant", type: "Température", valeur: "38.5°C"},
+        {patient: "Sophie Dubois", type: "Tension", valeur: "12/8"}
       ]
     },
     '2': {
@@ -54,8 +54,8 @@ export class MockDataService {
       consultations: 10,
       appointments: 8,
       dernieresConstantes: [
-        { patient: "Jean Martin", type: "Température", valeur: "37.5°C" },
-        { patient: "Marie Dupont", type: "Tension", valeur: "11/7" }
+        {patient: "Jean Martin", type: "Température", valeur: "37.5°C"},
+        {patient: "Marie Dupont", type: "Tension", valeur: "11/7"}
       ]
     }
   };
@@ -196,16 +196,31 @@ export class MockDataService {
 
   // Method to get patients
   getPatient(id: number): Observable<Patient> {
-    const patient: Patient = {
-      id: 1,
-      nom: "Durant",
-      prenom: "Martin",
-      dateNaissance: "1980-05-15",
-      numeroSecu: "180055789456123",
-      adresse: "123 rue de la Santé, 75014 Paris",
-      telephone: "0687654321",
-      email: "martin.durant@email.com"
+    const patients: { [key: number]: Patient } = {
+      1: {
+        id: 1,
+        nom: "Durant",
+        prenom: "Martin",
+        dateNaissance: "1980-05-15",
+        numeroSecu: "180055789456123",
+        adresse: "123 rue de la Santé, 75014 Paris",
+        telephone: "0687654321",
+        email: "martin.durant@email.com"
+      },
+      2: {
+        id: 2,
+        nom: "Dupont",
+        prenom: "Sophie",
+        dateNaissance: "1990-08-25",
+        numeroSecu: "190085678912345",
+        adresse: "456 avenue de la Liberté, 75010 Paris",
+        telephone: "0786543210",
+        email: "sophie.dupont@email.com"
+      }
     };
+
+    const patient = patients[id] || patients[1];
     return of(patient).pipe(delay(500));
   }
 }
+
