@@ -81,6 +81,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Patient'
+  
+  /api/patients/{id}/historique:
+    get:
+      tags:
+        - Patients
+      summary: Historique médical d'un patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Historique médical
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoriqueMedical'
 
   /api/surveillance/constantes/{patientId}:
     get:
@@ -408,6 +427,24 @@ components:
         description:
           type: string
         lieu:
+          type: string
+    
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [ORDONNANCE, RADIOGRAPHIE, ANALYSE, AUTRE]
+        date:
+          type: string
+          format: date-time
+        titre:
+          type: string
+        description:
+          type: string
+        url:
           type: string
 
     Chambre:
