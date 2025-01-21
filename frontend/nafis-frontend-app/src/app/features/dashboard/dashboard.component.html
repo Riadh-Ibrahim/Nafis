@@ -1,18 +1,20 @@
 <div class="p-6 bg-antiflash-white">
-  <ng-container *ngIf="!error; else errorTpl">
-    <app-dashboard-greeting
-      [greetingMessage]="greetingMessage"
-      [fullName]="fullName"
-      [subtitle]="subtitle"
-    ></app-dashboard-greeting>
-    <app-doctor-dashboard
-      *ngIf="type === 'doctor'"
-      [stats]="stats"
-    ></app-doctor-dashboard>
-    <app-patient-dashboard
-      *ngIf="type === 'patient'"
-      [stats]="stats"
-    ></app-patient-dashboard>
+  <ng-container *ngIf="!(error$ | async); else errorTpl">
+    <ng-container *ngIf="(dashboardState$ | async)?.type as type">
+      <app-dashboard-greeting
+        [greetingMessage]="(dashboardState$ | async)?.greetingMessage || ''"
+        [fullName]="(dashboardState$ | async)?.fullName || ''"
+        [subtitle]="(dashboardState$ | async)?.subtitle || ''"
+      ></app-dashboard-greeting>
+      <app-doctor-dashboard
+        *ngIf="(dashboardState$ | async)?.type === 'doctor'"
+        [stats]="(dashboardState$ | async)?.stats"
+      ></app-doctor-dashboard>
+      <app-patient-dashboard
+        *ngIf="(dashboardState$ | async)?.type === 'patient'"
+        [stats]="(dashboardState$ | async)?.stats"
+      ></app-patient-dashboard>
+    </ng-container>
   </ng-container>
   <ng-template #errorTpl>
     <div class="flex items-center justify-center w-full h-full">

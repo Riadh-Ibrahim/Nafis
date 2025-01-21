@@ -1,25 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MockDataService } from '../../services/mock-data.service';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
-import {DashboardGreetingComponent} from "./dashboard-greeting/dashboard-greeting.component";
+import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
+import {Subject, takeUntil, catchError, EMPTY, Observable, switchMap, map} from 'rxjs';
+
+interface DashboardState {
+  type: 'doctor' | 'patient' | null;
+  stats: any;
+  error: boolean;
+  greetingMessage: string;
+  fullName: string;
+  subtitle: string;
+}
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, DoctorDashboardComponent, PatientDashboardComponent, DashboardGreetingComponent],
-  templateUrl:'./dashboard.component.html',
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    DoctorDashboardComponent,
+    PatientDashboardComponent,
+    DashboardGreetingComponent
+  ],
+  templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
-  type: 'doctor' | 'patient' | null = null;
-  stats: any;
-  error = false;
-  greetingMessage = '';
-  fullName = '';
-  subtitle = '';
+export class DashboardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  dashboardState$!: Observable<DashboardState>;
+  error$ = new Subject<boolean>();
 
   constructor(
     private route: ActivatedRoute,
@@ -28,71 +41,87 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.url.subscribe(segments => {
-      if (segments.length >= 2) {
-        this.type = segments[0].path as 'doctor' | 'patient';
+    this.initializeDashboard();
+  }
+
+  private initializeDashboard() {
+    this.dashboardState$ = this.route.url.pipe(
+      takeUntil(this.destroy$),
+      switchMap(segments => {
+        if (segments.length < 2) {
+          this.error$.next(true);
+          return EMPTY;
+        }
+
+        const type = segments[0].path as 'doctor' | 'patient';
         const id = segments[1].path;
-        this.loadData(id);
-      }
-    });
+
+        return this.loadData(type, id);
+      }),
+      catchError(() => {
+        this.error$.next(true);
+        return EMPTY;
+      })
+    );
   }
 
-  private loadData(id: string): void {
-    if (this.type === 'doctor') {
-      this.loadDoctorData(parseInt(id));
-    } else if (this.type === 'patient') {
-      this.loadPatientData(parseInt(id));
+  private loadData(type: 'doctor' | 'patient', id: string): Observable<DashboardState> {
+    const baseState: DashboardState = {
+      type,
+      stats: null,
+      error: false,
+      greetingMessage: '',
+      fullName: '',
+      subtitle: ''
+    };
+
+    if (type === 'doctor') {
+      return this.mockDataService.getPersonnel(parseInt(id)).pipe(
+        switchMap(personnel => {
+          if (!personnel) {
+            this.error$.next(true);
+            return EMPTY;
+          }
+
+          return this.mockDataService.getMedicalStats(id).pipe(
+            map(stats => ({
+              ...baseState,
+              stats,
+              fullName: `${personnel.prenom} ${personnel.nom}`,
+              subtitle: `${personnel.specialite || 'Médecin'} - ${personnel.service}`,
+              greetingMessage: `${this.getTimeOfDay()}`
+            }))
+          );
+        }),
+        catchError(() => {
+          this.error$.next(true);
+          return EMPTY;
+        })
+      );
+    } else {
+      return this.mockDataService.getPatient(parseInt(id)).pipe(
+        switchMap(patient => {
+          if (!patient) {
+            this.error$.next(true);
+            return EMPTY;
+          }
+
+          return this.mockDataService.getPatientStats(id).pipe(
+            map(stats => ({
+              ...baseState,
+              stats,
+              fullName: `${patient.prenom} ${patient.nom}`,
+              subtitle: `№ Sécurité Sociale: ${patient.numeroSecu}`,
+              greetingMessage: `${this.getTimeOfDay()}`
+            }))
+          );
+        }),
+        catchError(() => {
+          this.error$.next(true);
+          return EMPTY;
+        })
+      );
     }
-  }
-
-  private loadDoctorData(id: number): void {
-    this.mockDataService.getPersonnel(id).subscribe({
-      next: (data) => {
-        if (!data) {
-          this.handleError();
-          return;
-        }
-        this.fullName = `${data.prenom} ${data.nom}`;
-        this.subtitle = `${data.specialite || 'Médecin'} - ${data.service}`;
-        this.greetingMessage = `${this.getTimeOfDay()}`;
-        this.loadDoctorStats(id.toString());
-      },
-      error: () => this.handleError()
-    });
-  }
-
-  private loadPatientData(id: number): void {
-    this.mockDataService.getPatient(id).subscribe({
-      next: (data) => {
-        if (!data) {
-          this.handleError();
-          return;
-        }
-        this.fullName = `${data.prenom} ${data.nom}`;
-        this.subtitle = `№ Sécurité Sociale: ${data.numeroSecu}`;
-        this.greetingMessage = `Bon ${this.getTimeOfDay()}`;
-        this.loadPatientStats(id.toString());
-      },
-      error: () => this.handleError()
-    });
-  }
-
-  private loadDoctorStats(id: string): void {
-    this.mockDataService.getMedicalStats(id).subscribe({
-      next: (data) => this.stats = data,
-      error: () => this.handleError()
-    });
-  }
-
-  private loadPatientStats(id: string): void {
-    this.mockDataService.getPatientStats(id).subscribe({
-      next: (data) => this.stats = data,
-      error: () => this.handleError()
-    });
-  }
-
-  private handleError(): void {
-    this.error = true;
   }
 
   private getTimeOfDay(): string {
@@ -100,5 +129,10 @@ export class DashboardComponent implements OnInit {
     if (hour < 12) return 'Bon matin';
     if (hour < 18) return 'Bon après-midi';
     return 'Bonsoir';
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(void 0);
+    this.destroy$.complete();
   }
 }
