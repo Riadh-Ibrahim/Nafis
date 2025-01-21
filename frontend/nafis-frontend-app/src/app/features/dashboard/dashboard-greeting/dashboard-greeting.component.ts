@@ -15,9 +15,12 @@ export class DashboardGreetingComponent {
   @Input() type: 'doctor' | 'patient' = 'doctor';
   @Input() userData?: Personnel | Patient;
 
-  get greeting(): string {
-    const timeOfDay = this.getTimeOfDay();
-    return `Bon ${timeOfDay}, ${this.userData?.prenom} ${this.userData?.nom}`;
+  get greetingMessage(): string {
+    return `Bon ${this.getTimeOfDay()}`;
+  }
+
+  get fullName(): string {
+    return `${this.userData?.prenom} ${this.userData?.nom}`;
   }
 
   get subtitle(): string {
