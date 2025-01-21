@@ -4,19 +4,19 @@
     <app-stat-card
       title="Prochains Rendez-vous"
       [value]="stats?.upcomingAppointments || 0"
-      icon=""
+      icon="medical-appointment.png"
       description="Consultations à venir"
     ></app-stat-card>
     <app-stat-card
       title="Médicaments"
       [value]="stats?.medications?.length || 0"
-      icon=""
+      icon="pharmacy.png"
       description="Actuellement prescrits"
     ></app-stat-card>
     <app-stat-card
       title="Alertes Santé"
       [value]="stats?.healthAlerts || 0"
-      icon=""
+      icon="risks.png"
       description="À surveiller"
     ></app-stat-card>
   </div>

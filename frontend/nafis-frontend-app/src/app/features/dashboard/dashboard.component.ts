@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       switchMap(segments => {
         if (segments.length < 2) {
-          this.error$.next(true);
+          setTimeout(() => this.error$.next(true));
           return EMPTY;
         }
 
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return this.loadData(type, id);
       }),
       catchError(() => {
-        this.error$.next(true);
+        setTimeout(() => this.error$.next(true));
         return EMPTY;
       })
     );
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return this.mockDataService.getPersonnel(parseInt(id)).pipe(
         switchMap(personnel => {
           if (!personnel) {
-            this.error$.next(true);
+            setTimeout(() => this.error$.next(true));
             return EMPTY;
           }
 
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           );
         }),
         catchError(() => {
-          this.error$.next(true);
+          setTimeout(() => this.error$.next(true));
           return EMPTY;
         })
       );
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return this.mockDataService.getPatient(parseInt(id)).pipe(
         switchMap(patient => {
           if (!patient) {
-            this.error$.next(true);
+            setTimeout(() => this.error$.next(true));
             return EMPTY;
           }
 
@@ -117,7 +117,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           );
         }),
         catchError(() => {
-          this.error$.next(true);
+          setTimeout(() => this.error$.next(true));
           return EMPTY;
         })
       );

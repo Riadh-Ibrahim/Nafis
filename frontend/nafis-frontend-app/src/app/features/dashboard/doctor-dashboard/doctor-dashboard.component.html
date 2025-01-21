@@ -4,25 +4,25 @@
     <app-stat-card
       title="Patients du Jour"
       [value]="stats?.todayPatients || 0"
-      icon=""
+      icon="crowd.png"
       description="Rendez-vous aujourd'hui"
     ></app-stat-card>
     <app-stat-card
       title="Alertes Constantes"
       [value]="stats?.vitalSignsAlerts || 0"
-      icon=""
+      icon="vital-signs.png"
       description="Alertes de surveillance"
     ></app-stat-card>
     <app-stat-card
       title="Consultations"
       [value]="stats?.consultations || 0"
-      icon=""
+      icon="medical-appointment.png"
       description="Consultations du jour"
     ></app-stat-card>
     <app-stat-card
       title="Rendez-vous"
       [value]="stats?.appointments || 0"
-      icon=""
+      icon="doctors-office.png"
       description="Prochains rendez-vous"
     ></app-stat-card>
   </div>
