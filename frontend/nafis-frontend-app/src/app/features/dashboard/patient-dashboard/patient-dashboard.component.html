@@ -1,4 +1,9 @@
 <div class="space-y-6">
+  <div class="space-y-6">
+    <app-dashboard-greeting
+      type="patient"
+      [userData]="patientData"
+    ></app-dashboard-greeting>
   <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord patient</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <app-stat-card
@@ -22,7 +27,7 @@
   </div>
 
   <h2 class="text-lg font-bold text-space-cadet">Constantes récentes</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1  text-red-500 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <app-stat-card
       title="Température"
       [value]="patientStats?.latestVitals?.temperature || 'N/A'"
