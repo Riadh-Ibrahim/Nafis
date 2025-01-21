@@ -414,7 +414,8 @@ components:
       type: object
       properties:
         numero:
-          type: string
+
+          type: number
         type:
           type: string
           enum: [SIMPLE, DOUBLE, SOINS_INTENSIFS]
