@@ -414,6 +414,7 @@ components:
       type: object
       properties:
         numero:
+
           type: number
         type:
           type: string
