@@ -1,0 +1,34 @@
+<div class="space-y-6">
+  <div class="space-y-6">
+    <app-dashboard-greeting
+      type="doctor"
+      [userData]="doctorData"
+    ></app-dashboard-greeting>
+  <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord médical</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <app-stat-card
+      title="Patients du Jour"
+      [value]="medicalStats?.todayPatients || 0"
+      icon=""
+      description="Rendez-vous aujourd'hui"
+    ></app-stat-card>
+    <app-stat-card
+      title="Alertes Constantes"
+      [value]="medicalStats?.vitalSignsAlerts || 0"
+      icon=""
+      description="Alertes de surveillance"
+    ></app-stat-card>
+    <app-stat-card
+      title="Consultations"
+      [value]="medicalStats?.consultations || 0"
+      icon=""
+      description="Consultations du jour"
+    ></app-stat-card>
+    <app-stat-card
+      title="Rendez-vous"
+      [value]="medicalStats?.appointments || 0"
+      icon=""
+      description="Prochains rendez-vous"
+    ></app-stat-card>
+  </div>
+</div>

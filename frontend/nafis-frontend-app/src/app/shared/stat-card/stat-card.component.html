@@ -1,0 +1,19 @@
+<div class="w-64 bg-white rounded-lg shadow-lg hover:bg-tiffany-blue transition-colors duration-300">
+  <div class="p-6">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="bg-rose-200 p-2 rounded">
+        <img *ngIf="icon" [src]="'../../assets/' + icon" alt="icon" class="h-42 w-42 object-contain">
+      </div>
+      <span
+        class="text-3xl font-bold">
+        {{value}}
+<!--        <span *ngIf="unite" class="text-base font-normal text-gray-600">{{unite}}</span>-->
+      </span>
+    </div>
+    <h3
+      class="text-lg text-space-cadet font-bold mb-1">
+      {{title}}
+    </h3>
+    <p *ngIf="description" class="text-sm text-gray-600">{{description}}</p>
+  </div>
+</div>
