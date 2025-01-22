@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LucideAngularModule, Menu, X } from 'lucide-angular';
+import { LucideAngularModule, Menu, X} from 'lucide-angular';
 
 
 @Component({
@@ -11,7 +11,8 @@ import { LucideAngularModule, Menu, X } from 'lucide-angular';
   imports: [
     CommonModule,
     RouterModule,
-    LucideAngularModule],
+    LucideAngularModule,],
+  
   template: `
     <nav class="bg-gradient-to-r from-cyan-400 to-cyan-300 shadow-lg fixed w-full top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,10 +32,10 @@ import { LucideAngularModule, Menu, X } from 'lucide-angular';
               [attr.aria-expanded]="isOpen"
             >
               <span class="sr-only">Open main menu</span>
-              <i-lucide 
+              <!-- <i-lucide 
                 [name]="isOpen ? 'x' : 'menu'" 
                 class="h-6 w-6"
-              ></i-lucide>
+              ></i-lucide> -->
             </button>
           </div>
 
@@ -46,6 +47,7 @@ import { LucideAngularModule, Menu, X } from 'lucide-angular';
                 routerLinkActive="text-white bg-cyan-500"
                 class="group relative px-4 py-2 text-lg font-medium text-white transition-all duration-300 ease-in-out hover:text-cyan-800"
               >
+                
                 <span class="relative z-10">{{ item.name }}</span>
                 <span class="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-300 ease-in-out group-hover:w-full"></span>
               </a>

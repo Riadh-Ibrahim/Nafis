@@ -6,12 +6,18 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from "../../shared/button/button.component";
 import * as AuthActions from '../../core/store/auth/actions/auth.actions';
 import * as AuthSelectors from '../../core/store/auth/selectors/auth.selectors';
-import { Store } from '@ngrx/store';
-
+import { Store, StoreModule } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
+import { authReducer } from '../../core/store/auth/reducers/auth.reducer';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ButtonComponent],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ButtonComponent,
+  ],
+  
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
