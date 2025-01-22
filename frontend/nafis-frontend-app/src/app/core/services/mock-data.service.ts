@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { AdminStats, Personnel, StatistiquesPresence } from "../interfaces/personnel";
-import { Patient } from "../interfaces/patient";
+import { AdminStats, Personnel, StatistiquesPresence } from "../../interfaces/personnel";
+import { Patient } from "../../interfaces/patient";
 
 @Injectable({
   providedIn: 'root'
