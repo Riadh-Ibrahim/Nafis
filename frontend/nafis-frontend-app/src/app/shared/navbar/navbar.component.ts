@@ -2,13 +2,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Menu, X } from 'lucide-angular';
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, LucideAngularModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    LucideAngularModule],
   template: `
     <nav class="bg-gradient-to-r from-cyan-400 to-cyan-300 shadow-lg fixed w-full top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,10 +53,10 @@ import { LucideAngularModule } from 'lucide-angular';
 
             <!-- Login/Sign Up Buttons -->
             <div class="flex items-center space-x-4">
-              <button class="px-6 py-2 text-white font-medium rounded-full border-2 border-white hover:bg-white hover:text-cyan-500 transition-all duration-300 transform hover:scale-105">
+              <button routerLink ="/login" class="px-6 py-2 text-white font-medium rounded-full border-2 border-white hover:bg-white hover:text-cyan-500 transition-all duration-300 transform hover:scale-105">
                 Login
               </button>
-              <button class="px-6 py-2 text-cyan-500 font-medium rounded-full bg-white hover:bg-cyan-100 transition-all duration-300 transform hover:scale-105">
+              <button routerLink="/login" class="px-6 py-2 text-cyan-500 font-medium rounded-full bg-white hover:bg-cyan-100 transition-all duration-300 transform hover:scale-105">
                 Sign Up
               </button>
             </div>

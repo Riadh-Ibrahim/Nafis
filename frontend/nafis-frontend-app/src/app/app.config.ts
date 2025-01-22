@@ -7,13 +7,31 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { authReducer } from './core/store/auth/reducers/auth.reducer';
 import { AuthEffects } from './core/store/auth/effects/auth.effects';
+import { 
+  LucideAngularModule, 
+  Menu, 
+  X, 
+  Thermometer, 
+  Heart, 
+  Activity, 
+  AlertCircle, 
+  Save 
+} from 'lucide-angular';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects])
+    provideEffects([AuthEffects]),
+    ...LucideAngularModule.pick({ Menu,
+      X,
+      Thermometer,
+      Heart,
+      Activity,
+      AlertCircle,
+      Save }).providers || []
+
     
   ]
 };
