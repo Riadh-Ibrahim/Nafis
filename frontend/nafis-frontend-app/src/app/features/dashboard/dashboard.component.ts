@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MockDataService } from '../../services/mock-data.service';
+import { MockDataService } from '../../core/services/mock-data.service';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
 import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
