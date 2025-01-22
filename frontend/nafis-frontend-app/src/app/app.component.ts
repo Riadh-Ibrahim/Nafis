@@ -2,13 +2,27 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { ButtonComponent } from "./shared/button/button.component";
-
+import { LoginComponent } from './features/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './shared/footer/footer.component';
+import { LucideAngularModule } from 'lucide-angular';
+import { ConstantesFormulairesComponent } from "./features/constantes-formulaires/constantes-formulaires.component";
+import { StoreModule } from '@ngrx/store';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, ButtonComponent],
+  imports: [
+    // LucideAngularModule,
+    RouterOutlet,
+    NavbarComponent,
+    ButtonComponent,
+    LoginComponent,
+    FooterComponent,
+    ConstantesFormulairesComponent,
+    
+],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'nafis-frontend-app';
