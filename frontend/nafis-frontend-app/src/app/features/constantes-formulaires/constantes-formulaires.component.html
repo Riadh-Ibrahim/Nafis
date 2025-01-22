@@ -1,0 +1,78 @@
+<div class="form-container">
+  <h2 class="form-title">
+    <i-lucide name="activity" class="icon mr-2"></i-lucide>
+    Saisie des constantes vitales
+  </h2>
+  <form [formGroup]="constantesForm" (ngSubmit)="onSubmit()">
+    <!-- Temperature -->
+    <div class="form-group">
+      <label for="temperature">
+        <i-lucide name="thermometer" class="icon"></i-lucide>
+        Température (°C)
+      </label>
+      <div class="input-container">
+        <input type="number" id="temperature" formControlName="temperature" placeholder="Ex: 37.5" />
+        <div class="unit">°C</div>
+      </div>
+      <span class="error-message" *ngIf="constantesForm.get('temperature')?.invalid && constantesForm.get('temperature')?.touched">
+        <i-lucide name="alert-circle" class="icon-small"></i-lucide>
+        Température invalide (35°C - 42°C)
+      </span>
+    </div>
+
+    <!-- Heart Rate -->
+    <div class="form-group">
+      <label for="heartRate">
+        <i-lucide name="heart" class="icon"></i-lucide>
+        Fréquence cardiaque (bpm)
+      </label>
+      <div class="input-container">
+        <input type="number" id="heartRate" formControlName="heartRate" placeholder="Ex: 80" />
+        <div class="unit">bpm</div>
+      </div>
+      <span class="error-message" *ngIf="constantesForm.get('heartRate')?.invalid && constantesForm.get('heartRate')?.touched">
+        <i-lucide name="alert-circle" class="icon-small"></i-lucide>
+        Fréquence cardiaque invalide (30 bpm - 200 bpm)
+      </span>
+    </div>
+
+    <!-- Blood Pressure -->
+    <div class="form-group">
+      <label for="bloodPressure">
+        <i-lucide name="activity" class="icon"></i-lucide>
+        Tension artérielle (mmHg)
+      </label>
+      <div class="input-container">
+        <input type="text" id="bloodPressure" formControlName="bloodPressure" placeholder="Ex: 120/80" />
+        <div class="unit">mmHg</div>
+      </div>
+      <span class="error-message" *ngIf="constantesForm.get('bloodPressure')?.invalid && constantesForm.get('bloodPressure')?.touched">
+        <i-lucide name="alert-circle" class="icon-small"></i-lucide>
+        Tension artérielle invalide (ex: 120/80)
+      </span>
+    </div>
+
+    <!-- Oxygen Saturation -->
+    <div class="form-group">
+      <label for="oxygenSaturation">
+        <!-- <i-lucide name="lungs" class="icon"></i-lucide> -->
+        Saturation en oxygène
+      </label>
+      <div class="input-container">
+        <input type="number" id="oxygenSaturation" formControlName="oxygenSaturation" placeholder="Ex: 98" />
+        <div class="unit">%</div>
+      </div>
+      <span class="error-message" *ngIf="constantesForm.get('oxygenSaturation')?.invalid && constantesForm.get('oxygenSaturation')?.touched">
+        <i-lucide name="alert-circle" class="icon-small"></i-lucide>
+        Saturation en oxygène invalide (50% - 100%)
+      </span>
+    </div>
+  
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-button" [disabled]="constantesForm.invalid">
+      <i-lucide name="save" class="icon-small mr-2"></i-lucide>
+      Enregistrer
+    </button>
+  </form>
+</div>
