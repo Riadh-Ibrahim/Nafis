@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './shared/footer/footer.component';
 import { LucideAngularModule } from 'lucide-angular';
 import { ConstantesFormulairesComponent } from "./features/constantes-formulaires/constantes-formulaires.component";
+import { StoreModule } from '@ngrx/store';
 @Component({
   selector: 'app-root',
   standalone: true,
