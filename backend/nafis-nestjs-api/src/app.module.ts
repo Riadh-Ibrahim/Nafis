@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
+import { MqttModule } from './mqtt/mqtt.module';
 
 
 @Module({
@@ -24,6 +25,7 @@ import { User } from './user/entities/user.entity';
     TypeOrmModule.forFeature([User]),
     AuthModule,
     UserModule,
+    MqttModule,
   ],
   controllers: [AppController],
   providers: [AppService],

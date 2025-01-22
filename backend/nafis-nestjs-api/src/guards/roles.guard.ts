@@ -44,7 +44,7 @@ export class RoleAccessControlGuard implements CanActivate {
         return [...routeRoles, ...classRoles]
     }
 
-    extractTokenFromHeader(request: Request): string | undefined {
+    extractTokenFromRequest(request: Request): string | undefined {
         const [type, token] = request.headers.authorization?.split(' ');
         return type === "Bearer" ? token : undefined;
     }
