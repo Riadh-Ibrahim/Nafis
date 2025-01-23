@@ -21,6 +21,12 @@ export const routes: Routes = [
   {
     path: 'constantes',
     loadChildren: () => import("./features/constantes-formulaires/constantes-formulaires.routes").then(m => m.CONSTANTES_ROUTES)
+  },
+  
+  {
+    path: 'patients',
+    loadChildren: () => import("./features/patient-filter/patient-filter.routes")
+      .then(m => m.PATIENT_FILTER_ROUTES)
   }
 
 ];
