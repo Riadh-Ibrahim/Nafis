@@ -228,7 +228,6 @@ export class MockDataService {
         email: "jean.leroy@email.com"
       }
     };
-  
     const patient = patients[id] || patients[1];
     return of(patient).pipe(delay(500));
   }
