@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { NotificationComponent } from './features/notification/notification.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,10 @@ export const routes: Routes = [
     path: 'patients',
     loadChildren: () => import("./features/patient-filter/patient-filter.routes")
       .then(m => m.PATIENT_FILTER_ROUTES)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import("./features/notification/notification.routes").then(m => m.NOTIFICATION_ROUTES)
   }
 
 ];

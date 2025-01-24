@@ -5,7 +5,7 @@ import {ApiResponse, FiltreRecherche, Pagination} from "../interfaces/common";
 import {Rendezvous} from "../interfaces/rendezvous";
 import {Personnel} from "../interfaces/personnel";
 import {Chambre} from "../interfaces/chambre";
-import {ConstantesVitales} from "../interfaces/surveillance";
+import {ConstantesVitales} from "../interfaces/ConstantesVitales";
 import {Patient} from "../interfaces/patient";
 
 

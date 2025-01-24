@@ -2,32 +2,32 @@ import { createAction, props } from '@ngrx/store';
 import { User } from '../models/auth.model';
 
 export const login = createAction(
-  '[Auth] Login',
-  props<{ email: string; password: string }>()
+  '[Auth] Login',// Type de l'action
+  props<{ email: string; password: string }>() // Payload (données associées)
 );
 
 export const loginSuccess = createAction(
   '[Auth] Login Success',
-  props<{ access_token: string }>()
+  props<{ access_token: string }>() // Token reçu après une connexion réussie
 );
 
 export const loginFailure = createAction(
   '[Auth] Login Failure',
-  props<{ error: string }>()
+  props<{ error: string }>() // Message d'erreur en cas d'échec de connexion
 );
 
 export const register = createAction(
   '[Auth] Register',
-  props<{ email: string; password: string }>()
+  props<{ email: string; password: string }>() // Données de l'utilisateur à créer
 );
 
 export const registerSuccess = createAction(
-  '[Auth] Register Success'
+  '[Auth] Register Success' // Pas de payload car on ne reçoit pas de données après une inscription réussie
 );
 
 export const registerFailure = createAction(
-  '[Auth] Register Failure',
-  props<{ error: string }>()
+  '[Auth] Register Failure', // Type de l'action
+  props<{ error: string }>() // Message d'erreur en cas d'échec d'inscription
 );
 
-export const logout = createAction('[Auth] Logout');
+export const logout = createAction('[Auth] Logout');  // Type de l'action
