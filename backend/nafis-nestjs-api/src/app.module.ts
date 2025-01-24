@@ -8,7 +8,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
 import { MqttModule } from './mqtt/mqtt.module';
-
+import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   imports: [
@@ -26,6 +27,8 @@ import { MqttModule } from './mqtt/mqtt.module';
     AuthModule,
     UserModule,
     MqttModule,
+    MedicalHistoryModule,
+    DocumentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,6 +1,9 @@
-import { Entity,PrimaryGeneratedColumn,Column,OneToMany} from 'typeorm';
+/* eslint-disable prettier/prettier */
+import { Entity,PrimaryGeneratedColumn,Column,OneToMany, JoinColumn, OneToOne} from 'typeorm';
 import { Presence } from 'src/presences/entities/presence.entity';
 import { RendezVous } from 'src/rendez-vous/entities/rendez-vous.entity';
+import { User } from 'src/user/entities/user.entity';
+
 export enum PersonnelType {
     MEDECIN = 'MEDECIN',
     INFIRMIER = 'INFIRMIER',
@@ -40,12 +43,6 @@ export class Personnel{
     @PrimaryGeneratedColumn()
     id: number;
   
-    @Column()
-    nom: string;
-  
-    @Column()
-    prenom: string;
-  
     @Column({
       type: 'enum',
       enum: PersonnelType,
@@ -69,12 +66,6 @@ export class Personnel{
     service: string;
   
     @Column()
-    email: string;
-  
-    @Column()
-    telephone: string;
-  
-    @Column()
     matricule: string;
   
     @Column({ type: 'date' })
@@ -86,6 +77,10 @@ export class Personnel{
       default: PersonnelStatut.PRESENT,
     })
     statut: PersonnelStatut;
+
+    @OneToOne(()=>User, { onDelete: 'CASCADE', eager: true })
+    @JoinColumn()
+    user: User;
 
     @OneToMany(()=>Presence,(presence)=>presence.personnelId)
     presences: Presence[];

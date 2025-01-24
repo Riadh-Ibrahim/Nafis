@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import {Entity,PrimaryGeneratedColumn, Column,ManyToOne, BeforeInsert, BeforeUpdate} from 'typeorm';
 import { Patient } from 'src/patients/entities/patient.entity';
+import { MedicalHistory } from 'src/medical-history/entities/medical-history.entity';
 
 @Entity('consultations')
 export class Consultation{
@@ -19,6 +21,9 @@ export class Consultation{
 
     @Column({nullable: false})
     patientId: number;
+
+    @ManyToOne(() => MedicalHistory, (medicalHistory) => medicalHistory.consultations)
+    medicalHistory: MedicalHistory;
 
     @ManyToOne(() => Patient, (patient) => patient.id, { cascade: true, eager: true })
        patient: Patient;

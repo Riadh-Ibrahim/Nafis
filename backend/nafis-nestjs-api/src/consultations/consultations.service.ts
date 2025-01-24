@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateConsultationDto } from './dto/create-consultation.dto';
 import { UpdateConsultationDto } from './dto/update-consultation.dto';
@@ -10,7 +11,7 @@ export class ConsultationsService {
      @InjectRepository(Consultation)
      private readonly consultationsRepository: Repository<Consultation>){}
   
-  async create(createConsultationDto: CreateConsultationDto) {
+  async addConsultation(createConsultationDto: CreateConsultationDto) {
     const consultation=this.consultationsRepository.create(createConsultationDto);
     return await this.consultationsRepository.save(consultation);
   }
@@ -24,8 +25,10 @@ export class ConsultationsService {
 
   }
 
-  async update(id: number, updateConsultationDto: UpdateConsultationDto) {
-    const consultation=await this.findOne(id);
+  async updateConsultation(updateConsultationDto: UpdateConsultationDto) {
+    const consultation=await this.consultationsRepository.findOne({
+      where: {id: updateConsultationDto.consultationId}
+    });
     if(!consultation){
       throw new NotFoundException();
     }
@@ -33,8 +36,8 @@ export class ConsultationsService {
     return await this.consultationsRepository.save(consultation);
   }
 
-  async remove(id: number) {
-    const consultation=await this.findOne(id);
+  async removeConsultation(consultationId: number) {
+    const consultation=await this.findOne(consultationId);
     if(!consultation){
       throw new NotFoundException();
     }

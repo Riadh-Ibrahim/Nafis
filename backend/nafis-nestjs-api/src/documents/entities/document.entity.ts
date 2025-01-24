@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, BeforeInsert, BeforeUpdate} from 'typeorm'
 import { Patient } from 'src/patients/entities/patient.entity'
+import { MedicalHistory } from 'src/medical-history/entities/medical-history.entity';
 
 @Entity('documents')
 export class Document {
@@ -18,6 +20,9 @@ export class Document {
     description: string;
     @Column({nullable: false})
     url: string;
+
+    @ManyToOne(() => MedicalHistory, (medicalHistory) => medicalHistory.consultations)
+    medicalHistory: MedicalHistory;
 
     @Column({nullable: false})
     patientId: number;

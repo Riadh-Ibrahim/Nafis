@@ -3,10 +3,13 @@ import { ConflictException, Injectable, Logger, UnauthorizedException } from '@n
 import * as bcrypt from 'bcrypt';
 import { SignupDto } from './dto/signup.dto';
 import { Repository } from 'typeorm';
-import { User } from '../user/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserRoleEnum } from 'src/enums/user-role.enum';
+import { User } from 'src/user/entities/user.entity';
+import { PatientsService } from 'src/patients/patients.service';
+import { AdminService } from 'src/admin/admin.service';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +17,9 @@ export class AuthService {
   
   constructor(
     @InjectRepository(User)
-    private readonly userReposiotry: Repository<User>,
+    private readonly userRepository: Repository<User>,
+    private readonly patientService: PatientsService,
+    private readonly adminService: AdminService,
     private readonly jwtService: JwtService
   ) {};
 
@@ -30,29 +35,57 @@ export class AuthService {
   }
 
   async signup(newUser: SignupDto) {
-    this.logger.error('Signup method called with DTO:', newUser);
+    this.logger.log('Signup method called with DTO:', newUser);
 
-    const hashedPassword = await this.hashPassword(newUser.password);
-    newUser.password = hashedPassword;
+    const existingUser = this.userRepository.findOne({where: { email: newUser.email }});
+    if (existingUser) {
+      throw new ConflictException("Email is already in use");
+    }
+
+    newUser.password = await this.hashPassword(newUser.password);
 
     console.log("signup password is ", newUser.password)
 
-    const user = this.userReposiotry.create(
-      newUser
-    );
+    const user = this.userRepository.create(newUser);
+    const userEntity = await this.userRepository.save(user);
 
-    console.log('user enitty is created');
+    if (newUser.role == UserRoleEnum.ADMIN) {
+      
+      try {
+        await this.adminService.create(userEntity.id, {});
+        console.log('admin enitty is created');
+      
+      }
+  
+      catch (e) {
+        console.log(e)
+        throw new ConflictException(e);
+      }
+  
 
-    try {
-      this.userReposiotry.save(user);
-      console.log('created user password', user.password)
-      console.log("user saved")
     }
 
-    catch (e) {
-      console.log(e)
-      throw new ConflictException(e);
+    else if (newUser.role == UserRoleEnum.PATIENT) {
+      const admin = await this.adminService.findAppropriateAdmin();
+
+      if (!admin) {
+        throw new ConflictException("No admin was found");
+      }
+
+      
+      try {
+        await this.patientService.create(userEntity.id, admin, {});
+        
+      }
+  
+      catch (e) {
+        console.log(e)
+        throw new ConflictException(e);
+      }
+  
     }
+
+
 
     const token = this.jwtService.sign({id: user.id, role: user.role});
     return { token };
@@ -61,7 +94,7 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
     
-    const user = await this.userReposiotry.findOne({
+    const user = await this.userRepository.findOne({
       where: { email},
     });
 

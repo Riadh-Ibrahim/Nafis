@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString, Matches, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsString, Matches, MinLength } from "class-validator";
+import { UserRoleEnum } from "src/enums/user-role.enum";
 import ErrorMessages from "src/utils/error-messages";
 
 export class LoginDto {
@@ -13,4 +14,7 @@ export class LoginDto {
         message:ErrorMessages.invalidPassword,
     })
     password: string;
+
+    @IsEnum(UserRoleEnum, { message: ErrorMessages.invalidRole})
+    role: UserRoleEnum
 }
