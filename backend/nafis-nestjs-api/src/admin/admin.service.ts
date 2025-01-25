@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from './admin.entity';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AdminService {
@@ -12,13 +12,20 @@ export class AdminService {
     private adminRepository: Repository<Admin>,
   ) {}
 
-  async create(createAdminDto: CreateAdminDto): Promise<Admin> {
-    const hashedPassword = await bcrypt.hash(createAdminDto.password, 10);
-    const admin = this.adminRepository.create({
-      ...createAdminDto,
-      password: hashedPassword,
-    });
-    return this.adminRepository.save(admin);
+  async create(userId: number, newAdminData: CreateAdminDto): Promise<Admin> {
+     try {
+          const newAdmin=this.adminRepository.create({
+             ...newAdminData,
+             user: {id: userId}
+          });
+          const adminEntity =  await this.adminRepository.save(newAdmin);
+          return adminEntity;
+    
+        } catch (error) {
+          console.log(error);
+          throw new ConflictException("Cannot create patient");
+        }
+    
   }
 
   async findAll(): Promise<Admin[]> {
@@ -27,5 +34,15 @@ export class AdminService {
 
   async findOne(id: number): Promise<Admin> {
     return this.adminRepository.findOne({ where: { id } });
+  }
+
+  async findAppropriateAdmin(): Promise<Admin> {
+    const admin = await this.adminRepository
+        .createQueryBuilder('admin')
+        .leftJoinAndSelect('admin.patients', 'patient')
+        .having('COUNT(patient.id) < 10') 
+        .orderBy('admin.createdAt', 'ASC')
+        .getOne();
+      return admin;
   }
 }

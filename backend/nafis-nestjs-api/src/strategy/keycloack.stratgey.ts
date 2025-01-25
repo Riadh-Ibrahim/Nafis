@@ -1,5 +1,5 @@
 // src/strategy/keycloak.strategy.ts
-import { PassportStrategy } from '@nestjs/passport';
+/*import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Strategy } from 'passport-keycloak';
 import { keycloakConfig } from '../keycloak.config'; // Import the Keycloak config
@@ -15,3 +15,4 @@ export class KeycloakStrategy extends PassportStrategy(Strategy) {
     return payload; 
   }
 }
+*/

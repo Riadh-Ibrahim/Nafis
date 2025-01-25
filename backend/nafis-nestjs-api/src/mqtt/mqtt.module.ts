@@ -1,13 +1,11 @@
-// src/mqtt/mqtt.module.ts
-import { Module } from '@nestjs/common';
-import { MqttService } from './mqtt.service';
-import { MqttController } from './mqtt.controller';
-import { ConstantesVitalesModule } from '../constantes-vitales/constantes-vitales.module';
+import { Module } from "@nestjs/common";
+import { MqttService } from "./mqtt.service";
+import { MqttController } from "./mqtt.controller";
 
 @Module({
-  imports: [ConstantesVitalesModule],
-  providers: [MqttService],
-  controllers: [MqttController],
-  exports: [MqttService],
+    controllers: [MqttController],
+    providers: [MqttService],
+    exports: [MqttService],
 })
+
 export class MqttModule {}
