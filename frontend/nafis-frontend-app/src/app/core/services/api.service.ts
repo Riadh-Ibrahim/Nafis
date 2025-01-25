@@ -69,8 +69,8 @@ export class ApiService {
     if (!filtres) return params;
 
     if (filtres.terme) params = params.set('terme', filtres.terme);
-    if (filtres.dateDebut) params = params.set('dateDebut', filtres.dateDebut.toISOString());
-    if (filtres.dateFin) params = params.set('dateFin', filtres.dateFin.toISOString());
+    if (filtres.dateDebut) params = params.set('dateDebut', filtres.dateDebut.toString());
+    if (filtres.dateFin) params = params.set('dateFin', filtres.dateFin.toString());
     if (filtres.statut) params = params.set('statut', filtres.statut);
     if (filtres.type) params = params.set('type', filtres.type);
     if (filtres.page !== undefined) params = params.set('page', filtres.page.toString());

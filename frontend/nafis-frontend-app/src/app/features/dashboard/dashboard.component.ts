@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MockDataService } from '../../core/services/mock-data.service';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
@@ -20,12 +20,11 @@ interface DashboardState {
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    RouterOutlet,
     CommonModule,
     DoctorDashboardComponent,
     PatientDashboardComponent,
-    DashboardGreetingComponent
-  ],
+    DashboardGreetingComponent,
+],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

@@ -6,10 +6,11 @@ import { DashboardGreetingComponent } from '../dashboard-greeting/dashboard-gree
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
-  imports: [CommonModule, StatCardComponent, DashboardGreetingComponent],
+  imports: [CommonModule, StatCardComponent],
   templateUrl: './doctor-dashboard.component.html',
-  styleUrls: ['./doctor-dashboard.component.scss']
+  styleUrls: ['./doctor-dashboard.component.scss'],
 })
 export class DoctorDashboardComponent {
   @Input() stats: any;
+  title = 'angular-line-chart';
 }
