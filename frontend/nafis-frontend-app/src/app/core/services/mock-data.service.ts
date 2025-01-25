@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import {AdminStats, Personnel, StatistiquesPresence} from "../interfaces/personnel";
-import {Patient} from "../interfaces/patient";
+import { AdminStats, Personnel, StatistiquesPresence } from "../../interfaces/personnel";
+import { Patient } from "../../interfaces/patient";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MockDataService {
-  // Existing mock data
+  // Existing mock data structures...
   private patientsMockData: { [key: string]: any } = {
     '1': {
       upcomingAppointments: 3,
@@ -60,7 +60,6 @@ export class MockDataService {
     }
   };
 
-  // New mock data for personnel
   private personnelMockData: Personnel[] = [
     {
       id: 1,
@@ -91,6 +90,30 @@ export class MockDataService {
     }
   ];
 
+  private patients: { [key: number]: Patient } = {
+    1: {
+      id: 1,
+      nom: "Durant",
+      prenom: "Martin",
+      dateNaissance: "1980-05-15",
+      numeroSecu: "180055789456123",
+      adresse: "123 rue de la Santé, 75014 Paris",
+      telephone: "0687654321",
+      email: "martin.durant@email.com"
+    },
+    2: {
+      id: 2,
+      nom: "Dupont",
+      prenom: "Sophie",
+      dateNaissance: "1990-08-25",
+      numeroSecu: "190085678912345",
+      adresse: "456 avenue de la Liberté, 75010 Paris",
+      telephone: "0786543210",
+      email: "sophie.dupont@email.com"
+    }
+  };
+
+  // Added missing mock data
   private statistiquesPresenceMockData: { [key: number]: StatistiquesPresence } = {
     1: {
       personnelId: 1,
@@ -121,6 +144,38 @@ export class MockDataService {
           fin: "2025-01-20",
           description: "Conférence médicale",
           lieu: "Paris"
+        }]
+      }
+    },
+    2: {
+      personnelId: 2,
+      periode: {
+        debut: "2025-01-01",
+        fin: "2025-01-21"
+      },
+      statistiques: {
+        joursPresent: 12,
+        joursAbsent: 3,
+        joursConge: 5,
+        joursMission: 1,
+        tauxPresence: 75.0
+      },
+      details: {
+        conges: [{
+          debut: "2025-01-05",
+          fin: "2025-01-09",
+          type: "ANNUEL"
+        }],
+        absences: [{
+          date: "2025-01-15",
+          justifie: true,
+          motif: "Formation"
+        }],
+        missions: [{
+          debut: "2025-01-20",
+          fin: "2025-01-20",
+          description: "Formation externe",
+          lieu: "Lyon"
         }]
       }
     }
@@ -164,20 +219,26 @@ export class MockDataService {
     alertesNonAcquittees: 15
   };
 
-  // Existing methods
+  // Methods remain the same...
   getPatientStats(patientId: string): Observable<any> {
-    const patientData = this.patientsMockData[patientId] || this.patientsMockData['1'];
-    return of(patientData).pipe(delay(500));
+    if (!this.patientsMockData[patientId]) {
+      return throwError(() => new Error(`Patient stats not found for ID: ${patientId}`));
+    }
+    return of(this.patientsMockData[patientId]).pipe(delay(500));
   }
 
   getMedicalStats(doctorId: string): Observable<any> {
-    const doctorData = this.doctorsMockData[doctorId] || this.doctorsMockData['1'];
-    return of(doctorData).pipe(delay(500));
+    if (!this.doctorsMockData[doctorId]) {
+      return throwError(() => new Error(`Doctor stats not found for ID: ${doctorId}`));
+    }
+    return of(this.doctorsMockData[doctorId]).pipe(delay(500));
   }
 
-  // New methods for personnel data
-  getPersonnel(id: number): Observable<Personnel> {
-    const personnel = this.personnelMockData.find(p => p.id === id) || this.personnelMockData[0];
+  getPersonnel(id: number): Observable<Personnel | null> {
+    const personnel = this.personnelMockData.find(p => p.id === id);
+    if (!personnel) {
+      return of(null).pipe(delay(500));
+    }
     return of(personnel).pipe(delay(500));
   }
 
@@ -185,8 +246,11 @@ export class MockDataService {
     return of(this.personnelMockData).pipe(delay(500));
   }
 
-  getStatistiquesPresence(personnelId: number): Observable<StatistiquesPresence> {
-    const stats = this.statistiquesPresenceMockData[personnelId] || this.statistiquesPresenceMockData[1];
+  getStatistiquesPresence(personnelId: number): Observable<StatistiquesPresence | null> {
+    const stats = this.statistiquesPresenceMockData[personnelId];
+    if (!stats) {
+      return of(null).pipe(delay(500));
+    }
     return of(stats).pipe(delay(500));
   }
 
@@ -194,80 +258,15 @@ export class MockDataService {
     return of(this.adminStatsMockData).pipe(delay(500));
   }
 
-  // Method to get patients
-  getPatient(id: number): Observable<Patient> {
-    const patients: { [key: number]: Patient } = {
-      1: {
-        id: 1,
-        nom: "Durant",
-        prenom: "Martin",
-        dateNaissance: "1980-05-15",
-        numeroSecu: "180055789456123",
-        adresse: "123 rue de la Santé, 75014 Paris",
-        telephone: "0687654321",
-        email: "martin.durant@email.com"
-      },
-      2: {
-        id: 2,
-        nom: "Dupont",
-        prenom: "Sophie",
-        dateNaissance: "1990-08-25",
-        numeroSecu: "190085678912345",
-        adresse: "456 avenue de la Liberté, 75010 Paris",
-        telephone: "0786543210",
-        email: "sophie.dupont@email.com"
-      },
-      3: {
-        id: 3,
-        nom: "Leroy",
-        prenom: "Jean",
-        dateNaissance: "1975-03-10",
-        numeroSecu: "175035678912345",
-        adresse: "789 rue de la République, 69002 Lyon",
-        telephone: "0612345678",
-        email: "jean.leroy@email.com"
-      }
-    };
-    const patient = patients[id] || patients[1];
-    return of(patient).pipe(delay(500));
+  getPatient(id: number): Observable<Patient | null> {
+    if (!this.patients[id]) {
+      return of(null).pipe(delay(500));
+    }
+    return of(this.patients[id]).pipe(delay(500));
   }
 
-  getAllPatients(): Observable<Patient[]> {
-    const patients: Patient[] = [
-      {
-        id: 1,
-        nom: "Durant",
-        prenom: "Martin",
-        dateNaissance: "1980-05-15",
-        numeroSecu: "180055789456123",
-        adresse: "123 rue de la Santé, 75014 Paris",
-        telephone: "0687654321",
-        email: "martin.durant@email.com"
-      },
-      {
-        id: 2,
-        nom: "Dupont",
-        prenom: "Sophie",
-        dateNaissance: "1990-08-25",
-        numeroSecu: "190085678912345",
-        adresse: "456 avenue de la Liberté, 75010 Paris",
-        telephone: "0786543210",
-        email: "sophie.dupont@email.com"
-      },
-      // Ajoutez d'autres patients si nécessaire
-      {
-        id: 3,
-        nom: "Leroy",
-        prenom: "Jean",
-        dateNaissance: "1975-03-10",
-        numeroSecu: "175035678912345",
-        adresse: "789 rue de la République, 69002 Lyon",
-        telephone: "0612345678",
-        email: "jean.leroy@email.com"
-      }
-    ];
-  
-    return of(patients).pipe(delay(500));
+  // Helper method
+  private idExists(id: number | string, collection: any): boolean {
+    return collection.hasOwnProperty(id) || (Array.isArray(collection) && collection.some(item => item.id === id));
   }
 }
-
