@@ -1,1 +1,29 @@
-<p>footer works!</p>
+<footer class="bg-gradient-to-r from-cyan-400 to-cyan-300 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-wrap justify-between items-center">
+        <!-- Logo and Description -->
+        <div class="flex-shrink-0 mb-4 md:mb-0">
+          <div class="flex items-center space-x-4">
+            <img src="../../../assets/medical.svg" class="h-10 w-auto" alt="NAFIS Logo" />
+            <span class="text-xl font-semibold tracking-wider">NAFIS</span>
+          </div>
+          <p class="mt-2 text-sm">Empowering healthcare with advanced solutions.</p>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="flex flex-wrap space-x-6">
+          <a 
+            *ngFor="let link of footerLinks"
+            [routerLink]="link.href"
+            class="text-sm font-medium hover:underline"
+          >
+            {{ link.name }}
+          </a>
+        </div>
+      </div>
+      <div class="mt-6 border-t border-cyan-200 pt-4 text-sm text-center">
+        <span>&copy; {{ currentYear }} NAFIS. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+  

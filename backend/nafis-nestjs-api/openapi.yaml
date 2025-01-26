@@ -591,11 +591,30 @@ components:
           type: string
         url:
           type: string
+    
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [ORDONNANCE, RADIOGRAPHIE, ANALYSE, AUTRE]
+        date:
+          type: string
+          format: date-time
+        titre:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
 
     Chambre:
       type: object
       properties:
         numero:
+
 
           type: number
         type:
@@ -773,3 +792,4 @@ components:
 
 security:
   - bearerAuth: []
+
