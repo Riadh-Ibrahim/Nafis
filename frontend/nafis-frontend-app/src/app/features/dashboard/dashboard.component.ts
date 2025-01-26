@@ -6,6 +6,7 @@ import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.co
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
 import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
 import {Subject, takeUntil, catchError, EMPTY, Observable, switchMap, map} from 'rxjs';
+import {CalendarSidebarComponent} from "./calender-sidebar/calender-sidebar.component";
 
 interface DashboardState {
   type: 'doctor' | 'patient' | null;
@@ -24,7 +25,8 @@ interface DashboardState {
     CommonModule,
     DoctorDashboardComponent,
     PatientDashboardComponent,
-    DashboardGreetingComponent
+    DashboardGreetingComponent,
+    CalendarSidebarComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
