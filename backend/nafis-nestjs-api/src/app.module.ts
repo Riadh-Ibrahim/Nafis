@@ -3,6 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { MessagingModule } from './messaging/messaging.module';
+import { MessagingController } from './messaging/messaging.controller';
+import { MessagingService } from './messaging/messaging.service';
+import { MessageRequestEntity } from './messaging/entities/message-request.entity';
+import { ConversationEntity } from './messaging/entities/conversation.entity';
+import { MessageEntity } from './messaging/entities/message.entity';
 
 @Module({
   imports: [
@@ -13,12 +19,14 @@ import { ConfigModule } from '@nestjs/config';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       synchronize: true,
-      entities: [],
+      entities: [MessageRequestEntity, ConversationEntity, MessageEntity],
       // logging: true,
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([MessageRequestEntity, ConversationEntity, MessageEntity]),
+    MessagingModule,
+
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, MessagingController],
+  providers: [AppService, MessagingService],
 })
 export class AppModule {}

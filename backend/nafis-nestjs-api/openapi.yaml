@@ -168,13 +168,13 @@ paths:
         '200':
           description: Statut de la demande mis à jour
 
-  /api/messaging/conversation/{conversationId}:
+  /api/messaging/conversation/{Id}:
     get:
       tags:
         - Messaging
       summary: Récupérer les messages d'une conversation
       parameters:
-        - name: conversationId
+        - name: Id
           in: path
           required: true
           schema:
@@ -194,7 +194,7 @@ paths:
         - Messaging
       summary: Envoyer un message dans une conversation
       parameters:
-        - name: conversationId
+        - name: Id
           in: path
           required: true
           schema:
@@ -204,7 +204,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MessageEnvoi'
+              $ref: '#/components/schemas/Message'
       responses:
         '201':
           description: Message envoyé
@@ -591,24 +591,6 @@ components:
           type: string
         url:
           type: string
-    
-    Document:
-      type: object
-      properties:
-        id:
-          type: integer
-        type:
-          type: string
-          enum: [ORDONNANCE, RADIOGRAPHIE, ANALYSE, AUTRE]
-        date:
-          type: string
-          format: date-time
-        titre:
-          type: string
-        description:
-          type: string
-        url:
-          type: string
 
     Chambre:
       type: object
@@ -740,8 +722,6 @@ components:
         dateCreation:
           type: string
           format: date-time
-        motif:
-          type: string
 
     Conversation:
       type: object
@@ -755,9 +735,6 @@ components:
         dateDebut:
           type: string
           format: date-time
-        statut:
-          type: string
-          enum: [ACTIF, CLOTURE]
 
     Message:
       type: object
@@ -780,9 +757,6 @@ components:
           type: boolean
         pieceJointe:
           type: string
-      tags:
-        name: Messaging
-        description: Gestion des communications entre patients et médecins    
 
   securitySchemes:
     bearerAuth:
