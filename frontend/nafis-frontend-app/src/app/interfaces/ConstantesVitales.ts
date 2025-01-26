@@ -1,3 +1,5 @@
+import { alerte } from "./alerte";
+
 export interface ConstantesVitales {
   patientId: number;
   timestamp: string;
@@ -5,15 +7,7 @@ export interface ConstantesVitales {
   tensionArterielle: string;
   frequenceCardiaque: number;
   saturationOxygene: number;
-  alertes?: Alerte[];
+  alertes?: alerte[]
 
 }
 
-export interface Alerte {
-  id: number;
-  type: 'CRITIQUE' | 'ATTENTION' | 'INFO';
-  message: string;
-  timestamp: string;
-  acquittee: boolean;
-  acquitteePar?: string;
-}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
@@ -10,7 +11,7 @@ export class DocumentsService {
     @InjectRepository(Document)
     private readonly documentsRepository: Repository<Document>){}
   
-  async create(createDocumentDto: CreateDocumentDto) {
+  async addDocument(createDocumentDto: CreateDocumentDto) {
     const document=this.documentsRepository.create(createDocumentDto);
     return await this.documentsRepository.save(document);
   }
@@ -23,8 +24,10 @@ export class DocumentsService {
     return await this.documentsRepository.findOne({where: {id}});
   }
 
-  async update(id: number, updateDocumentDto: UpdateDocumentDto) {
-    const document=await this.findOne(id);
+  async updateDocument(updateDocumentDto: UpdateDocumentDto) {
+    const document = await this.documentsRepository.findOne({ where: { 
+      id: updateDocumentDto.documentId
+     } });
     if(!document){
       throw new NotFoundException();
     }
@@ -32,8 +35,8 @@ export class DocumentsService {
     return await this.documentsRepository.save(document);
   }
 
-  async remove(id: number) {
-    const document=await this.findOne(id);
+  async removeDocument(documentId: number) {
+    const document=await this.findOne(documentId);
     if(!document){
       throw new NotFoundException();
     }

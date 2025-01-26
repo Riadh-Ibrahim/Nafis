@@ -1,9 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Patient } from './entities/patient.entity';
 import { Repository } from 'typeorm';
+import { Admin } from 'src/admin/admin.entity';
 @Injectable()
 export class PatientsService {
 
@@ -11,9 +13,21 @@ export class PatientsService {
     @InjectRepository(Patient)
     private readonly patientsRepository: Repository<Patient>) {
   }
-  async create(createPatientDto: CreatePatientDto) {
-    const patient=this.patientsRepository.create(createPatientDto);
-    return await this.patientsRepository.save(patient);
+  async create(userId: number, admin: Admin, newPatientData: CreatePatientDto) {
+    try {
+      const newPatient=this.patientsRepository.create({
+         ...newPatientData,
+         admin: admin,
+         user: {id: userId}
+      });
+      const patientEntity =  await this.patientsRepository.save(newPatient);
+      return patientEntity;
+
+    } catch (error) {
+      console.log(error);
+      throw new ConflictException("Cannot create patient");
+    }
+
   }
 
   async findAll() {
@@ -29,7 +43,7 @@ export class PatientsService {
     if(!patient){
       throw new NotFoundException();
     }
-    Object.assign(patient,UpdatePatientDto);
+    Object.assign(patient,updatePatientDto);
     return await this.patientsRepository.save(patient);
   }
 

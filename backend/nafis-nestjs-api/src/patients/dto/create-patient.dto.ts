@@ -1,20 +1,5 @@
-import { IsString, IsNotEmpty, IsOptional, IsDateString } from 'class-validator';
-import { CreatePersonBaseDto } from 'src/common/dto/create-person-base.dto';
+import { SignupDto } from "src/auth/dto/signup.dto";
 
-export class CreatePatientDto extends CreatePersonBaseDto {
-  @IsNotEmpty()
-  @IsDateString()
-  dateNaissance: Date;
-
-  @IsNotEmpty()
-  @IsString()
-  numeroSecu: string;
-
-  @IsOptional()
-  @IsString()
-  adresse: string;
-
-  @IsOptional()
-  @IsString()
-  telephone: string;
+export class CreatePatientDto extends SignupDto{
+  
 }

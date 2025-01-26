@@ -15,7 +15,13 @@
     Heart, 
     Activity, 
     AlertCircle, 
-    Save,Home, Info, Package, DollarSign, Phone
+    Save,
+    Home, 
+    Info,
+    Bell,
+    Package, 
+    DollarSign,
+    Phone
   } from 'lucide-angular';
   export const appConfig: ApplicationConfig = {
     providers: [
@@ -34,8 +40,10 @@
         Home,
         Info,
         Package,
+        Bell,
         'dollar-sign': DollarSign,
-        Phone, }).providers || []
+        Phone,
+       }).providers || []
 
       
     ]

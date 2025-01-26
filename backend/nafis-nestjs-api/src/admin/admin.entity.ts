@@ -1,31 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+/* eslint-disable prettier/prettier */
+import { Patient } from 'src/patients/entities/patient.entity';
+import { User } from 'src/user/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity('admins')
 export class Admin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  nom: string;
+  @OneToOne(()=>User, { onDelete: 'CASCADE', eager: true })
+  @JoinColumn()
+  user: User;
 
-  @Column()
-  prenom: string;
+  @OneToMany(() => Patient, (patient) => patient.admin)
+  patients: Patient[];
 
-  @Column({ type: 'date' })
-  dateNaissance: Date;
+  
 
-  @Column()
-  numeroSecu: string;
-
-  @Column()
-  adresse: string;
-
-  @Column()
-  telephone: string;
-
-  @Column({ nullable: true })
-  email: string;
-
-  @Column({ nullable: true })
-  photoUrl: string;
 }

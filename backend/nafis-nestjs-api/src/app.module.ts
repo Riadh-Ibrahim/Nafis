@@ -1,8 +1,15 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
+import { MqttModule } from './mqtt/mqtt.module';
+import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   imports: [
@@ -13,10 +20,15 @@ import { ConfigModule } from '@nestjs/config';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       synchronize: true,
-      entities: [],
-      // logging: true,
+      entities: [User],
+      logging: true,
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([User]),
+    AuthModule,
+    UserModule,
+    MqttModule,
+    MedicalHistoryModule,
+    DocumentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
