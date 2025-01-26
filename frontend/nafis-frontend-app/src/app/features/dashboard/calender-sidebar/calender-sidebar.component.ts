@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {Component, Output, EventEmitter, HostListener} from '@angular/core';
 import {CommonModule, NgClass} from "@angular/common";
 import {CalendarEvent} from "../../../interfaces/calendarEvent";
 
@@ -56,6 +56,14 @@ export class CalendarSidebarComponent {
     this.selectedDate = null;
   }
 
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if (event.key === 'ArrowLeft') {
+      this.changeMonth('prev');
+    } else if (event.key === 'ArrowRight') {
+      this.changeMonth('next');
+    }
+  }
   isToday(date: Date): boolean {
     const today = new Date();
     return date.getDate() === today.getDate()
@@ -114,8 +122,8 @@ export class CalendarSidebarComponent {
   }
 
   private getMonthName(monthIndex: number): string {
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+      'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
     return monthNames[monthIndex];
   }
 }
