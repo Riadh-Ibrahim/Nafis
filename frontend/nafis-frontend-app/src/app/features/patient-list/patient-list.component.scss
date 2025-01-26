@@ -1,0 +1,40 @@
+.patient-list {
+    width: 100%;
+    margin: 1rem auto;
+    overflow-x: auto;
+  
+    .patient-table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th,
+      td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+  
+      th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+      }
+  
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+  
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+  

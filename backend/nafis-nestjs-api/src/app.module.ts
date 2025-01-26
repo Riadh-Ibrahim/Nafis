@@ -1,8 +1,15 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
+import { MqttModule } from './mqtt/mqtt.module';
+import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { DocumentsModule } from './documents/documents.module';
 import { MessagingModule } from './messaging/messaging.module';
 import { MessagingController } from './messaging/messaging.controller';
 import { MessagingService } from './messaging/messaging.service';
@@ -19,9 +26,15 @@ import { MessageEntity } from './messaging/entities/message.entity';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       synchronize: true,
-      entities: [MessageRequestEntity, ConversationEntity, MessageEntity],
-      // logging: true,
+      entities: [MessageRequestEntity, ConversationEntity, MessageEntityUser],
+      logging: true,
     }),
+    TypeOrmModule.forFeature([User]),
+    AuthModule,
+    UserModule,
+    MqttModule,
+    MedicalHistoryModule,
+    DocumentsModule,
     TypeOrmModule.forFeature([MessageRequestEntity, ConversationEntity, MessageEntity]),
     MessagingModule,
 
