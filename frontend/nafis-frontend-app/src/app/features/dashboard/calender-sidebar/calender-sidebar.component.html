@@ -1,5 +1,4 @@
 <div class="bg-space-cadet shadow-md rounded-lg p-4 space-y-4">
-
   <div class="flex items-center justify-between text-center text-white font-bold text-lg">
     <button (click)="changeMonth('prev')" class="px-2 py-1 hover:bg-blue-900 rounded">
       &lt;
@@ -28,7 +27,7 @@
   </div>
 
   <div class="mt-2 space-y-2" *ngIf="selectedDate">
-    <button class="w-full px-4 py-2 bg-white text-space-cadet rounded hover:bg-blue-100" (click)="addEvent()">Add Event</button>
+    <button class="w-full px-4 py-2 bg-white text-space-cadet rounded hover:bg-blue-100" (click)="addEvent()">Réserver un rendez-vous</button>
 
     <div class="text-white">
       <div *ngFor="let event of eventsForSelectedDate">{{ event.title }}</div>
