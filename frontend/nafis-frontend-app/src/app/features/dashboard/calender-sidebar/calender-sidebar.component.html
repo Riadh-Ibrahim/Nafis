@@ -1,6 +1,6 @@
 <div class="bg-space-cadet shadow-md rounded-lg p-4 space-y-4">
 
-  <div class="flex items-center justify-between text-center text-cyan-300 font-bold text-lg">
+  <div class="flex items-center justify-between text-center text-white font-bold text-lg">
     <button (click)="changeMonth('prev')" class="px-2 py-1 hover:bg-blue-900 rounded">
       &lt;
     </button>
@@ -14,7 +14,7 @@
     <div *ngFor="let day of weekdays" class="text-center">{{ day }}</div>
   </div>
 
-  <div class="grid grid-cols-7 gap-2 text-cyan-300">
+  <div class="grid grid-cols-7 gap-2 text-white">
     <div *ngFor="let date of calendar"
          [ngClass]="{
            'bg-cyan-300 text-space-cadet rounded-full': isToday(date),
