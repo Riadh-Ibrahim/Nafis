@@ -7,15 +7,7 @@ import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard
 import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
 import {Subject, takeUntil, catchError, EMPTY, Observable, switchMap, map} from 'rxjs';
 import {CalendarSidebarComponent} from "./calender-sidebar/calender-sidebar.component";
-
-interface DashboardState {
-  type: 'doctor' | 'patient' | null;
-  stats: any;
-  error: boolean;
-  greetingMessage: string;
-  fullName: string;
-  subtitle: string;
-}
+import {DashboardState} from "../../interfaces/dashboardState";
 
 @Component({
   selector: 'app-dashboard',
