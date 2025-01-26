@@ -1,25 +1,29 @@
 <div class="space-y-6">
   <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord patient</h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <div class="grid grid-cols-auto gap-4">
     <app-stat-card
       *ngFor="let stat of statCards"
       [title]="stat.title"
       [value]="stat.value()"
       [icon]="stat.icon"
-      [description]="stat.description">
+      [description]="stat.description"
+      class="transition-transform cursor-pointer
+      hover:-translate-y-1 duration-100">
     </app-stat-card>
   </div>
 
   <h2 class="text-lg font-bold text-space-cadet">Constantes récentes</h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-red-500">
+  <div class="grid grid-cols-auto gap-4 text-red-500">
     <app-stat-card
       *ngFor="let stat of recentStats"
       [title]="stat.title"
       [value]="stat.value()"
       [icon]="stat.icon"
-      [description]="stat.description">
+      [description]="stat.description"
+      class="transition-transform cursor-pointer
+      hover:-translate-y-1 duration-100">
     </app-stat-card>
   </div>
 </div>
