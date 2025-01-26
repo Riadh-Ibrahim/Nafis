@@ -219,50 +219,49 @@ export class MockDataService {
     alertesNonAcquittees: 15
   };
 
-  // Methods remain the same...
   getPatientStats(patientId: string): Observable<any> {
     if (!this.patientsMockData[patientId]) {
       return throwError(() => new Error(`Patient stats not found for ID: ${patientId}`));
     }
-    return of(this.patientsMockData[patientId]).pipe(delay(500));
+    return of(this.patientsMockData[patientId]).pipe(delay(100));
   }
 
   getMedicalStats(doctorId: string): Observable<any> {
     if (!this.doctorsMockData[doctorId]) {
       return throwError(() => new Error(`Doctor stats not found for ID: ${doctorId}`));
     }
-    return of(this.doctorsMockData[doctorId]).pipe(delay(500));
+    return of(this.doctorsMockData[doctorId]).pipe(delay(100));
   }
 
   getPersonnel(id: number): Observable<Personnel | null> {
     const personnel = this.personnelMockData.find(p => p.id === id);
     if (!personnel) {
-      return of(null).pipe(delay(500));
+      return of(null).pipe(delay(100));
     }
-    return of(personnel).pipe(delay(500));
+    return of(personnel).pipe(delay(100));
   }
 
   getAllPersonnel(): Observable<Personnel[]> {
-    return of(this.personnelMockData).pipe(delay(500));
+    return of(this.personnelMockData).pipe(delay(100));
   }
 
   getStatistiquesPresence(personnelId: number): Observable<StatistiquesPresence | null> {
     const stats = this.statistiquesPresenceMockData[personnelId];
     if (!stats) {
-      return of(null).pipe(delay(500));
+      return of(null).pipe(delay(100));
     }
-    return of(stats).pipe(delay(500));
+    return of(stats).pipe(delay(100));
   }
 
   getAdminStats(): Observable<AdminStats> {
-    return of(this.adminStatsMockData).pipe(delay(500));
+    return of(this.adminStatsMockData).pipe(delay(100));
   }
 
   getPatient(id: number): Observable<Patient | null> {
     if (!this.patients[id]) {
-      return of(null).pipe(delay(500));
+      return of(null).pipe(delay(100));
     }
-    return of(this.patients[id]).pipe(delay(500));
+    return of(this.patients[id]).pipe(delay(100));
   }
 
   // Helper method

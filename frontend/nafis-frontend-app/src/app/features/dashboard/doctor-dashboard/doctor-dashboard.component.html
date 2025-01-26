@@ -1,29 +1,13 @@
 <div class="space-y-6">
   <h2 class="text-2xl font-bold text-space-cadet">Tableau de bord médical</h2>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <app-stat-card
-      title="Patients du Jour"
-      [value]="stats?.todayPatients || 0"
-      icon="crowd.png"
-      description="Rendez-vous aujourd'hui"
-    ></app-stat-card>
-    <app-stat-card
-      title="Alertes Constantes"
-      [value]="stats?.vitalSignsAlerts || 0"
-      icon="vital-signs.png"
-      description="Alertes de surveillance"
-    ></app-stat-card>
-    <app-stat-card
-      title="Consultations"
-      [value]="stats?.consultations || 0"
-      icon="medical-appointment.png"
-      description="Consultations du jour"
-    ></app-stat-card>
-    <app-stat-card
-      title="Rendez-vous"
-      [value]="stats?.appointments || 0"
-      icon="doctors-office.png"
-      description="Prochains rendez-vous"
-    ></app-stat-card>
+      *ngFor="let stat of statCards"
+      [title]="stat.title"
+      [value]="stat.value()"
+      [icon]="stat.icon"
+      [description]="stat.description">
+    </app-stat-card>
   </div>
 </div>
