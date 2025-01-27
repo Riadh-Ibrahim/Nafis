@@ -18,13 +18,17 @@
             [stats]="state.stats"
           ></app-patient-dashboard>
         </ng-container>
-
       </ng-container>
     </ng-container>
   </div>
 
-  <div *ngIf="!(dashboardState$ | async)?.error" class="w-1/4 ml-6">
-    <app-calender-sidebar></app-calender-sidebar>
+  <div class="w-1/4 ml-6">
+    <ng-container *ngIf="dashboardState$ | async as state">
+      <app-calender-sidebar
+        [userId]="state.userId"
+        [userType]="state.type">
+      </app-calender-sidebar>
+    </ng-container>
   </div>
 </div>
 

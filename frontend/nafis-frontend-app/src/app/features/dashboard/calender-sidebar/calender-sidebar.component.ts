@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Output, EventEmitter, HostListener, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgClass } from "@angular/common";
-import { CalendarEvent } from "../../../interfaces/calendarEvent";
 import { CalendarService } from '../../../core/services/calendar.service';
-
+import { Subject, takeUntil } from 'rxjs';
+import { Rendezvous } from '../../../interfaces/rendezvous';
 
 @Component({
   selector: 'app-calender-sidebar',
@@ -12,17 +12,44 @@ import { CalendarService } from '../../../core/services/calendar.service';
     CommonModule
   ],
   templateUrl: './calender-sidebar.component.html',
-  styleUrl: './calender-sidebar.component.scss'
+  styleUrls: ['./calender-sidebar.component.scss']
 })
-export class CalendarSidebarComponent {
-  weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+export class CalendarSidebarComponent implements OnInit, OnDestroy {
+  @Input() userId!: number;
+  @Input() userType!: 'doctor' | 'patient';
+  @Output() appointmentAdded = new EventEmitter<Rendezvous>();
+
+  weekdays = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
   calendar: Date[] = [];
   selectedDate: Date | null = null;
-
-  @Output() eventAdded = new EventEmitter<CalendarEvent>();
+  allAppointments: Rendezvous[] = [];
+  displayedAppointments: Rendezvous[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(private calendarService: CalendarService) {
     this.updateCalendar();
+  }
+
+  ngOnInit() {
+    console.log('Calendar Init - UserId:', this.userId, 'UserType:', this.userType);
+
+    if (!this.userId || !this.userType) {
+      console.warn('Missing required inputs:', { userId: this.userId, userType: this.userType });
+      return;
+    }
+
+    this.calendarService.loadAppointments(this.userId, this.userType);
+    this.calendarService.appointments$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(appointments => {
+        console.log('Loaded appointments for', this.userType, this.userId, ':', appointments);
+        this.allAppointments = appointments;
+        this.updateDisplayedAppointments();
+      });
+  }
+  ngOnDestroy() {
+    this.destroy$.next(void 0);
+    this.destroy$.complete();
   }
 
   get currentMonth(): string {
@@ -40,6 +67,15 @@ export class CalendarSidebarComponent {
   changeMonth(direction: 'prev' | 'next'): void {
     this.calendar = this.calendarService.changeMonth(direction);
     this.selectedDate = null;
+    this.updateDisplayedAppointments();
+  }
+
+  private updateDisplayedAppointments(): void {
+    if (this.selectedDate) {
+      this.displayedAppointments = this.calendarService.getAppointmentsForDate(this.selectedDate);
+    } else {
+      this.displayedAppointments = this.allAppointments;
+    }
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -61,21 +97,21 @@ export class CalendarSidebarComponent {
 
   isSelectedDate(date: Date): boolean {
     return this.selectedDate !== null &&
-      date.toDateString() === this.selectedDate.toDateString();
+      date.getDate() === this.selectedDate.getDate() &&
+      date.getMonth() === this.selectedDate.getMonth() &&
+      date.getFullYear() === this.selectedDate.getFullYear();
   }
 
   selectDate(date: Date): void {
-    this.selectedDate = date;
-  }
-
-  get eventsForSelectedDate(): CalendarEvent[] {
-    return this.calendarService.getEventsForDate(this.selectedDate);
-  }
-
-  addEvent(): void {
-    const newEvent = this.calendarService.addEvent(this.selectedDate);
-    if (newEvent) {
-      this.eventAdded.emit(newEvent);
+    if (this.isSelectedDate(date)) {
+      this.selectedDate = null;
+    } else {
+      this.selectedDate = date;
     }
+    this.updateDisplayedAppointments();
+  }
+
+  hasAppointments(date: Date): boolean {
+    return this.calendarService.hasAppointmentsOnDate(date);
   }
 }

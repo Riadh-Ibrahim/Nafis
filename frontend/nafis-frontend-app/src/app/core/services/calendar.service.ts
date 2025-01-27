@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CalendarEvent } from "../../interfaces/calendarEvent";
+import { BehaviorSubject, Observable, map, catchError, of } from "rxjs";
+import { MockDataService } from "./mock-data.service";
+import { Rendezvous } from "../../interfaces/rendezvous";
 
 @Injectable({
   providedIn: 'root'
@@ -8,48 +10,59 @@ export class CalendarService {
   private _currentDate: Date = new Date();
   private _currentMonth: string = '';
   private _currentYear: number = 0;
+  private _appointments = new BehaviorSubject<Rendezvous[]>([]);
 
-  events: CalendarEvent[] = [
-    { date: [new Date(2025, 0, 14)], title: ['Take Elle for a walk'] },
-    { date: [new Date(2025, 0, 25)], title: ['Doctor appointment'] },
-    { date: [new Date(2025, 0, 28)], title: ['Medication refill'] }
-  ];
-
-  constructor() {}
+  constructor(private mockDataService: MockDataService) {
+    this.updateCurrentMonthAndYear();
+  }
 
   get currentMonth(): string {
     return this._currentMonth;
-  }
-
-  set currentMonth(month: string) {
-    this._currentMonth = month;
   }
 
   get currentYear(): number {
     return this._currentYear;
   }
 
-  set currentYear(year: number) {
-    this._currentYear = year;
+  get appointments$(): Observable<Rendezvous[]> {
+    return this._appointments.asObservable();
   }
 
-  get currentDate(): Date {
-    return this._currentDate;
-  }
+  loadAppointments(userId: number, userType: 'doctor' | 'patient'): void {
+    console.log('Loading appointments for:', userType, userId);
 
-  set currentDate(date: Date) {
-    this._currentDate = date;
+    if (!userId || !userType) {
+      console.log('Missing userId or userType, clearing appointments');
+      this._appointments.next([]);
+      return;
+    }
+
+    const observable = userType === 'doctor'
+      ? this.mockDataService.getDoctorRendezvous(userId)
+      : this.mockDataService.getPatientRendezvous(userId);
+
+    observable.pipe(
+      catchError(err => {
+        console.error('Failed to load appointments:', err);
+        return of([]);
+      })
+    ).subscribe(appointments => {
+      console.log('Loaded appointments:', appointments);
+      this._appointments.next(appointments);
+    });
+  }
+  private updateCurrentMonthAndYear(): void {
+    this._currentMonth = this.getMonthName(this._currentDate.getMonth());
+    this._currentYear = this._currentDate.getFullYear();
   }
 
   generateCalendar(): Date[] {
     const firstDay = new Date(this._currentDate.getFullYear(), this._currentDate.getMonth(), 1);
     const lastDay = new Date(this._currentDate.getFullYear(), this._currentDate.getMonth() + 1, 0);
 
-    this.currentMonth = this.getMonthName(this._currentDate.getMonth());
-    this.currentYear = this._currentDate.getFullYear();
-
     const calendar: Date[] = [];
     let currentDate = new Date(firstDay);
+
     while (currentDate <= lastDay) {
       calendar.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
@@ -62,20 +75,20 @@ export class CalendarService {
     const newDate = new Date(this._currentDate);
     newDate.setMonth(newDate.getMonth() + (direction === 'prev' ? -1 : 1));
     this._currentDate = newDate;
-
+    this.updateCurrentMonthAndYear();
     return this.generateCalendar();
   }
 
   isToday(date: Date): boolean {
     const today = new Date();
-    return date.getDate() === today.getDate()
-      && date.getMonth() === today.getMonth()
-      && date.getFullYear() === today.getFullYear();
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
   }
 
   isInCurrentMonth(date: Date): boolean {
-    return date.getMonth() === this._currentDate.getMonth()
-      && date.getFullYear() === this._currentDate.getFullYear();
+    return date.getMonth() === this._currentDate.getMonth() &&
+      date.getFullYear() === this._currentDate.getFullYear();
   }
 
   getMonthName(monthIndex: number): string {
@@ -84,22 +97,23 @@ export class CalendarService {
     return monthNames[monthIndex];
   }
 
-  addEvent(selectedDate: Date | null): CalendarEvent | null {
-    if (!selectedDate) return null;
+  getAppointmentsForDate(date: Date | null): Rendezvous[] {
+    if (!date || !this._appointments.value) return [];
 
-    const newEvent: CalendarEvent = {
-      date: [selectedDate],
-      title: ['New Event']
-    };
-
-    this.events.push(newEvent);
-    return newEvent;
+    return this._appointments.value.filter(appointment => {
+      const appointmentDate = new Date(appointment.date);
+      return appointmentDate.getDate() === date.getDate() &&
+        appointmentDate.getMonth() === date.getMonth() &&
+        appointmentDate.getFullYear() === date.getFullYear();
+    });
   }
 
-  getEventsForDate(date: Date | null): CalendarEvent[] {
-    if (!date) return [];
-    return this.events.filter(event =>
-      event.date.some(d => d.toDateString() === date.toDateString())
-    );
+  hasAppointmentsOnDate(date: Date): boolean {
+    return this._appointments.value.some(appointment => {
+      const appointmentDate = new Date(appointment.date);
+      return appointmentDate.getDate() === date.getDate() &&
+        appointmentDate.getMonth() === date.getMonth() &&
+        appointmentDate.getFullYear() === date.getFullYear();
+    });
   }
 }

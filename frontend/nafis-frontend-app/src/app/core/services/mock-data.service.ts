@@ -306,6 +306,7 @@ export class MockDataService {
   }
 
   getAllRendezvous(): Observable<Rendezvous[]> {
+    console.log('Mock appointments:', this.rendezvousMockData);
     return of(this.rendezvousMockData).pipe(delay(100));
   }
 
@@ -315,14 +316,17 @@ export class MockDataService {
   }
 
   getPatientRendezvous(patientId: number): Observable<Rendezvous[]> {
+    console.log('Getting patient appointments for ID:', patientId);
     const patientRendezvous = this.rendezvousMockData.filter(r => r.patientId === patientId);
+    console.log('Found appointments:', patientRendezvous);
     return of(patientRendezvous).pipe(delay(100));
   }
 
   getDoctorRendezvous(medecinId: number): Observable<Rendezvous[]> {
+    console.log('Getting doctor appointments for ID:', medecinId);
     const doctorRendezvous = this.rendezvousMockData.filter(r => r.medecinId === medecinId);
+    console.log('Found appointments:', doctorRendezvous);
     return of(doctorRendezvous).pipe(delay(100));
   }
-
 }
 
