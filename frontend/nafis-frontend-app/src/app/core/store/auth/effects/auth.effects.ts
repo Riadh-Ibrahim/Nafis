@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.login),
-      mergeMap(({ email, password }) =>
-        this.authService.login({ email, password }).pipe(
-          map(response => AuthActions.loginSuccess({ access_token: response.access_token })),
-          catchError(error => of(AuthActions.loginFailure({ error: error.message })))
+      ofType(AuthActions.login), // On écoute les actions de type login 
+      mergeMap(({ email, password }) =>  // On récupère les données de l'utilisateur
+        this.authService.login({ email, password }).pipe( // On appelle la méthode login du service AuthService
+          map(response => AuthActions.loginSuccess({ access_token: response.access_token })), // Si la connexion réussit, on envoie l'action loginSuccess avec le token reçu
+          catchError(error => of(AuthActions.loginFailure({ error: error.message })))   // Si la connexion échoue, on envoie l'action loginFailure avec le message d'erreur
         )
       )
     )
@@ -23,10 +23,10 @@ export class AuthEffects {
   loginSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.loginSuccess),
-        tap(({ access_token }) => {
-          this.authService.setToken(access_token);
-          this.router.navigate(['/dashboard']);
+        ofType(AuthActions.loginSuccess),   
+        tap(({ access_token }) => { // On récupère le token reçu après une connexion réussie
+          this.authService.setToken(access_token); // On stocke le token dans le service AuthService
+          this.router.navigate(['/dashboard']); // On redirige l'utilisateur vers le dashboard
         })
       ),
     { dispatch: false }
@@ -34,8 +34,8 @@ export class AuthEffects {
 
   register$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.register),
-      mergeMap(({ email, password }) =>
+      ofType(AuthActions.register), 
+      mergeMap(({ email, password }) =>  
         this.authService.register({ email, password }).pipe(
           map(() => AuthActions.registerSuccess()),
           catchError(error => of(AuthActions.registerFailure({ error: error.message })))

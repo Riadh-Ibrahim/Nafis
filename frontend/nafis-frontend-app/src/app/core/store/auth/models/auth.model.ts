@@ -3,7 +3,7 @@ export interface User {
     id?: string;
   }
   
-  export interface AuthState {
+  export interface AuthState {  // Définition de l'état de l'authentification
     user: User | null;
     isAuthenticated: boolean;
     isLoading: boolean;
