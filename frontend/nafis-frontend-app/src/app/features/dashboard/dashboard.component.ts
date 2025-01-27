@@ -1,11 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {  Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MockDataService } from '../../core/services/mock-data.service';
+import { MockDataService } from '../../services/mock-data.service';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
-import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
-import {Subject, takeUntil, catchError, EMPTY, Observable, switchMap, map} from 'rxjs';
+import { DashboardGreetingComponent } from './dashboard-greeting/dashboard-greeting.component';
+import {
+  Subject,
+  takeUntil,
+  catchError,
+  EMPTY,
+  Observable,
+  switchMap,
+  map,
+} from 'rxjs';
 
 interface DashboardState {
   type: 'doctor' | 'patient' | null;
@@ -24,9 +32,9 @@ interface DashboardState {
     DoctorDashboardComponent,
     PatientDashboardComponent,
     DashboardGreetingComponent,
-],
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -46,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private initializeDashboard() {
     this.dashboardState$ = this.route.url.pipe(
       takeUntil(this.destroy$),
-      switchMap(segments => {
+      switchMap((segments) => {
         if (segments.length < 2) {
           setTimeout(() => this.error$.next(true));
           return EMPTY;
@@ -64,31 +72,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  private loadData(type: 'doctor' | 'patient', id: string): Observable<DashboardState> {
+  private loadData(
+    type: 'doctor' | 'patient',
+    id: string
+  ): Observable<DashboardState> {
     const baseState: DashboardState = {
       type,
       stats: null,
       error: false,
       greetingMessage: '',
       fullName: '',
-      subtitle: ''
+      subtitle: '',
     };
 
     if (type === 'doctor') {
       return this.mockDataService.getPersonnel(parseInt(id)).pipe(
-        switchMap(personnel => {
+        switchMap((personnel) => {
           if (!personnel) {
             setTimeout(() => this.error$.next(true));
             return EMPTY;
           }
 
           return this.mockDataService.getMedicalStats(id).pipe(
-            map(stats => ({
+            map((stats) => ({
               ...baseState,
               stats,
               fullName: `${personnel.prenom} ${personnel.nom}`,
-              subtitle: `${personnel.specialite || 'Médecin'} - ${personnel.service}`,
-              greetingMessage: `${this.getTimeOfDay()}`
+              subtitle: `${personnel.specialite || 'Médecin'} - ${
+                personnel.service
+              }`,
+              greetingMessage: `${this.getTimeOfDay()}`,
             }))
           );
         }),
@@ -99,19 +112,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
       );
     } else {
       return this.mockDataService.getPatient(parseInt(id)).pipe(
-        switchMap(patient => {
+        switchMap((patient) => {
           if (!patient) {
             setTimeout(() => this.error$.next(true));
             return EMPTY;
           }
 
           return this.mockDataService.getPatientStats(id).pipe(
-            map(stats => ({
+            map((stats) => ({
               ...baseState,
               stats,
               fullName: `${patient.prenom} ${patient.nom}`,
               subtitle: `№ Sécurité Sociale: ${patient.numeroSecu}`,
-              greetingMessage: `${this.getTimeOfDay()}`
+              greetingMessage: `${this.getTimeOfDay()}`,
             }))
           );
         }),
