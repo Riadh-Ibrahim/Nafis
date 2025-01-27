@@ -3,12 +3,12 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { AdminStats, Personnel, StatistiquesPresence } from "../../interfaces/personnel";
 import { Patient } from "../../interfaces/patient";
+import {Rendezvous} from "../../interfaces/rendezvous";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MockDataService {
-  // Existing mock data structures...
   private patientsMockData: { [key: string]: any } = {
     '1': {
       upcomingAppointments: 3,
@@ -219,6 +219,42 @@ export class MockDataService {
     alertesNonAcquittees: 15
   };
 
+  private rendezvousMockData: Rendezvous[] = [
+    {
+      id: 1,
+      patientId: 1,
+      medecinId: 1,
+      date: "2025-02-01T10:00:00",
+      duree: 30,
+      motif: "Consultation annuelle",
+      statut: "PLANIFIE",
+      notes: "Vérifier le traitement actuel",
+      rappelEnvoye: false
+    },
+    {
+      id: 2,
+      patientId: 2,
+      medecinId: 1,
+      date: "2025-02-01T11:00:00",
+      duree: 20,
+      motif: "Douleur au dos",
+      statut: "CONFIRME",
+      notes: "Nécessite une IRM",
+      rappelEnvoye: true
+    },
+    {
+      id: 3,
+      patientId: 1,
+      medecinId: 2,
+      date: "2025-02-02T09:30:00",
+      duree: 45,
+      motif: "Suivi post-opératoire",
+      statut: "ANNULE",
+      notes: "Annulé par le patient",
+      rappelEnvoye: false
+    }
+  ];
+
   getPatientStats(patientId: string): Observable<any> {
     if (!this.patientsMockData[patientId]) {
       return throwError(() => new Error(`Patient stats not found for ID: ${patientId}`));
@@ -268,4 +304,25 @@ export class MockDataService {
   private idExists(id: number | string, collection: any): boolean {
     return collection.hasOwnProperty(id) || (Array.isArray(collection) && collection.some(item => item.id === id));
   }
+
+  getAllRendezvous(): Observable<Rendezvous[]> {
+    return of(this.rendezvousMockData).pipe(delay(100));
+  }
+
+  getRendezvousById(id: number): Observable<Rendezvous | null> {
+    const rendezvous = this.rendezvousMockData.find(r => r.id === id);
+    return of(rendezvous || null).pipe(delay(100));
+  }
+
+  getPatientRendezvous(patientId: number): Observable<Rendezvous[]> {
+    const patientRendezvous = this.rendezvousMockData.filter(r => r.patientId === patientId);
+    return of(patientRendezvous).pipe(delay(100));
+  }
+
+  getDoctorRendezvous(medecinId: number): Observable<Rendezvous[]> {
+    const doctorRendezvous = this.rendezvousMockData.filter(r => r.medecinId === medecinId);
+    return of(doctorRendezvous).pipe(delay(100));
+  }
+
 }
+
