@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { addNotification, markAsRead } from '../store/notification/notification.actions';
+import {
+  addNotification,
+  markAsRead,
+} from '../store/notification/notification.actions';
 import { alerte } from '../../interfaces/alerte';
 @Injectable({
   providedIn: 'root', // Le service est disponible dans toute l'application
@@ -8,7 +11,6 @@ import { alerte } from '../../interfaces/alerte';
 export class NotificationService {
   constructor(private store: Store) {}
 
-  
   addAlerte(type: 'CRITIQUE' | 'ATTENTION' | 'INFO', message: string): void {
     const alerte: alerte = {
       id: Date.now(), // Génère un ID unique basé sur le timestamp
@@ -20,7 +22,6 @@ export class NotificationService {
     this.store.dispatch(addNotification({ notification: alerte }));
   }
 
- 
   acquitterAlerte(id: number, acquitteePar?: string): void {
     this.store.dispatch(markAsRead({ id, acquitteePar }));
   }
