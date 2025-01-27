@@ -3,6 +3,7 @@ import { CommonModule, NgClass } from "@angular/common";
 import { CalendarEvent } from "../../../interfaces/calendarEvent";
 import { CalendarService } from '../../../core/services/calendar.service';
 
+
 @Component({
   selector: 'app-calender-sidebar',
   standalone: true,
