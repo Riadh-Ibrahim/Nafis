@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MockDataService } from '../../core/services/mock-data.service';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
 import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
@@ -42,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private initializeDashboard() {
     this.dashboardState$ = this.route.url.pipe(
       switchMap(segments => this.dashboardService.getDashboardState(segments)),
-      // Add tap operator to debug
+
       tap(state => {
         console.log('Dashboard State:', {
           type: state.type,
@@ -50,7 +49,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           error: state.error
         });
       }),
-      // Add error handling
       catchError(error => {
         console.error('Failed to initialize dashboard:', error);
         return EMPTY;
