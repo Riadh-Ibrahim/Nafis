@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MockDataService } from '../../services/mock-data.service';
 import { Patient } from '../../interfaces/patient';
 import { CommonModule } from '@angular/common';
@@ -8,12 +8,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './patient-list.component.html',
-  styleUrls: ['./patient-list.component.scss']
+  styleUrls: ['./patient-list.component.scss'],
 })
 export class PatientListComponent implements OnInit {
   @Input() patients: Patient[] = []; // Array to store the patients
 
-  constructor(private mockDataService: MockDataService) {}
+  constructor(
+    @Inject(MockDataService) private mockDataService: MockDataService
+  ) {}
 
   ngOnInit(): void {
     // Fetch all patients when the component initializes

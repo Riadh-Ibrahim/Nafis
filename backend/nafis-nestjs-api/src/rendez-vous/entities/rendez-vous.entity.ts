@@ -27,8 +27,13 @@ export class RendezVous {
     type: 'enum',
     enum: RendezvousStatut,
     default: RendezvousStatut.PLANIFIE,
+    enumName:'rendezvous_statut',
   })
   statut: RendezvousStatut;
+
+  @Column({ default: false })
+  rappelEnvoye: boolean;
+
 
   @ManyToOne(() => Patient, (patient) => patient.rendezvous)
   patient: Patient;
@@ -36,7 +41,7 @@ export class RendezVous {
   @ManyToOne(() => Personnel, (personnel) => personnel.rendezvous)
   medecin: Personnel;
 
-  // Synchronize patientId with the patient.id before insert or update
+  
   @BeforeInsert()
   @BeforeUpdate()
   syncPatientId() {

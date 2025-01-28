@@ -25,6 +25,7 @@ export class CongeDetail {
   @Column({
     type: 'enum',
     enum: CongeType,
+    enumName: 'conge_type',
   })
   type: CongeType;
 

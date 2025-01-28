@@ -44,10 +44,10 @@ export class PersonnelsController {
     const presences = await this.presencesService.findByPersonnelId(id);
 
     // Calculate statistics
-    const joursPresent = presences.filter(p => p.statut === 'present').length;
-    const joursAbsent = presences.filter(p => p.statut === 'absent').length;
-    const joursConge = presences.filter(p => p.statut === 'conge').length;
-    const joursMission = presences.filter(p => p.statut === 'mission').length;
+    const joursPresent = presences.filter(p => p.statut === 'PRESENT').length;
+    const joursAbsent = presences.filter(p => p.statut === 'ABSENT').length;
+    const joursConge = presences.filter(p => p.statut === 'CONGE').length;
+    const joursMission = presences.filter(p => p.statut === 'MISSION').length;
     const totalJours = presences.length;
     const tauxPresence = totalJours ? (joursPresent / totalJours) * 100 : 0;
 
