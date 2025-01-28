@@ -27,6 +27,26 @@ export class MessagingController {
     return this.messagingService.updateRequestStatus(requestId, updateStatusDto);
   }
 
+  @Post('conversations')
+  createOrFetchConversation(@Body() conversationDto: ConversationDto) {
+    return this.messagingService.createOrFetchConversation(conversationDto);
+  }
+
+  @Post('messages')
+  sendMessage(@Body() messageDto: MessageDto) {
+    return this.messagingService.sendMessage(messageDto);
+  }
+
+  @Get('conversations/:conversationId/messages')
+  getMessages(@Param('conversationId') conversationId: string) {
+    return this.messagingService.getMessages(conversationId);
+  }
+
+  @Put('messages/:messageId/seen')
+  markMessageAsSeen(@Param('messageId') messageId: string) {
+    return this.messagingService.markMessageAsSeen(messageId);
+  }
+}
   // @Get('conversation/:id')
   // getConversation(@Param('id') id: string) {
   //   return this.messagingService.getConversation(id);
@@ -39,4 +59,3 @@ export class MessagingController {
   // ) {
   //   return this.messagingService.sendMessage(id, sendMessageDto);
   // }
-}

@@ -6,6 +6,8 @@ import { ConversationEntity } from './entities/conversation.entity';
 import { MessageEntity } from './entities/message.entity';
 import { CreateMessageRequestDto } from './dto/create-message-request.dto';
 import { UpdateMessageStatusDto } from './dto/update-message-request.dto';
+import { ConversationDto } from './dto/conversation.dto';
+import { MessageDto } from './dto/message.dto';
 
 @Injectable()
 export class MessagingService {
@@ -103,4 +105,96 @@ export class MessagingService {
     messageRequest.statut = statut;
     return await this.messageRequestRepository.save(messageRequest);
   }
+  //-----------------------------------------------------------------------------------------
+  // Create or Fetch Conversation
+  async createOrFetchConversation(conversationDto: ConversationDto): Promise<ConversationEntity> {
+    const { patientId, doctorId } = conversationDto;
+  
+    // Check if a conversation already exists
+    let conversation = await this.conversationRepository.findOne({
+      where: { patientId, doctorId },
+      relations: ['messages'], // Fetch associated messages
+    });
+  
+    if (!conversation) {
+      // Create a new conversation if none exists
+      conversation = this.conversationRepository.create({
+        patientId,
+        doctorId,
+        dateDebut: new Date(),
+      });
+  
+      conversation = await this.conversationRepository.save(conversation);
+    }
+    return conversation;
+  }  
+  //-----------------------------------------------------------------------------------------
+  // Send Messages
+  async sendMessage(messageDto: MessageDto): Promise<MessageEntity> {
+    const { conversationId, expediteurId, expediteurType, contenu, dateEnvoi, seen, pieceJointe } = messageDto;
+  
+    // Fetch the conversation to ensure it exists
+    const conversation = await this.conversationRepository.findOne({
+      where: { id: conversationId },
+    });
+  
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found.');
+    }
+  
+    // Create and save the message
+    const message = this.messageRepository.create({
+      conversation,
+      expediteurId,
+      expediteurType,
+      contenu,
+      dateEnvoi: new Date(dateEnvoi),
+      seen,
+      pieceJointe,
+    });
+  
+    return await this.messageRepository.save(message);
+  }  
+  //-----------------------------------------------------------------------------------------
+  // Fetch Messages for a Conversation
+  async getMessages(conversationId: string): Promise<MessageEntity[]> {
+    const parsedConversationId = parseInt(conversationId, 10);
+  
+    if (isNaN(parsedConversationId)) {
+      throw new BadRequestException('Invalid conversationId. It must be a numeric value.');
+    }
+  
+    const messages = await this.messageRepository.find({
+      where: { conversation: { id: parsedConversationId } },
+      order: { dateEnvoi: 'ASC' }, // Sort messages by send date
+    });
+  
+    if (!messages.length) {
+      throw new NotFoundException('No messages found for this conversation.');
+    }
+  
+    return messages;
+  }
+  //-----------------------------------------------------------------------------------------
+  // Mark Messages as Seen
+  async markMessageAsSeen(messageId: string): Promise<MessageEntity> {
+    const parsedMessageId = parseInt(messageId, 10);
+  
+    if (isNaN(parsedMessageId)) {
+      throw new BadRequestException('Invalid messageId. It must be a numeric value.');
+    }
+  
+    const message = await this.messageRepository.findOne({
+      where: { id: parsedMessageId },
+    });
+  
+    if (!message) {
+      throw new NotFoundException('Message not found.');
+    }
+  
+    message.seen = true;
+    return await this.messageRepository.save(message);
+  }
+  //-----------------------------------------------------------------------------------------
+  // 
 }
