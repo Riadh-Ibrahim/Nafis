@@ -1,0 +1,47 @@
+<!-- temperature-chart.component.html -->
+<div class="chart-container">
+  <div class="chart-header">
+    <h2 class="chart-title">Real-Time Temperature Monitor</h2>
+    @if (currentTemperature()) {
+    <div class="temperature-display">
+      <span class="current-temp">{{ currentTemperature() }}°C</span>
+      <span class="timestamp"
+        >Last updated: {{ lastUpdateTime() | date : "medium" }}</span
+      >
+    </div>
+    }
+  </div>
+
+  <div class="chart-wrapper">
+    @if (isInitialized()) {
+    <canvas
+      *ngIf="isBrowser"
+      baseChart
+      [data]="chartData()"
+      [options]="chartOptions"
+      [type]="'line'"
+      class="temperature-chart"
+    >
+    </canvas>
+    } @else {
+    <div class="loading-indicator">
+      <span>Loading chart data...</span>
+    </div>
+    }
+  </div>
+
+  <div class="chart-footer">
+    @if (error()) {
+    <div class="error-message">
+      {{ error() }}
+    </div>
+    }
+
+    <div class="chart-controls">
+      <button (click)="toggleDataStream()" class="control-button">
+        {{ isStreaming() ? "Pause" : "Resume" }}
+      </button>
+      <button (click)="clearData()" class="control-button">Clear Data</button>
+    </div>
+  </div>
+</div>
