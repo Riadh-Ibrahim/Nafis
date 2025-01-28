@@ -1,4 +1,4 @@
-import { Component ,OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -11,23 +11,28 @@ import { NotificationService } from '../../core/services/notification.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
   alertes$: Observable<alerte[]>; // Observable pour suivre les notifications
 
-  constructor(private store: Store, private notificationService: NotificationService) {
+  constructor(
+    private store: Store,
+    private notificationService: NotificationService
+  ) {
     // Sélectionner les notifications depuis le store NgRx
     this.alertes$ = this.store.select(selectNotifications);
   }
 
   ngOnInit(): void {
     // Exemple : Ajouter une notification de test au démarrage
-    this.notificationService.addAlerte('INFO', 'Bienvenue dans le système de gestion hospitalière.');
+    this.notificationService.addAlerte(
+      'INFO',
+      'Bienvenue dans le système de gestion hospitalière.'
+    );
   }
 
   acquitterAlerte(id: number): void {
     this.notificationService.acquitterAlerte(id, 'Utilisateur');
   }
-
 }

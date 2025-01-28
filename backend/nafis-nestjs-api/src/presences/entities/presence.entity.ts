@@ -12,6 +12,7 @@ export class Presence {
   @Column({
     type: 'enum',
     enum: PersonnelStatut,
+    enumName: 'personnel_statut',
   })
   statut: PersonnelStatut; 
 
@@ -24,7 +25,7 @@ export class Presence {
   @ManyToOne(() => Personnel, (personnel) => personnel.presences)
   personnel: Personnel;
 
-  // Ensure personnelId is synchronized with personnel.id before insert or update
+
   @BeforeInsert()
   @BeforeUpdate()
   syncPersonnelId() {

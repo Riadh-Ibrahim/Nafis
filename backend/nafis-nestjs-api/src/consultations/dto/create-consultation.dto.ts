@@ -1,14 +1,15 @@
-import { IsString, IsDateString, IsArray, IsNotEmpty, IsInt } from 'class-validator';
-import { Patient } from 'src/patients/entities/patient.entity';
+import { IsString, IsDate, IsArray, IsNotEmpty, IsInt } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateConsultationDto {
-  @IsDateString()
+  @IsDate()
   @IsNotEmpty()
+  @Type(() => Date) // Automatically transforms ISO string to Date
   date: Date;
 
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
-  medecin: string;
+  medecinId: number;
 
   @IsString()
   @IsNotEmpty()
@@ -21,7 +22,4 @@ export class CreateConsultationDto {
   @IsInt()
   @IsNotEmpty()
   patientId: number;
-
-  // Optional: If you want to include the patient data in the DTO
-  patient?: Patient;
 }
