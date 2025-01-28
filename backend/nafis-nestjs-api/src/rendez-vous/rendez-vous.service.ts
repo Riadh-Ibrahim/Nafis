@@ -137,13 +137,11 @@ export class RendezVousService {
             await this.sendReminder(appointment);
           }
         } catch (error) {
-          this.logger.error(
-            `Error processing appointment ${appointment.id}: ${error.message}`,
-          );
+          
         }
       }
     } catch (error) {
-      this.logger.error(`Error in handleReminders: ${error.message}`);
+      
     }
   }
 

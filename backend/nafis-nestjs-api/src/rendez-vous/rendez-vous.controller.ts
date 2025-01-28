@@ -52,10 +52,7 @@ export class RendezVousController {
         message: `Reminder sent successfully for appointment ID ${id}`,
       };
     } catch (error) {
-      throw new HttpException(
-        `Failed to send reminder: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+     
     }
   }
   
