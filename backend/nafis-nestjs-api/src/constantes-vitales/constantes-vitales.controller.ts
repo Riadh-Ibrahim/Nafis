@@ -8,9 +8,20 @@ export class ConstantesVitalesController {
   constructor(private readonly constantesVitalesService: ConstantesVitalesService) {}
 
   @Post()
-  create(@Body() createConstantesVitaleDto: CreateConstantesVitalesDto) {
-    return this.constantesVitalesService.create(createConstantesVitaleDto);
-  }
+async create(@Body() createConstantesVitaleDto: CreateConstantesVitalesDto) {
+  // Create and save the constantes vitales
+  const savedConstantes = await this.constantesVitalesService.create(createConstantesVitaleDto);
+
+  // Analyze the constantes and detect any anomalies
+  const anomalies = await this.constantesVitalesService.analyzeConstantes(savedConstantes.patientId);
+
+  // Return both the saved constantes and any anomalies found
+  return {
+    savedConstantes,
+    anomalies,
+  };
+}
+
 
   @Get()
   findAll() {
