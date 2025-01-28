@@ -4,7 +4,7 @@ import { UpdateConstantesVitaleDto } from './dto/update-constantes-vitale.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConstantesVitales } from './entities/constantes-vitale.entity';
 import { Repository } from 'typeorm';
-import { VitalsMetricsService } from 'src/metrics/vitals-metrics.service';
+import { VitalsMetricsService } from 'src/metrics/vital-metrics.service';
 import { Alerte, AlerteType } from 'src/alerte/entities/alerte.entity';
 import { AlertesService } from 'src/alerte/alerte.service';
 @Injectable()
