@@ -3,6 +3,7 @@ import { Personnel } from "src/personnels/entities/personnel.entity";
 import { CongeDetail } from "./conge-detail.entity";
 import { AbsenceDetail } from "./absence-detail.entity";
 import { MissionDetail } from "./mission-detail.entity";
+import { Presence } from "src/presences/entities/presence.entity";
 
 @Entity('statistiques_presence')
 export class StatistiquesPresence {
@@ -30,10 +31,11 @@ export class StatistiquesPresence {
   @Column('float', { nullable: false })
   tauxPresence: number;
 
-  @Column('text', { array: true, nullable: false })
-  presencesDetaillees: string[];
+  // Establish a OneToMany relationship with Presence
+  @OneToMany(() => Presence, (presence) => presence.personnel)
+  presencesDetaillees: Presence[];
 
-  @ManyToOne(() => Personnel, (personnel) => personnel.id)
+  @ManyToOne(() => Personnel, (personnel) => personnel.presences)
   personnel: Personnel;
 
   // Ensure personnelId is synchronized with personnel.id before insert or update
@@ -44,6 +46,7 @@ export class StatistiquesPresence {
       this.personnelId = this.personnel.id;
     }
   }
+
   @OneToMany(() => CongeDetail, (conge) => conge.statistiquesPresence)
   conges: CongeDetail[];
 

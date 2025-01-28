@@ -1,29 +1,37 @@
-/* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, ManyToOne } from 'typeorm';
 import { Consultation } from 'src/consultations/entities/consultation.entity';
 import { Document } from 'src/documents/entities/document.entity';
 import { Chambre } from 'src/chambres/entities/chambre.entity';
 import { RendezVous } from 'src/rendez-vous/entities/rendez-vous.entity';
 import { ConstantesVitales } from 'src/constantes-vitales/entities/constantes-vitale.entity';
-import { Admin } from 'src/admin/admin.entity';
-import { User } from 'src/user/entities/user.entity';
-import { MedicalHistory } from 'src/medical-history/entities/medical-history.entity';
-
 @Entity('patients')
 export class Patient {
   @PrimaryGeneratedColumn()
   id: number;
-  
-  @OneToOne(()=>User, { onDelete: 'CASCADE', eager: true })
-  @JoinColumn()
-  user: User;
 
-  @OneToOne(() => MedicalHistory, (medicalHistory) => medicalHistory.patient)
-  medicalHistory: MedicalHistory;
+  @Column()
+  nom: string;
 
-  @ManyToOne(() => Admin, (admin) => admin.patients)
-  admin: Admin;
+  @Column()
+  prenom: string;
 
+  @Column({ type: 'date' })
+  dateNaissance: Date;
+
+  @Column()
+  numeroSecu: string;
+
+  @Column({ nullable: true })
+  adresse: string;
+
+  @Column({ nullable: true })
+  telephone: string;
+
+  @Column({ nullable: true })
+  email: string;
+
+  @Column({ nullable: true })
+  photoUrl: string;
   @OneToMany(() => Consultation, (consultation) => consultation.patientId)
   consultations: Consultation[];
 
@@ -35,6 +43,6 @@ export class Patient {
 
   @OneToMany(() => ConstantesVitales, (cv) => cv.patientId)
   cv: ConstantesVitales[];
-  @OneToOne(() => Chambre, (chambre) => chambre.patientId)
+  @ManyToOne(() => Chambre, (chambre) => chambre.patients)
   chambre: Chambre;
 }

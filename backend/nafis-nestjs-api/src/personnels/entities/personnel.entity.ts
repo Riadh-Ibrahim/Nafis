@@ -1,9 +1,6 @@
-/* eslint-disable prettier/prettier */
-import { Entity,PrimaryGeneratedColumn,Column,OneToMany, JoinColumn, OneToOne} from 'typeorm';
+import { Entity,PrimaryGeneratedColumn,Column,OneToMany} from 'typeorm';
 import { Presence } from 'src/presences/entities/presence.entity';
 import { RendezVous } from 'src/rendez-vous/entities/rendez-vous.entity';
-import { User } from 'src/user/entities/user.entity';
-
 export enum PersonnelType {
     MEDECIN = 'MEDECIN',
     INFIRMIER = 'INFIRMIER',
@@ -43,27 +40,41 @@ export class Personnel{
     @PrimaryGeneratedColumn()
     id: number;
   
+    @Column()
+    nom: string;
+  
+    @Column()
+    prenom: string;
+  
     @Column({
       type: 'enum',
       enum: PersonnelType,
+      enumName: 'personnel_type',
     })
     type: PersonnelType;
   
     @Column({
       type: 'enum',
       enum: PersonnelCategorie,
+      enumName: 'personnel_categorie',
     })
     categorie: PersonnelCategorie;
   
     @Column({
       type: 'enum',
       enum: Specialite,
-      nullable: true,
+      enumName: 'personnel_specialite',
     })
     specialite: Specialite;
   
     @Column()
     service: string;
+  
+    @Column()
+    email: string;
+  
+    @Column()
+    telephone: string;
   
     @Column()
     matricule: string;
@@ -75,12 +86,9 @@ export class Personnel{
       type: 'enum',
       enum: PersonnelStatut,
       default: PersonnelStatut.PRESENT,
+      enumName: 'personnel_statut',
     })
     statut: PersonnelStatut;
-
-    @OneToOne(()=>User, { onDelete: 'CASCADE', eager: true })
-    @JoinColumn()
-    user: User;
 
     @OneToMany(()=>Presence,(presence)=>presence.personnelId)
     presences: Presence[];
