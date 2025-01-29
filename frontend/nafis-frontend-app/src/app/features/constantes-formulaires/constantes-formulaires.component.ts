@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Thermometer, Heart, Activity } from 'lucide-angular';
-
+import { ConstantesService } from '../../core/services/ConstantesViatles.service';
 @Component({
   selector: 'app-constantes-formulaires',
   standalone: true,
@@ -17,19 +17,35 @@ import { LucideAngularModule, Thermometer, Heart, Activity } from 'lucide-angula
 export class ConstantesFormulairesComponent {
   constantesForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private constantesService: ConstantesService,
+  ) {
     this.constantesForm = this.fb.group({
       temperature: ['', [Validators.required, Validators.min(35), Validators.max(42)]],
-      heartRate: ['', [Validators.required, Validators.min(30), Validators.max(200)]],
-      bloodPressure: ['', [Validators.required, Validators.pattern(/^\d{2,3}\/\d{2,3}$/)]], 
-      oxygenSaturation: ['', [Validators.required, Validators.min(50), Validators.max(100)]],
+      frequenceCardiaque: ['', [Validators.required, Validators.min(30), Validators.max(200)]],
+      tensionArterielle: ['', [Validators.required, Validators.pattern(/^\d{2,3}\/\d{2,3}$/)]],
+      saturationOxygene: ['', [Validators.required, Validators.min(50), Validators.max(100)]],
     });
   }
 
   onSubmit(): void {
     if (this.constantesForm.valid) {
-      console.log('Form Data:', this.constantesForm.value);
-      alert('Les constantes vitales ont été enregistrées avec succès !');
+      const formData = this.constantesForm.value;
+      this.constantesService.saveConstantes(formData).subscribe({
+        next: (response) => {
+          console.log('Backend Response:', response);
+          if (response.anomalies && response.anomalies.length > 0) {
+            alert(`Anomalies détectées : ${response.anomalies.join(', ')}`);
+          } else {
+            alert('Les constantes vitales ont été enregistrées avec succès !');
+          }
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          alert('Une erreur est survenue lors de l\'enregistrement.');
+        },
+      });
     } else {
       alert('Veuillez vérifier les valeurs saisies.');
     }
