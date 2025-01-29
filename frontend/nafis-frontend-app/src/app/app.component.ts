@@ -4,7 +4,7 @@ import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { FooterComponent } from './shared/footer/footer.component';
 import { LucideAngularModule } from 'lucide-angular';
 import { IconsModule } from '../icons.module';
-import { ChatbotComponent } from './features/chatbot/chatbot.component';
+// import { ChatbotComponent } from './features/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ import { ChatbotComponent } from './features/chatbot/chatbot.component';
     NavbarComponent,
     FooterComponent,
     IconsModule ,
-    ChatbotComponent,
+    // ChatbotComponent,
 
 ],
   templateUrl: './app.component.html',
