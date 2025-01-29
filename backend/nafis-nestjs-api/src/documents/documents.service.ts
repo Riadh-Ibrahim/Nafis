@@ -40,15 +40,15 @@ export class DocumentsService {
     return document;
   }
 
-  async update(id: number, updateDocumentDto: UpdateDocumentDto) {
-    const document = await this.findOne(id);
+  async update(a:{id: number, updateDocumentDto: UpdateDocumentDto}) {
+    const document = await this.findOne(a.id);
     if (!document) {
       throw new NotFoundException('Document not found');
     }
 
     // If patientId is being updated, validate the patient
-    if (updateDocumentDto.patientId && updateDocumentDto.patientId !== document.patientId) {
-      const patient = await this.patientsService.findOne(updateDocumentDto.patientId);
+    if (a.updateDocumentDto.patientId && a.updateDocumentDto.patientId !== document.patientId) {
+      const patient = await this.patientsService.findOne(a.updateDocumentDto.patientId);
       if (!patient) {
         throw new NotFoundException('Patient not found');
       }
@@ -56,7 +56,7 @@ export class DocumentsService {
     }
 
     // Update the document with the new data
-    Object.assign(document, updateDocumentDto);
+    Object.assign(document, a.updateDocumentDto);
     return await this.documentsRepository.save(document);
   }
 

@@ -3,42 +3,43 @@ import { IsEmail } from "class-validator";
 import { UserRoleEnum } from "../../enums/user-role.enum";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Patient } from "src/patients/entities/patient.entity";
-import { Admin } from "src/admin/admin.entity";
+import { Admin } from "src/admin/entities/admin.entity";
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id', unsigned: true})
     id: number;
 
-    @Column( {nullable: false})
+    @Column( {nullable: true})
     firstname: string;
 
-    @Column({nullable: false})
+    @Column({nullable: true})
     lastname: string;
     
     @IsEmail()
     @Column()
     email: string;
 
-    @Column({ length: 100, nullable: false})
+    @Column({ length: 100, nullable: true})
     password: string;
 
     @Column({
         type: 'enum', 
         enum: UserRoleEnum, 
+        enumName: 'user_role'
     })
     role: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'date',nullable:true })
     dateNaissance: Date;
 
-    @Column()
+    @Column({nullable:true})
     numeroSecu: string;
 
-    @Column()
+    @Column({nullable:true})
     adresse: string;
 
-    @Column()
+    @Column({nullable:true})
     telephone: string;
 
     @Column({ nullable: true })

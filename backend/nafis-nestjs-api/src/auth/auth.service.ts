@@ -10,6 +10,7 @@ import { UserRoleEnum } from 'src/enums/user-role.enum';
 import { User } from 'src/user/entities/user.entity';
 import { PatientsService } from 'src/patients/patients.service';
 import { AdminService } from 'src/admin/admin.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
   
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userService: UserService,
     private readonly patientService: PatientsService,
     private readonly adminService: AdminService,
     private readonly jwtService: JwtService
@@ -37,7 +38,7 @@ export class AuthService {
   async signup(newUser: SignupDto) {
     this.logger.log('Signup method called with DTO:', newUser);
 
-    const existingUser = this.userRepository.findOne({where: { email: newUser.email }});
+    const existingUser = this.userService.findByEmail(newUser.email);
     if (existingUser) {
       throw new ConflictException("Email is already in use");
     }
@@ -46,13 +47,13 @@ export class AuthService {
 
     console.log("signup password is ", newUser.password)
 
-    const user = this.userRepository.create(newUser);
-    const userEntity = await this.userRepository.save(user);
+    const user = await this.userService.add(newUser);
+    const userEntity = await this.userService.save(user);
 
     if (newUser.role == UserRoleEnum.ADMIN) {
       
       try {
-        await this.adminService.create(userEntity.id, {});
+        await this.adminService.create(userEntity.id, {firstname:'',lastname:'',email:'',password:'',role:UserRoleEnum.VIDE});
         console.log('admin enitty is created');
       
       }
@@ -74,7 +75,7 @@ export class AuthService {
 
       
       try {
-        await this.patientService.create(userEntity.id, admin, {});
+        await this.patientService.create({ Admin: { id: admin.id },nom:'',prenom:'',numeroSecu:'',dateNaissance: new Date('2025-08-08') });
         
       }
   
@@ -94,9 +95,7 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
     
-    const user = await this.userRepository.findOne({
-      where: { email},
-    });
+    const user = await this.userService.findByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException("invalid email");

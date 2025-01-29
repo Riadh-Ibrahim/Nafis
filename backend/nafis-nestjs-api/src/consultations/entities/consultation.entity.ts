@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BeforeInsert, Before
 import { Patient } from 'src/patients/entities/patient.entity';
 import { Personnel, PersonnelType } from 'src/personnels/entities/personnel.entity';
 import { PersonnelsService } from 'src/personnels/personnels.service';
+import { MedicalHistory } from 'src/medical-history/entities/medical-history.entity';
 
 @Entity('consultations')
 export class Consultation {
@@ -34,4 +35,6 @@ export class Consultation {
       this.patientId = this.patient.id;
     }
   }
+   @ManyToOne(() => MedicalHistory, (medicalHistory) => medicalHistory.consultations, { cascade: true })
+    medicalHistory: MedicalHistory;
 }
