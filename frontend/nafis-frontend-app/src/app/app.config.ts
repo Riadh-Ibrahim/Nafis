@@ -21,7 +21,9 @@
     Bell,
     Package, 
     DollarSign,
-    Phone
+    Phone,
+    Stethoscope,
+    
   } from 'lucide-angular';
   export const appConfig: ApplicationConfig = {
     providers: [
@@ -43,7 +45,8 @@
         Bell,
         'dollar-sign': DollarSign,
         Phone,
-       }).providers || []
+        Stethoscope, // Include the Lungs icon here
+      }).providers || []
 
       
     ]

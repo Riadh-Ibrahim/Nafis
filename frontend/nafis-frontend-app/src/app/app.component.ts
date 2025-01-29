@@ -4,16 +4,19 @@ import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { FooterComponent } from './shared/footer/footer.component';
 import { LucideAngularModule } from 'lucide-angular';
 import { IconsModule } from '../icons.module';
+import { ChatbotComponent } from './features/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    
     LucideAngularModule,
     RouterOutlet,
     NavbarComponent,
     FooterComponent,
     IconsModule ,
+    ChatbotComponent,
 
 ],
   templateUrl: './app.component.html',

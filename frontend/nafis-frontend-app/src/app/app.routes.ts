@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'constantes',
+    path: 'constantes-vitales',
     loadChildren: () => import("./features/constantes-formulaires/constantes-formulaires.routes").then(m => m.CONSTANTES_ROUTES)
   },
   
