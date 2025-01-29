@@ -28,6 +28,10 @@ import { ChambreHistorique } from './chambres/entities/chambre-historique.entity
 import { CongeDetail } from './statistiques-presences/entities/conge-detail.entity';
 import { AbsenceDetail } from './statistiques-presences/entities/absence-detail.entity';
 import { MissionDetail } from './statistiques-presences/entities/mission-detail.entity';
+import { MessagingModule } from './messaging/messaging.module';
+import { MessageEntity } from './messaging/entities/message.entity';
+import { MessageRequestEntity } from './messaging/entities/message-request.entity';
+import { ConversationEntity } from './messaging/entities/conversation.entity';
 
 @Module({
   imports: [
@@ -38,7 +42,7 @@ import { MissionDetail } from './statistiques-presences/entities/mission-detail.
       type: 'postgres',
       url: process.env.DATABASE_URL,
       synchronize: false,
-      entities: [Admin,Alerte,Chambre,ConstantesVitales,Consultation,Document,MedicalHistory,Patient,Personnel,Presence,RendezVous,StatistiquesPresence,User,ChambreLog,ChambreHistorique,CongeDetail,AbsenceDetail,MissionDetail],
+      entities: [Admin,Alerte,Chambre,ConstantesVitales,Consultation,Document,MedicalHistory,Patient,Personnel,Presence,RendezVous,StatistiquesPresence,User,ChambreLog,ChambreHistorique,CongeDetail,AbsenceDetail,MissionDetail, MessageEntity, MessageRequestEntity, ConversationEntity],
       logging: true,
     }),
     TypeOrmModule.forFeature([User]),
@@ -47,7 +51,8 @@ import { MissionDetail } from './statistiques-presences/entities/mission-detail.
     MqttModule,
     MedicalHistoryModule,
     DocumentsModule,
-    AdminModule
+    AdminModule,
+    MessagingModule
   ],
   controllers: [AppController],
   providers: [AppService],
