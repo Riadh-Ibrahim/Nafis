@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateMedicalHistoryDto } from './dto/update-medical-history.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MedicalHistory } from './entities/medical-history.entity';
@@ -15,10 +15,12 @@ export class MedicalHistoryService {
   constructor(
     @InjectRepository(MedicalHistory)
     private readonly medicalHistoryRepository: Repository<MedicalHistory>,
-    @InjectRepository(Patient)
-    private readonly patientRepository: Repository<Patient>,
+   
+    @Inject(forwardRef(() => DocumentsService))
     private readonly documentService: DocumentsService,
+    @Inject(forwardRef(() => ConsultationsService))
     private readonly consultationService: ConsultationsService,
+    @Inject(forwardRef(() => PatientsService))
     private readonly patientService: PatientsService,
   ) {}
 
@@ -38,11 +40,11 @@ export class MedicalHistoryService {
       }
 
       const createDocumentEntities = documents && documents.length > 0  
-      ? await Promise.all(documents.map((documentDto) => this.documentService.addDocument(documentDto)))
+      ? await Promise.all(documents.map((documentDto) => this.documentService.create(documentDto)))
       : [];
 
       const createConsultationsEntities = consultations && consultations.length > 0  
-      ? await Promise.all(consultations.map((consultationDto) => this.consultationService.addConsultation(consultationDto)))
+      ? await Promise.all(consultations.map((consultationDto) => this.consultationService.create(consultationDto)))
       : [];
       
       const medicalHistory = this.medicalHistoryRepository.create({
@@ -57,7 +59,7 @@ export class MedicalHistoryService {
   }
   
   async getMedicalHistory(patientId: number) {
-    const patient = await this.patientRepository.findOne({where: {id: patientId}});
+    const patient = await this.patientService.findOne(patientId);
 
     if (!patient) {
       throw new NotFoundException("Couldn't find the patient");
@@ -88,18 +90,18 @@ export class MedicalHistoryService {
     if (documents) {
       await this.handleEntitiesUpdate(
         documents, 
-        this.documentService.updateDocument, 
-        this.documentService.addDocument, 
-        this.documentService.removeDocument,
+        this.documentService.update, 
+        this.documentService.create, 
+        this.documentService.remove,
       )
     }
 
     if (consultations) {
       await this.handleEntitiesUpdate(
         consultations, 
-        this.consultationService.updateConsultation, 
-        this.consultationService.addConsultation, 
-        this.consultationService.removeConsultation,
+        this.consultationService.update,
+        this.consultationService.create, 
+        this.consultationService.remove,
       )
     }
 
