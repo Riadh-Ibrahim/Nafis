@@ -1,75 +1,43 @@
-// import {
-//     WebSocketGateway,
-//     WebSocketServer,
-//     SubscribeMessage,
-//     OnGatewayInit,
-//     OnGatewayConnection,
-//     OnGatewayDisconnect,
-//   } from '@nestjs/websockets';
-//   import { Server, Socket } from 'socket.io';
-//   import { Injectable, Logger } from '@nestjs/common';
-//   import { MessagingService } from './messaging.service';
+import {
+    WebSocketGateway,
+    WebSocketServer,
+    SubscribeMessage,
+    MessageBody,
+  } from '@nestjs/websockets';
+  import { Server } from 'socket.io';
+  import { MessagingService } from './messaging.service';
+  import { MessageDto } from './dto/message.dto';
   
-//   @WebSocketGateway({ namespace: '/messaging', cors: true }) // Use a namespace and configure CORS if needed
-//   @Injectable()
-//   export class MessagingGateway
-//     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-//   {
-//     @WebSocketServer()
-//     server: Server;
+  @WebSocketGateway({ cors: true })
+  export class MessagingGateway {
+    @WebSocketServer()
+    server: Server;
   
-//     private logger = new Logger('MessagingGateway');
+    constructor(private readonly messagingService: MessagingService) {}
   
-//     constructor(private readonly messagingService: MessagingService) {}
+    // Notify the doctor of a new request
+    async notifyNewRequest(doctorId: number, request: any) {
+      this.server.to(`doctor_${doctorId}`).emit('newRequest', request);
+    }
   
-//     // Triggered when the gateway initializes
-//     afterInit(server: Server) {
-//       this.logger.log('WebSocket Gateway Initialized');
-//     }
+    // Notify participants of a new conversation
+    async notifyNewConversation(conversationId: number) {
+      this.server.to(`conversation_${conversationId}`).emit('conversationCreated');
+    }
   
-//     // Triggered when a client connects
-//     handleConnection(client: Socket) {
-//       this.logger.log(`Client connected: ${client.id}`);
-//     }
+    @SubscribeMessage('sendMessage')
+    async handleSendMessage(@MessageBody() messageDto: MessageDto) {
+      const message = await this.messagingService.sendMessage(messageDto);
   
-//     // Triggered when a client disconnects
-//     handleDisconnect(client: Socket) {
-//       this.logger.log(`Client disconnected: ${client.id}`);
-//     }
+      // Broadcast the message to participants
+      this.server.to(`conversation_${messageDto.conversationId}`).emit('newMessage', message);
   
-//     // Listen for a "sendMessage" event
-//     @SubscribeMessage('sendMessage')
-//     async handleSendMessage(client: Socket, payload: any) {
-//       const { conversationId, expediteurId, expediteurType, contenu } = payload;
+      return message;
+    }
   
-//       // Save the message to the database using the service
-//       const message = await this.messagingService.saveMessage({
-//         conversationId,
-//         expediteurId,
-//         expediteurType,
-//         contenu,
-//         dateEnvoi: new Date(),
-//         seen: false,
-//         pieceJointe: payload.pieceJointe || null,
-//       });
-  
-//       // Emit the new message to the participants of the conversation
-//       this.server.to(`conversation-${conversationId}`).emit('newMessage', message);
-  
-//       return message;
-//     }
-  
-//     // Listen for a "joinConversation" event
-//     @SubscribeMessage('joinConversation')
-//     handleJoinConversation(client: Socket, payload: { conversationId: number }) {
-//       const { conversationId } = payload;
-//       client.join(`conversation-${conversationId}`);
-//       this.logger.log(`Client ${client.id} joined conversation-${conversationId}`);
-//     }
-  
-//     // Notify doctors of new requests
-//     async notifyNewRequest(doctorId: number, request: any) {
-//       this.server.to(`doctor-${doctorId}`).emit('newRequest', request);
-//     }
-//   }
-  
+    @SubscribeMessage('joinConversation')
+    handleJoinConversation(@MessageBody() conversationId: number) {
+      const room = `conversation_${conversationId}`;
+      this.server.socketsJoin(room);
+    }
+  }  

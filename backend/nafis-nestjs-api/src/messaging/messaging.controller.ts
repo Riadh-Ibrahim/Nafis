@@ -47,15 +47,3 @@ export class MessagingController {
     return this.messagingService.markMessageAsSeen(messageId);
   }
 }
-  // @Get('conversation/:id')
-  // getConversation(@Param('id') id: string) {
-  //   return this.messagingService.getConversation(id);
-  // }
-
-  // @Post('conversation/:id')
-  // sendMessage(
-  //   @Param('id') id: string,
-  //   @Body() sendMessageDto: SendMessageDto,
-  // ) {
-  //   return this.messagingService.sendMessage(id, sendMessageDto);
-  // }

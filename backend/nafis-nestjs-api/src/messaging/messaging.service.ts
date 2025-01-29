@@ -8,6 +8,7 @@ import { CreateMessageRequestDto } from './dto/create-message-request.dto';
 import { UpdateMessageStatusDto } from './dto/update-message-request.dto';
 import { ConversationDto } from './dto/conversation.dto';
 import { MessageDto } from './dto/message.dto';
+import { MessagingGateway } from './messaging.gateway';
 
 @Injectable()
 export class MessagingService {
@@ -20,6 +21,8 @@ export class MessagingService {
 
     @InjectRepository(MessageEntity)
     private readonly messageRepository: Repository<MessageEntity>,
+
+    private readonly gateway: MessagingGateway,
   ) {}
 
   //--------------------------------------------------------------------------------------
@@ -46,8 +49,13 @@ export class MessagingService {
       dateCreation: new Date(),
     });
 
+    const savedRequest = await this.messageRequestRepository.save(newRequest);
+
+    // Notify the doctor of the new request
+    await this.gateway.notifyNewRequest(doctorId, savedRequest);
+
     // Step 3: Save the request to the database
-    return await this.messageRequestRepository.save(newRequest);
+    return savedRequest;
   }
 
   //-----------------------------------------------------------------------------------------
@@ -103,7 +111,27 @@ export class MessagingService {
 
     // Step 4: Update the status
     messageRequest.statut = statut;
-    return await this.messageRequestRepository.save(messageRequest);
+    const updatedRequest = await this.messageRequestRepository.save(messageRequest);
+  
+    // Notify the doctor and patient of status change
+    this.gateway.server.to(`doctor_${messageRequest.doctorId}`).emit('requestStatusUpdated', updatedRequest);
+    this.gateway.server.to(`patient_${messageRequest.patientId}`).emit('requestStatusUpdated', updatedRequest);
+  
+    // If approved, create a conversation
+    if (statut === StatutMessageRequest.ACCEPTE) {
+      const conversationDto: ConversationDto = {
+        patientId: messageRequest.patientId,
+        doctorId: messageRequest.doctorId,
+        dateDebut: new Date(),
+        messages: [],
+      };
+      const conversation = await this.createOrFetchConversation(conversationDto);
+  
+      // Notify the participants of the new conversation
+      this.gateway.notifyNewConversation(conversation.id);
+    }
+  
+    return updatedRequest;
   }
   //-----------------------------------------------------------------------------------------
   // Create or Fetch Conversation
