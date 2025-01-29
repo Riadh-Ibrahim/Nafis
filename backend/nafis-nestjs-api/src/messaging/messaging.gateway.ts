@@ -7,13 +7,14 @@ import {
   import { Server } from 'socket.io';
   import { MessagingService } from './messaging.service';
   import { MessageDto } from './dto/message.dto';
+  import { forwardRef, Inject } from '@nestjs/common';
   
   @WebSocketGateway({ cors: true })
   export class MessagingGateway {
     @WebSocketServer()
     server: Server;
   
-    constructor(private readonly messagingService: MessagingService) {}
+    constructor(@Inject(forwardRef(() => MessagingService)) private readonly messagingService: MessagingService) {}
   
     // Notify the doctor of a new request
     async notifyNewRequest(doctorId: number, request: any) {
