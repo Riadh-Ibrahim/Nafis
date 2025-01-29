@@ -9,11 +9,11 @@ import { ConsultationsModule } from 'src/consultations/consultations.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Personnel]),
-    PresencesModule, // Handle potential circular dependency
-    forwardRef(() => ConsultationsModule), // Handle potential circular dependency
+    forwardRef(() => PresencesModule),
+    forwardRef(() => ConsultationsModule),
   ],
   controllers: [PersonnelsController],
   providers: [PersonnelsService],
-  exports: [PersonnelsService], // Export service if needed elsewhere
+  exports: [PersonnelsService],
 })
 export class PersonnelsModule {}

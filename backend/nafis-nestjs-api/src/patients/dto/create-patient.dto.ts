@@ -32,4 +32,7 @@ export class CreatePatientDto {
   @IsOptional()
   @IsString()
   photoUrl?: string;
+  
+  Admin?: { id: number };
+
 }
