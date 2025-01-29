@@ -42,16 +42,16 @@ export class ConsultationsService {
     return await this.consultationsRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateConsultationDto: UpdateConsultationDto) {
-    const consultation = await this.findOne(id);
+  async update(a: { id: number; updateConsultationDto: UpdateConsultationDto; }) {
+    const consultation = await this.findOne(a.id);
     if (!consultation) {
       throw new NotFoundException('Consultation not found');
     }
   
     // If the medecinId is being updated, validate the new medecinId
-    if (updateConsultationDto.medecinId && updateConsultationDto.medecinId !== consultation.medecin.id) {
+    if (a.updateConsultationDto.medecinId && a.updateConsultationDto.medecinId !== consultation.medecin.id) {
       // Validate the new medecinId
-      const medecin = await this.personnelService.findOne(updateConsultationDto.medecinId);
+      const medecin = await this.personnelService.findOne(a.updateConsultationDto.medecinId);
       if (!medecin || medecin.type !== PersonnelType.MEDECIN) {
         throw new BadRequestException('The selected personnel must be a doctor (MEDECIN)');
       }
@@ -61,7 +61,7 @@ export class ConsultationsService {
     }
   
     // Update the consultation with the new data
-    Object.assign(consultation, updateConsultationDto);
+    Object.assign(consultation, a.updateConsultationDto);
   
     // Save the updated consultation
     return await this.consultationsRepository.save(consultation);
