@@ -1,9 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../models/auth.model';
+import { UserRoleEnum } from '../../../enums/user-role.enum';
 
 export const login = createAction(
   '[Auth] Login',// Type de l'action
-  props<{ email: string; password: string }>() // Payload (données associées)
+  props<{ email: string; password: string ;role:string}>() // Payload (données associées)
 );
 
 export const loginSuccess = createAction(
@@ -18,7 +19,7 @@ export const loginFailure = createAction(
 
 export const register = createAction(
   '[Auth] Register',
-  props<{ email: string; password: string }>() // Données de l'utilisateur à créer
+  props<{ firstname: string; lastname: string; email: string; password: string; role: UserRoleEnum }>() // Données de l'utilisateur à créer
 );
 
 export const registerSuccess = createAction(
