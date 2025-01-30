@@ -32,6 +32,7 @@ import { MessagingModule } from './messaging/messaging.module';
 import { MessageEntity } from './messaging/entities/message.entity';
 import { MessageRequestEntity } from './messaging/entities/message-request.entity';
 import { ConversationEntity } from './messaging/entities/conversation.entity';
+import { MailModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { ConversationEntity } from './messaging/entities/conversation.entity';
       url: process.env.DATABASE_URL,
       synchronize: false,
       entities: [Admin,Alerte,Chambre,ConstantesVitales,Consultation,Document,MedicalHistory,Patient,Personnel,Presence,RendezVous,StatistiquesPresence,User,ChambreLog,ChambreHistorique,CongeDetail,AbsenceDetail,MissionDetail, MessageEntity, MessageRequestEntity, ConversationEntity],
-      logging: true,
+      logging: false,
     }),
     TypeOrmModule.forFeature([User]),
     AuthModule,
@@ -52,7 +53,8 @@ import { ConversationEntity } from './messaging/entities/conversation.entity';
     MedicalHistoryModule,
     DocumentsModule,
     AdminModule,
-    MessagingModule
+    MessagingModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AppService],

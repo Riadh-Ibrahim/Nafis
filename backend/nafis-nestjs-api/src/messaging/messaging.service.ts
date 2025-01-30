@@ -128,7 +128,7 @@ export class MessagingService {
       const conversation = await this.createOrFetchConversation(conversationDto);
   
       // Notify the participants of the new conversation
-      this.gateway.notifyNewConversation(conversation.id);
+      this.gateway.notifyNewConversation(conversation.id, conversation.patientId, conversation.doctorId);
     }
   
     return updatedRequest;
@@ -154,8 +154,14 @@ export class MessagingService {
   
       conversation = await this.conversationRepository.save(conversation);
     }
+  
+    // Emit a socket event to notify the users that the conversation is created
+    this.gateway.server.to(`doctor_${doctorId}`).emit('newConversation', conversation);
+    this.gateway.server.to(`patient_${patientId}`).emit('newConversation', conversation);
+  
     return conversation;
-  }  
+  }
+  
   //-----------------------------------------------------------------------------------------
   // Send Messages
   async sendMessage(messageDto: MessageDto): Promise<MessageEntity> {
@@ -176,7 +182,7 @@ export class MessagingService {
       expediteurId,
       expediteurType,
       contenu,
-      dateEnvoi: new Date(dateEnvoi),
+      dateEnvoi: new Date(),
       seen,
       pieceJointe,
     });
