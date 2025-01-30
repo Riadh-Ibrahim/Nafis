@@ -29,7 +29,7 @@ export class MessageEntity {
   @Column()
   seen: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   pieceJointe: string;
 
   @ManyToOne(() => ConversationEntity, (conversation) => conversation.messages)

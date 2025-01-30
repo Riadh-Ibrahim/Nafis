@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsEnum, IsBoolean, IsDateString } from 'class-validator';
+import { IsInt, IsString, IsEnum, IsBoolean, IsDateString, IsOptional } from 'class-validator';
 import { ExpediteurType } from '../entities/message.entity';
 
 export class MessageDto {
@@ -20,6 +20,7 @@ export class MessageDto {
   @IsBoolean()
   seen: boolean;
 
+  @IsOptional()
   @IsString()
   pieceJointe: string;
 }
