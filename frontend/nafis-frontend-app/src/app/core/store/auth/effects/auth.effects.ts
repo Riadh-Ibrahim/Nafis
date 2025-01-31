@@ -11,10 +11,10 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      mergeMap(({ email, password }) =>
-        this.authService.login({ email, password }).pipe(
-          map(response => AuthActions.loginSuccess({ access_token: response.access_token })),
-          catchError(error => of(AuthActions.loginFailure({ error: error.message })))
+      mergeMap(({ email, password, role }) =>
+        this.authService.login({ email, password, role }).pipe(
+          map((response) => AuthActions.loginSuccess({ access_token: response.access_token })),
+          catchError((error) => of(AuthActions.loginFailure({ error: error.message })))
         )
       )
     )
@@ -35,10 +35,10 @@ export class AuthEffects {
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
-      mergeMap(({ email, password }) =>
-        this.authService.register({ email, password }).pipe(
+      mergeMap(({ firstname, lastname, email, password, role }) =>
+        this.authService.register({ firstname, lastname, email, password, role }).pipe(
           map(() => AuthActions.registerSuccess()),
-          catchError(error => of(AuthActions.registerFailure({ error: error.message })))
+          catchError((error) => of(AuthActions.registerFailure({ error: error.message })))
         )
       )
     )

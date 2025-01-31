@@ -1,20 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
 import { DashboardGreetingComponent } from "./dashboard-greeting/dashboard-greeting.component";
-import {Subject, takeUntil, catchError, Observable, switchMap, map, EMPTY} from 'rxjs';
+import { Subject, takeUntil, catchError, Observable, switchMap, map, EMPTY } from 'rxjs';
 import { CalendarSidebarComponent } from "./calender-sidebar/calender-sidebar.component";
 import { DashboardState } from "../../interfaces/dashboardState";
 import { DashboardService } from "../../core/services/dashboard.service";
-import {tap} from "rxjs/operators";
+import { tap } from "rxjs/operators";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    RouterOutlet,
     CommonModule,
     DoctorDashboardComponent,
     PatientDashboardComponent,
@@ -22,7 +21,7 @@ import {tap} from "rxjs/operators";
     CalendarSidebarComponent
   ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
@@ -41,7 +40,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private initializeDashboard() {
     this.dashboardState$ = this.route.url.pipe(
       switchMap(segments => this.dashboardService.getDashboardState(segments)),
-
       tap(state => {
         console.log('Dashboard State:', {
           type: state.type,
@@ -64,6 +62,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getUserType(state: DashboardState): 'doctor' | 'patient' {
     return state.type;
   }
+
   ngOnDestroy() {
     this.destroy$.next(void 0);
     this.destroy$.complete();

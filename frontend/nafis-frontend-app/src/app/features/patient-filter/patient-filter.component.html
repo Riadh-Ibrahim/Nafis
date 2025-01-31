@@ -1,0 +1,32 @@
+<div class="patient-filter">
+    <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
+      <div class="grid grid-cols-2 gap-4">
+        <input 
+          formControlName="nom" 
+          placeholder="Filtrer par nom" 
+          class="input"
+        >
+        <input 
+          formControlName="prenom" 
+          placeholder="Filtrer par prénom" 
+          class="input"
+        >
+        <input 
+          formControlName="numeroSecu" 
+          placeholder="Numéro de sécurité sociale" 
+          class="input"
+        >
+        <input 
+          formControlName="telephone" 
+          placeholder="Téléphone" 
+          class="input"
+        >
+        <button 
+          type="submit" 
+          class="col-span-2 btn btn-primary"
+        >
+          Filtrer
+        </button>
+      </div>
+    </form>
+  </div>

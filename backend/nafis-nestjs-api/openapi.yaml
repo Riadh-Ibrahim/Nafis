@@ -101,6 +101,118 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoriqueMedical'
 
+  /api/messaging/request:
+    post:
+      tags:
+        - Messaging
+      summary: Envoyer une demande de communication à un médecin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        '201':
+          description: Demande de communication créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageRequest'
+        '400':
+          description: Demande invalide
+
+  /api/messaging/requests/{doctorId}:
+    get:
+      tags:
+        - Messaging
+      summary: Récupérer les demandes de communication pour un médecin
+      parameters:
+        - name: doctorId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des demandes de communication
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageRequest'
+
+  /api/messaging/requests/{requestId}/status:
+    put:
+      tags:
+        - Messaging
+      summary: Mettre à jour le statut d'une demande de communication
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                statut:
+                  type: string
+                  enum: [ACCEPTE, REFUSE]
+      responses:
+        '200':
+          description: Statut de la demande mis à jour
+
+  /api/messaging/conversation/{Id}:
+    get:
+      tags:
+        - Messaging
+      summary: Récupérer les messages d'une conversation
+      parameters:
+        - name: Id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des messages de la conversation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+    post:
+      tags:
+        - Messaging
+      summary: Envoyer un message dans une conversation
+      parameters:
+        - name: Id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '201':
+          description: Message envoyé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
   /api/surveillance/constantes/{patientId}:
     get:
       tags:
@@ -277,6 +389,39 @@ components:
         photoUrl:
           type: string
 
+    HistoriqueMedical:
+      type: object
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        consultations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Consultation'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'      
+
+    Consultation:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        medecin:
+          type: string
+        diagnostic:
+          type: string
+        prescriptions:
+          type: array
+          items:
+            type: string   
+
     Personnel:
       type: object
       required:
@@ -452,6 +597,7 @@ components:
       properties:
         numero:
 
+
           type: number
         type:
           type: string
@@ -558,6 +704,60 @@ components:
         acquitteePar:
           type: string
 
+    MessageRequest:
+      type: object
+      required:
+        - patientId
+        - doctorId
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        doctorId:
+          type: integer
+        statut:
+          type: string
+          enum: [EN_ATTENTE, ACCEPTE, REFUSE]
+        dateCreation:
+          type: string
+          format: date-time
+
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: integer
+        patientId:
+          type: integer
+        doctorId:
+          type: integer
+        dateDebut:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        conversationId:
+          type: integer
+        expediteurId:
+          type: integer
+        expediteurType:
+          type: string
+          enum: [PATIENT, MEDECIN]
+        contenu:
+          type: string
+        dateEnvoi:
+          type: string
+          format: date-time
+        seen:
+          type: boolean
+        pieceJointe:
+          type: string
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -566,3 +766,4 @@ components:
 
 security:
   - bearerAuth: []
+

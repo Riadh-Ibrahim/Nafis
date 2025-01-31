@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PatientsService } from './patients.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
-import { KeycloakGuard } from 'src/guards/keycloack.guard';
+
 import { UseGuards } from '@nestjs/common';
 @Controller('patients')
 export class PatientsController {
@@ -14,7 +14,7 @@ export class PatientsController {
   }
 
   @Get()
-  @UseGuards(KeycloakGuard) 
+  
   findAll() {
     return this.patientsService.findAll();
   }

@@ -1,7 +1,14 @@
-import { IsString, IsNotEmpty, IsOptional, IsDateString } from 'class-validator';
-import { CreatePersonBaseDto } from 'src/common/dto/create-person-base.dto';
+import { IsString, IsNotEmpty, IsEmail, IsOptional, IsDateString } from 'class-validator';
 
-export class CreatePatientDto extends CreatePersonBaseDto {
+export class CreatePatientDto {
+  @IsNotEmpty()
+  @IsString()
+  nom: string;
+
+  @IsNotEmpty()
+  @IsString()
+  prenom: string;
+
   @IsNotEmpty()
   @IsDateString()
   dateNaissance: Date;
@@ -12,9 +19,20 @@ export class CreatePatientDto extends CreatePersonBaseDto {
 
   @IsOptional()
   @IsString()
-  adresse: string;
+  adresse?: string;
 
   @IsOptional()
   @IsString()
-  telephone: string;
+  telephone?: string;
+
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  photoUrl?: string;
+  
+  Admin?: { id: number };
+
 }

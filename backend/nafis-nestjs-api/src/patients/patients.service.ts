@@ -56,4 +56,7 @@ export class PatientsService {
       consultations: patient.consultations, 
     };
   }
+  async findByIds(ids: number[]): Promise<Patient[]> {
+    return await this.patientsRepository.findByIds(ids); 
+  }
 }

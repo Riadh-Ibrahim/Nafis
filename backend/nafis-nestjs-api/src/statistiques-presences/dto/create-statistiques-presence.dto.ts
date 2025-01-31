@@ -1,7 +1,10 @@
-import { IsString, IsNotEmpty, IsInt, IsOptional, IsArray, IsNumber } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsInt, IsNotEmpty, IsNumber, IsString, IsArray, IsOptional } from 'class-validator';
 
 export class CreateStatistiquesPresenceDto {
+  @IsNotEmpty()
+  @IsInt()
+  personnelId: number;
+
   @IsNotEmpty()
   @IsString()
   mois: string;
@@ -22,19 +25,24 @@ export class CreateStatistiquesPresenceDto {
   @IsInt()
   joursMission: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
-  @Transform(({ value }) => parseFloat(value)) // Ensure it's treated as a float
-  tauxPresence: number;
-
-  @IsNotEmpty()
-  @IsArray()
-  presencesDetaillees: string[];
-
-  @IsNotEmpty()
-  @IsInt()
-  personnelId: number; // Pass the personnelId in the DTO
+  tauxPresence?: number;
 
   @IsOptional()
-  commentaire?: string;
+  @IsArray()
+  @IsInt({ each: true })
+  presencesDetaillees?: number[];
+
+  @IsArray()
+  @IsInt({ each: true })
+  conges: number[];
+
+  @IsArray()
+  @IsInt({ each: true })
+  absences: number[];
+
+  @IsArray()
+  @IsInt({ each: true })
+  missions: number[];
 }

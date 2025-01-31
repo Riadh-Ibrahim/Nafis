@@ -1,0 +1,9 @@
+<div class="notification-container">
+    <div *ngFor="let alerte of alertes$ | async" class="notification" [class.acquittee]="alerte.acquittee">
+      <p [ngClass]="{'critique': alerte.type === 'CRITIQUE', 'attention': alerte.type === 'ATTENTION', 'info': alerte.type === 'INFO'}">
+        {{ alerte.message }}
+      </p>
+      <button *ngIf="!alerte.acquittee" (click)="acquitterAlerte(alerte.id)">Acquitter</button>
+      <span *ngIf="alerte.acquittee">Acquittée par {{ alerte.acquitteePar }}</span>
+    </div>
+  </div>

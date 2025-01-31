@@ -49,19 +49,21 @@ export class Personnel{
     @Column({
       type: 'enum',
       enum: PersonnelType,
+      enumName: 'personnel_type',
     })
     type: PersonnelType;
   
     @Column({
       type: 'enum',
       enum: PersonnelCategorie,
+      enumName: 'personnel_categorie',
     })
     categorie: PersonnelCategorie;
   
     @Column({
       type: 'enum',
       enum: Specialite,
-      nullable: true,
+      enumName: 'personnel_specialite',
     })
     specialite: Specialite;
   
@@ -84,6 +86,7 @@ export class Personnel{
       type: 'enum',
       enum: PersonnelStatut,
       default: PersonnelStatut.PRESENT,
+      enumName: 'personnel_statut',
     })
     statut: PersonnelStatut;
 

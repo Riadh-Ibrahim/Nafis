@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
 import { AuthState } from '../models/auth.model';
-
-export const initialState: AuthState = {
+//  Le reducer gère les modifications de l'état en fonction des actions dispatchées.
+export const initialState: AuthState = { 
   user: null,
   isAuthenticated: false,
   isLoading: false,
@@ -10,12 +10,12 @@ export const initialState: AuthState = {
   access_token: null
 };
 
-export const authReducer = createReducer(
+export const authReducer = createReducer(   // Création du reducer
   initialState,
-  on(AuthActions.login, (state) => ({
-    ...state,
-    isLoading: true,
-    error: null
+  on(AuthActions.login, (state) => ({ // On écoute l'action login
+    ...state, // On renvoie l'état actuel
+    isLoading: true,    // On met à jour isLoading à true
+    error: null // On met à jour isLoading à true et on réinitialise l'erreur
   })),
   on(AuthActions.loginSuccess, (state, { access_token }) => ({
     ...state,

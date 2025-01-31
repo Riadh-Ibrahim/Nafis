@@ -1,13 +1,20 @@
-// src/mqtt/mqtt.module.ts
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { MqttService } from './mqtt.service';
 import { MqttController } from './mqtt.controller';
-import { ConstantesVitalesModule } from '../constantes-vitales/constantes-vitales.module';
+import { ConstantesVitales } from '../constantes-vitales/entities/constantes-vitale.entity';
+import { ConstantesVitalesService } from '../constantes-vitales/constantes-vitales.service';
+import { MetricsModule } from '../metrics/metrics.module';
+import { AlertesModule } from 'src/alerte/entities/alerte.module';
 
 @Module({
-  imports: [ConstantesVitalesModule],
-  providers: [MqttService],
+  imports: [
+    TypeOrmModule.forFeature([ConstantesVitales]), 
+    MetricsModule,
+    AlertesModule
+  ],
+  providers: [MqttService, ConstantesVitalesService],
   controllers: [MqttController],
-  exports: [MqttService],
+  exports: [MqttService]
 })
 export class MqttModule {}
