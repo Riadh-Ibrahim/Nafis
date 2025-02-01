@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { temperature } from '../interfaces/temperature';
+import { temperature } from '../../interfaces/temperature';
 
 @Injectable({
   providedIn: 'root',

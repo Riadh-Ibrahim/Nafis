@@ -328,5 +328,44 @@ export class MockDataService {
     console.log('Found appointments:', doctorRendezvous);
     return of(doctorRendezvous).pipe(delay(100));
   }
+  
+  getAllPatients(): Observable<Patient[]> {
+    const patients: Patient[] = [
+      {
+        id: 1,
+        nom: 'Durant',
+        prenom: 'Martin',
+        dateNaissance: '1980-05-15',
+        numeroSecu: '180055789456123',
+        adresse: '123 rue de la Santé, 75014 Paris',
+        telephone: '0687654321',
+        email: 'martin.durant@email.com',
+      },
+      {
+        id: 2,
+        nom: 'Dupont',
+        prenom: 'Sophie',
+        dateNaissance: '1990-08-25',
+        numeroSecu: '190085678912345',
+        adresse: '456 avenue de la Liberté, 75010 Paris',
+        telephone: '0786543210',
+        email: 'sophie.dupont@email.com',
+      },
+      // Ajoutez d'autres patients si nécessaire
+      {
+        id: 3,
+        nom: 'Leroy',
+        prenom: 'Jean',
+        dateNaissance: '1975-03-10',
+        numeroSecu: '175035678912345',
+        adresse: '789 rue de la République, 69002 Lyon',
+        telephone: '0612345678',
+        email: 'jean.leroy@email.com',
+      },
+    ];
+
+    return of(patients).pipe(delay(500));
+  }
+
 }
 
