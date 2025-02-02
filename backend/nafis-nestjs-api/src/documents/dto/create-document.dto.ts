@@ -1,4 +1,5 @@
-import { IsString, IsDateString, IsNotEmpty, IsUrl, IsInt } from 'class-validator';
+import { IsString, IsNotEmpty, IsDateString, IsUrl, IsInt } from 'class-validator';
+import { Patient } from 'src/patients/entities/patient.entity';
 
 export class CreateDocumentDto {
   @IsString()
@@ -24,4 +25,7 @@ export class CreateDocumentDto {
   @IsInt()
   @IsNotEmpty()
   patientId: number;
+
+  // Optional: If you want to include the patient data in the DTO
+  patient?: Patient;
 }

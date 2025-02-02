@@ -14,6 +14,7 @@ export class Alerte {
   @Column({
     type: 'enum',
     enum: AlerteType,
+    enumName: 'alerte_type',
   })
   type: AlerteType;
 

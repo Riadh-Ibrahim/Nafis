@@ -64,7 +64,9 @@ import {
       Sun,
       LogOut,
       Ambulance,
-    }), // Fournit l'icône Bell
+    }),
+
+
   ],
   exports: [
     LucideAngularModule, // Exporte le module pour qu'il soit utilisable ailleurs

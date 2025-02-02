@@ -35,6 +35,10 @@ export const routes: Routes = [
       import(
         './features/constantes-formulaires/constantes-formulaires.routes'
       ).then((m) => m.CONSTANTES_ROUTES),
+   },
+  {
+    path: 'constantes-vitales',
+    loadChildren: () => import("./features/constantes-formulaires/constantes-formulaires.routes").then(m => m.CONSTANTES_ROUTES)
   },
 
   {

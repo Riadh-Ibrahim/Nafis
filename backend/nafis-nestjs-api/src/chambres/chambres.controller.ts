@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { ChambresService } from './chambres.service';
 import { CreateChambreDto } from './dto/create-chambre.dto';
 import { UpdateChambreDto } from './dto/update-chambre.dto';
@@ -8,27 +8,34 @@ export class ChambresController {
   constructor(private readonly chambresService: ChambresService) {}
 
   @Post()
-  create(@Body() createChambreDto: CreateChambreDto) {
-    return this.chambresService.create(createChambreDto);
+  async create(@Body() createChambreDto: CreateChambreDto) {
+    return await this.chambresService.create(createChambreDto);
   }
 
   @Get()
-  findAll() {
-    return this.chambresService.findAll();
+  async findAll() {
+    return await this.chambresService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.chambresService.findOne(+id);
+  @Get(':numero')
+  async findOne(@Param('numero') numero: number) {
+    const chambre = await this.chambresService.findOne(+numero);
+    if (!chambre) {
+      throw new NotFoundException(`Chambre with numero ${numero} not found`);
+    }
+    return chambre;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChambreDto: UpdateChambreDto) {
-    return this.chambresService.update(+id, updateChambreDto);
+  @Patch(':numero')
+  async update(
+    @Param('numero') numero: number,
+    @Body() updateChambreDto: UpdateChambreDto,
+  ) {
+    return await this.chambresService.update(+numero, updateChambreDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.chambresService.remove(+id);
+  @Delete(':numero')
+  async remove(@Param('numero') numero: number) {
+    return await this.chambresService.remove(+numero);
   }
 }
