@@ -17,7 +17,6 @@ export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   
   constructor(
-    @InjectRepository(User)
     private readonly userService: UserService,
     private readonly patientService: PatientsService,
     private readonly adminService: AdminService,
@@ -38,7 +37,7 @@ export class AuthService {
   async signup(newUser: SignupDto) {
     this.logger.log('Signup method called with DTO:', newUser);
 
-    const existingUser = this.userService.findByEmail(newUser.email);
+    const existingUser = await this.userService.findByEmail(newUser.email);
     if (existingUser) {
       throw new ConflictException("Email is already in use");
     }
