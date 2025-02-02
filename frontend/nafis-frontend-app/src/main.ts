@@ -7,13 +7,14 @@ import { provideEffects } from '@ngrx/effects';
 import { authReducer } from './app/core/store/auth/reducers/auth.reducer';
 import { AuthEffects } from './app/core/store/auth/effects/auth.effects';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(routes),
     provideStore({ auth: authReducer }), 
-    provideEffects([AuthEffects]),     
+    provideEffects([AuthEffects]), provideAnimationsAsync(),     
   ],
 }).catch(err => console.error(err));
 
