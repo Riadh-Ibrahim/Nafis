@@ -1,0 +1,28 @@
+<div class="top-section">
+  @for (widget of widgets; track widget.category) {
+  <app-widgets [widget]="widget"></app-widgets>
+  }
+</div>
+
+<div class="middle-section" style="margin: 20px">
+  <div class="widget left">
+    <app-consultation-by-month></app-consultation-by-month>
+  </div>
+  <div class="widget right">
+    <app-consultation-by-category></app-consultation-by-category>
+  </div>
+</div>
+<div class="middle-section">
+  <div class="widget left">
+    <app-consultation-by-doctor></app-consultation-by-doctor>
+  </div>
+  <div class="widget right">
+    <app-last-few-transactions></app-last-few-transactions>
+  </div>
+</div>
+
+<!--
+patients en attente
+
+chambres
+ -->
