@@ -9,6 +9,7 @@ import * as AuthSelectors from '../../core/store/auth/selectors/auth.selectors';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideStore } from '@ngrx/store';
 import { authReducer } from '../../core/store/auth/reducers/auth.reducer';
+import { UserRoleEnum } from '../../core/enums/user-role.enum';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -20,6 +21,7 @@ import { authReducer } from '../../core/store/auth/reducers/auth.reducer';
 export class LoginComponent implements OnInit {
   authForm: FormGroup;
   isLoginMode = true;
+  userRoles = Object.values(UserRoleEnum);
 
   isLoading$ = this.store.select(AuthSelectors.selectIsLoading);
   error$ = this.store.select(AuthSelectors.selectAuthError);
@@ -30,7 +32,10 @@ export class LoginComponent implements OnInit {
   ) {
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', Validators.required],
+      firstname: [''], 
+      lastname: [''],
     });
   }
 
@@ -43,6 +48,13 @@ export class LoginComponent implements OnInit {
       if (this.isLoginMode) {
         this.store.dispatch(AuthActions.login(credentials));
       } else {
+        const registrationData = {
+          firstname: credentials.firstname,
+          lastname: credentials.lastname,
+          email: credentials.email,
+          password: credentials.password,
+          role: credentials.role,
+        };
         this.store.dispatch(AuthActions.register(credentials));
       }
     }
@@ -50,5 +62,7 @@ export class LoginComponent implements OnInit {
 
   toggleAuthMode(): void {
     this.isLoginMode = !this.isLoginMode;
+    this.authForm.reset();
+
   }
 }

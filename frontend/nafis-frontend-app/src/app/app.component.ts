@@ -6,12 +6,13 @@ import { LucideAngularModule } from 'lucide-angular';
 import { IconsModule } from '../icons.module';
 import { TemperatureChartComponent } from './features/charts/charts.component';
 import { RealtimeTemperatureChartComponent } from './shared/realtime-chart/realtime-chart.component';
-// import { TemperatureChartComponent } from './features/charts/charts.component';
+// import { ChatbotComponent } from './features/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    
     LucideAngularModule,
     NavbarComponent,
     FooterComponent,

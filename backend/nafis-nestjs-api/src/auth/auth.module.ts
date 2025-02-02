@@ -7,6 +7,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PatientsModule } from 'src/patients/patients.module';
+import { AdminModule } from 'src/admin/admin.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         };
       },
     }),
+    PatientsModule,  
+    AdminModule,    
+    UserModule      
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
