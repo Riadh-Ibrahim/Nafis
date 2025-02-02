@@ -4,19 +4,23 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { LucideAngularModule } from 'lucide-angular';
 import { IconsModule } from '../icons.module';
+
+import { ChatbotComponent } from './features/chatbot/chatbot.component';
+// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TemperatureChartComponent } from './features/charts/charts.component';
 import { RealtimeTemperatureChartComponent } from './shared/realtime-chart/realtime-chart.component';
-// import { ChatbotComponent } from './features/chatbot/chatbot.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    
+    // NoopAnimationsModule,
     LucideAngularModule,
     NavbarComponent,
     FooterComponent,
-    IconsModule,
+    IconsModule ,
+    ChatbotComponent,
     RouterOutlet,
   ],
   templateUrl: './app.component.html',
