@@ -1,17 +1,15 @@
 <div class="container" style="width: 100vw">
   <div class="card__container">
+    @for (medSpeciality of medSpecialities; track medSpeciality.name) {
     <article class="card__article">
       <img
-        src="../../../assets/general.jpg"
+        src="{{ medSpeciality.image }}"
         alt="general doctor section"
         srcset=""
       />
       <div class="card__data">
-        <span class="card__description"
-          >Comprehensive medical care and diagnosis for all health
-          concerns.</span
-        >
-        <h2 class="card__title">General Diagnosis</h2>
+        <span class="card__description">{{ medSpeciality.description }}</span>
+        <h2 class="card__title">{{ medSpeciality.name }}</h2>
         <div
           style="
             display: flex;
@@ -22,31 +20,20 @@
         >
           <app-button variant="add">See Doctors</app-button>
           <div class="card__doctor-profiles">
+            @for (availableDoc of availableDocs; track availableDoc.id) {
             <div class="doctor-avatar-container">
               <img
-                src="../../../assets/doctor1.jpg"
-                alt="Dr. A"
+                src="{{ availableDoc.image }}"
+                alt="{{ availableDoc.name }}"
                 class="doctor-avatar"
               />
             </div>
-            <div class="doctor-avatar-container">
-              <img
-                src="../../../assets/doctor2.jpg"
-                alt="Dr. B"
-                class="doctor-avatar"
-              />
-            </div>
-            <div class="doctor-avatar-container">
-              <img
-                src="../../../assets/doctor3.jpg"
-                alt="Dr. C"
-                class="doctor-avatar"
-              />
-            </div>
+            }
           </div>
         </div>
       </div>
     </article>
+    }
 
     <article class="card__article">
       <img
