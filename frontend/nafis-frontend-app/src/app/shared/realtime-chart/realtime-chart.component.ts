@@ -23,7 +23,7 @@ Chart.register(StreamingPlugin, RealTimeScale);
 @Component({
   selector: 'realtime-temperature-chart',
   standalone: true,
-  imports: [CommonModule, NgChartsModule, DatePipe],
+  imports: [CommonModule, NgChartsModule],
   templateUrl: './realtime-chart.component.html',
   styleUrls: ['./realtime-chart.component.scss'],
 })
