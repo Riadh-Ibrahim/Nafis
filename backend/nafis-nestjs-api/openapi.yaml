@@ -20,6 +20,15 @@ tags:
     description: Gestion des rendez-vous et des chambres
 
 paths:
+  /api/auth/signup:
+    post:
+      tags:
+        - Users
+      summary: création des users selon leurs roles (admin, patient, doctor)
+      requestBody:
+        requireed: true
+        content:
+          application/json:   
   /api/patients:
     post:
       tags:

@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 import { Document } from './entities/document.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Patient } from 'src/patients/entities/patient.entity';
 import { PatientsService } from 'src/patients/patients.service'; // Make sure to inject PatientsService if you need to validate patient
 
 @Injectable()
@@ -15,9 +15,10 @@ export class DocumentsService {
     private readonly patientsService: PatientsService, // Inject PatientsService for patient validation
   ) {}
 
-  async create(createDocumentDto: CreateDocumentDto) {
+  async create(patientId: number, createDocumentDto: CreateDocumentDto) {
+    console.log(`the patient id is : ${patientId}`)
     // Ensure the patient exists by checking the patientId
-    const patient = await this.patientsService.findOne(createDocumentDto.patientId);
+    const patient = await this.patientsService.findOne(patientId);
     if (!patient) {
       throw new NotFoundException('Patient not found');
     }
@@ -40,23 +41,13 @@ export class DocumentsService {
     return document;
   }
 
-  async update(a:{id: number, updateDocumentDto: UpdateDocumentDto}) {
-    const document = await this.findOne(a.id);
+  async update(docId: number, updateDocumentDto: UpdateDocumentDto) {
+    const document = await this.findOne(docId);
     if (!document) {
       throw new NotFoundException('Document not found');
     }
 
-    // If patientId is being updated, validate the patient
-    if (a.updateDocumentDto.patientId && a.updateDocumentDto.patientId !== document.patientId) {
-      const patient = await this.patientsService.findOne(a.updateDocumentDto.patientId);
-      if (!patient) {
-        throw new NotFoundException('Patient not found');
-      }
-      document.patient = patient; // Update the associated patient
-    }
-
-    // Update the document with the new data
-    Object.assign(document, a.updateDocumentDto);
+    Object.assign(document, updateDocumentDto);
     return await this.documentsRepository.save(document);
   }
 

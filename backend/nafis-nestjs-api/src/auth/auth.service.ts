@@ -2,15 +2,13 @@
 import { ConflictException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { SignupDto } from './dto/signup.dto';
-import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UserRoleEnum } from 'src/enums/user-role.enum';
-import { User } from 'src/user/entities/user.entity';
 import { PatientsService } from 'src/patients/patients.service';
 import { AdminService } from 'src/admin/admin.service';
 import { UserService } from 'src/user/user.service';
+import { PersonnelsService } from 'src/personnels/personnels.service';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +18,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly patientService: PatientsService,
     private readonly adminService: AdminService,
+    private readonly personnelService: PersonnelsService,
     private readonly jwtService: JwtService
   ) {};
 
@@ -36,23 +35,23 @@ export class AuthService {
 
   async signup(newUser: SignupDto) {
     this.logger.log('Signup method called with DTO:', newUser);
+    const { commonFields, personnelSpecificFields } = newUser;
 
-    const existingUser = await this.userService.findByEmail(newUser.email);
+    const existingUser = await this.userService.findByEmail(commonFields.email);
     if (existingUser) {
       throw new ConflictException("Email is already in use");
     }
 
-    newUser.password = await this.hashPassword(newUser.password);
+    commonFields.password = await this.hashPassword(commonFields.password);
 
-    console.log("signup password is ", newUser.password)
+    console.log("signup password is ", commonFields.password)
 
-    const user = await this.userService.add(newUser);
-    const userEntity = await this.userService.save(user);
+    const userEntity = await this.userService.add(commonFields);
 
-    if (newUser.role == UserRoleEnum.ADMIN) {
+    if (commonFields.role == UserRoleEnum.ADMIN) {
       
       try {
-        await this.adminService.create(userEntity.id, {firstname:'',lastname:'',email:'',password:'',role:UserRoleEnum.VIDE});
+        await this.adminService.create(userEntity.id);
         console.log('admin enitty is created');
       
       }
@@ -65,7 +64,7 @@ export class AuthService {
 
     }
 
-    else if (newUser.role == UserRoleEnum.PATIENT) {
+    else if (commonFields.role == UserRoleEnum.PATIENT) {
       const admin = await this.adminService.findAppropriateAdmin();
 
       if (!admin) {
@@ -74,7 +73,7 @@ export class AuthService {
 
       
       try {
-        await this.patientService.create({ Admin: { id: admin.id },nom:'',prenom:'',numeroSecu:'',dateNaissance: new Date('2025-08-08') });
+        await this.patientService.create(admin.id, userEntity.id);
         
       }
   
@@ -85,9 +84,30 @@ export class AuthService {
   
     }
 
+    else if (commonFields.role == UserRoleEnum.PERSONNEL) {
+      if (!personnelSpecificFields) {
+        throw new ConflictException('Personnel specific fields are required for personnel registration');
+      }
+
+      try {
+        await this.personnelService.create(
+          userEntity.id,
+          personnelSpecificFields
+        );
+      }
+
+      catch (e) {
+        console.log(e)
+        throw new ConflictException(e);
+      }
 
 
-    const token = this.jwtService.sign({id: user.id, role: user.role});
+    }
+
+
+
+    const token = this.jwtService.sign({id: userEntity.id, role: userEntity.role});
+    console.log(`signup token ${token}`)
     return { token };
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePersonnelDto } from './dto/create-personnel.dto';
 import { UpdatePersonnelDto } from './dto/update-personnel.dto';
@@ -17,8 +18,28 @@ export class PersonnelsService {
     private readonly consultationService: ConsultationsService,
   ) {}
 
-  async create(createPersonnelDto: CreatePersonnelDto) {
-    const personnel = this.personnelsRepository.create(createPersonnelDto);
+  async create(userId: number, createPersonnelDto: CreatePersonnelDto) {
+  
+      const { 
+        type,
+        categorie ,
+        specialite,
+        service,
+        matricule,
+        dateRecrutement,
+        statut } = createPersonnelDto;
+
+    const personnel = this.personnelsRepository.create(
+      { user: {id: userId},
+        type,
+        categorie,
+        specialite,
+        service,
+        matricule,
+        dateRecrutement,
+        statut
+      }
+    );
     // Save the new personnel to the database
     return await this.personnelsRepository.save(personnel);
   }

@@ -1,25 +1,26 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 
-@Controller('documents')
+/*@Controller('patients/:patientId/documents')
 export class DocumentsController {
   constructor(private readonly documentsService: DocumentsService) {}
 
   @Post()
-  create(@Body() createDocumentDto: CreateDocumentDto) {
-    return this.documentsService.create(createDocumentDto);
+  async create(@Param("patientId") patientId: number, @Body() createDocumentDto: CreateDocumentDto) {
+    return await this.documentsService.create(patientId, createDocumentDto);
   }
 
   @Get()
-  findAll() {
-    return this.documentsService.findAll();
+  async findAll() {
+    return await this.documentsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.documentsService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    return await this.documentsService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,3 +38,4 @@ export class DocumentsController {
     return this.documentsService.remove(+id);
   }
 }
+*/

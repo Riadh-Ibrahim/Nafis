@@ -4,8 +4,9 @@ import { UserRoleEnum } from "../../enums/user-role.enum";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Patient } from "src/patients/entities/patient.entity";
 import { Admin } from "src/admin/entities/admin.entity";
+import { Personnel } from "src/personnels/entities/personnel.entity";
 
-@Entity()
+@Entity('user')
 export class User {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id', unsigned: true})
     id: number;
@@ -25,10 +26,11 @@ export class User {
 
     @Column({
         type: 'enum', 
+        nullable: false,
         enum: UserRoleEnum, 
-        enumName: 'user_role'
+        enumName: 'user_role',
     })
-    role: string;
+    role: UserRoleEnum;
 
     @Column({ type: 'date',nullable:true })
     dateNaissance: Date;
@@ -54,12 +56,15 @@ export class User {
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @OneToOne(() => Admin, (admin) => admin.user, { nullable: true })
-  @JoinColumn()
-  admin?: Admin;
+    @OneToOne(() => Admin, (admin) => admin.user)
+    @JoinColumn()
+    admin: Admin;
 
-  @OneToOne(() => Patient, (patient) => patient.user, { nullable: true })
-  @JoinColumn()
-  patient?: Patient;
+    @OneToOne(() => Patient, (patient) => patient.user)
+    @JoinColumn()
+    patient: Patient;
+
+    @OneToOne(() => Personnel, (personnel) => personnel.user)
+    personnel: Personnel;
 
 }

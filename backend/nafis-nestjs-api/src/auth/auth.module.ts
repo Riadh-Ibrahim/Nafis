@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PatientsModule } from 'src/patients/patients.module';
 import { AdminModule } from 'src/admin/admin.module';
 import { UserModule } from 'src/user/user.module';
+import { PersonnelsModule } from 'src/personnels/personnels.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { UserModule } from 'src/user/user.module';
     }),
     PatientsModule,  
     AdminModule,    
-    UserModule      
+    UserModule,
+    PersonnelsModule,    
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

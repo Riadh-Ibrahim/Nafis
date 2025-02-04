@@ -1,6 +1,7 @@
-import { Entity,PrimaryGeneratedColumn,Column,OneToMany} from 'typeorm';
+import { Entity,PrimaryGeneratedColumn,Column,OneToMany, JoinColumn, OneToOne} from 'typeorm';
 import { Presence } from 'src/presences/entities/presence.entity';
 import { RendezVous } from 'src/rendez-vous/entities/rendez-vous.entity';
+import { User } from 'src/user/entities/user.entity';
 export enum PersonnelType {
     MEDECIN = 'MEDECIN',
     INFIRMIER = 'INFIRMIER',
@@ -33,18 +34,12 @@ export enum PersonnelType {
     PRESENT = 'PRESENT',
     ABSENT = 'ABSENT',
     CONGE = 'CONGE',
-    MISSION = 'MISSION',
-  }
-@Entity('personnels')
+    MISSION = 'MISSION'
+  } 
+@Entity("personnels")
 export class Personnel{
     @PrimaryGeneratedColumn()
     id: number;
-  
-    @Column()
-    nom: string;
-  
-    @Column()
-    prenom: string;
   
     @Column({
       type: 'enum',
@@ -71,12 +66,6 @@ export class Personnel{
     service: string;
   
     @Column()
-    email: string;
-  
-    @Column()
-    telephone: string;
-  
-    @Column()
     matricule: string;
   
     @Column({ type: 'date' })
@@ -95,4 +84,8 @@ export class Personnel{
 
     @OneToMany(()=> RendezVous,(rendezvous)=> rendezvous.medecinId)
     rendezvous: RendezVous[];
+
+    @OneToOne(() => User, { cascade: true })
+    @JoinColumn()
+    user: User;
 }

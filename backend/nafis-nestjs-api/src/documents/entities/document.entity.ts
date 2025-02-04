@@ -29,18 +29,13 @@ export class Document {
   @Column({ nullable: false })
   url: string;
 
-  @Column({ nullable: false })
-  patientId: number;
-
-  @ManyToOne(() => Patient, (patient) => patient.id, { cascade: true, eager: true })
+  @ManyToOne(() => Patient, (patient) => patient.documents, { cascade: true, eager: true })
   patient: Patient;
 
   @BeforeInsert()
   @BeforeUpdate()
   syncPatientId() {
-    if (this.patient) {
-      this.patientId = this.patient.id;
-    }
+    
   }
 
   @ManyToOne(() => MedicalHistory, (medicalHistory) => medicalHistory.documents, { cascade: true })

@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
-import { DocumentsController } from './documents.controller';
 import { Document } from './entities/document.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PatientsService } from 'src/patients/patients.service';
@@ -13,7 +12,7 @@ import { MedicalHistoryModule } from 'src/medical-history/medical-history.module
     forwardRef(() => PatientsModule),
     forwardRef(() => MedicalHistoryModule),
   ],
-  controllers: [DocumentsController],
+  controllers: [],
   providers: [DocumentsService],
   exports: [DocumentsService]  // Add this export
 })

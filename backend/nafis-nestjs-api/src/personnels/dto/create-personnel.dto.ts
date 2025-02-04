@@ -1,50 +1,32 @@
-import { IsString, IsNotEmpty, IsEmail, IsEnum, IsDate } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsString, IsEnum, IsOptional, IsDateString, IsNotEmpty } from 'class-validator';
 import { PersonnelType, PersonnelCategorie, Specialite, PersonnelStatut } from '../entities/personnel.entity';
 
 export class CreatePersonnelDto {
   @IsNotEmpty()
-  @IsString()
-  nom: string;
-
-  @IsNotEmpty()
-  @IsString()
-  prenom: string;
-
-  @IsNotEmpty()
   @IsEnum(PersonnelType)
-  type: PersonnelType;
+  type?: PersonnelType;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(PersonnelCategorie)
-  categorie: PersonnelCategorie;
+  categorie?: PersonnelCategorie;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(Specialite)
-  specialite: Specialite;
+  specialite?: Specialite;
 
   @IsNotEmpty()
   @IsString()
-  service: string;
-
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  service?: string;
 
   @IsNotEmpty()
   @IsString()
-  telephone: string;
+  matricule?: string;
 
   @IsNotEmpty()
-  @IsString()
-  matricule: string;
+  @IsDateString()
+  dateRecrutement?: Date;
 
-  @IsNotEmpty()
-  @IsDate() // Validates that the field is a valid date
-  @Type(() => Date) // Converts the incoming ISO string to a Date object
-  dateRecrutement: Date;
-
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(PersonnelStatut)
-  statut: PersonnelStatut;
+  statut?: PersonnelStatut;
 }

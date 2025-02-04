@@ -1,14 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { UpdateMedicalHistoryDto } from './dto/update-medical-history.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MedicalHistory } from './entities/medical-history.entity';
 import { Repository } from 'typeorm';
-import { Patient } from 'src/patients/entities/patient.entity';
 import { DocumentsService } from 'src/documents/documents.service';
 import { ConsultationsService } from 'src/consultations/consultations.service';
 import { CreateMedicalHistoryDto } from './dto/create-medical-history.dto';
 import { PatientsService } from 'src/patients/patients.service';
+import { UpdateDocumentDto } from 'src/documents/dto/update-document.dto';
 
 @Injectable()
 export class MedicalHistoryService {
@@ -40,11 +39,19 @@ export class MedicalHistoryService {
       }
 
       const createDocumentEntities = documents && documents.length > 0  
-      ? await Promise.all(documents.map((documentDto) => this.documentService.create(documentDto)))
+      ? await Promise.all(documents.map(async (documentDto) => {
+        const doc = await this.documentService.create(patientId, documentDto)
+        console.log(`doc: ${doc}`)
+        return doc;
+      }))
       : [];
 
       const createConsultationsEntities = consultations && consultations.length > 0  
-      ? await Promise.all(consultations.map((consultationDto) => this.consultationService.create(consultationDto)))
+      ? await Promise.all(consultations.map(async (consultationDto) => {
+        const consultation = await this.consultationService.create(consultationDto)
+        console.log(`doc: ${consultation}`)
+        return consultation;
+      }))
       : [];
       
       const medicalHistory = this.medicalHistoryRepository.create({
@@ -54,7 +61,7 @@ export class MedicalHistoryService {
       })
 
   
-
+      console.log(`documeents : ${createDocumentEntities}`)
       return await this.medicalHistoryRepository.save(medicalHistory);
   }
   
@@ -69,70 +76,49 @@ export class MedicalHistoryService {
     return medicalHistory;
   }
 
-  async updateMedicalHistory(
-    patientId: number, 
-    updateMedicalHistoryDto: UpdateMedicalHistoryDto,
-  ) {
-    const medicalHistory = await this.medicalHistoryRepository
-    .createQueryBuilder('medicalHistory')
-    .leftJoinAndSelect('medicalHistory.patient', 'patient')
-    .leftJoinAndSelect('medicalHistory.consultations', 'consultations')
-    .leftJoinAndSelect('medicalHistory.documents', 'documents')
-    .where('patient.id = :patientId', { patientId })
-    .getOne();
+  async getAllDocuments(patientId: number) {
+    const medicalHistory = await this.medicalHistoryRepository.findOne({
+      where: { patient: { id: patientId } },
+      relations: ['documents'],
+    });
 
     if (!medicalHistory) {
-      throw new NotFoundException('Cannot load the medical history');
+      throw new NotFoundException('Medical history not found for the patient');
     }
 
-    const { documents, consultations } = updateMedicalHistoryDto;
+    return medicalHistory.documents;
+  }
 
-    if (documents) {
-      await this.handleEntitiesUpdate(
-        documents, 
-        this.documentService.update, 
-        this.documentService.create, 
-        this.documentService.remove,
-      )
-    }
+  async addDocument(
+    patientId: number, 
+    createDocumentDto,
+  ) {
+    const patient = await this.patientService.findOne(patientId);
 
-    if (consultations) {
-      await this.handleEntitiesUpdate(
-        consultations, 
-        this.consultationService.update,
-        this.consultationService.create, 
-        this.consultationService.remove,
-      )
-    }
-
-
-
-    return { medicalHistory, message: "medical history update successfully!" };
+  if (!patient) {
+    throw new NotFoundException('Patient not found');
+  }
+  const document = this.documentService.create(patientId, createDocumentDto);
+  return document;
   }
   
-  async handleEntitiesUpdate(
-    entities: any, 
-    updateMethod: (entity: any) => Promise<any>, 
-    addMethod: (entity: any) => Promise<any> , 
-    removeMethod: (entity: any) => Promise<any>) {
-    const { update, add, remove } = entities;
-
-    if (update) {
-      for (const entity of update) {
-        await updateMethod(entity);
-      }
+  async updateDocument(docId: number, updateDocumentDto: UpdateDocumentDto) {
+    const document = await this.documentService.update(docId, updateDocumentDto);
+  
+    if (!document) {
+      throw new NotFoundException('Document not found');
     }
-
-    if (add) {
-      for (const entity of add) {
-        await addMethod(entity);
-      }
+  
+    return document;
+  }
+  
+  async removeDocument(documentId: number) {
+    const document = await this.documentService.remove(documentId);
+  
+    if (!document) {
+      throw new NotFoundException('Document not found');
     }
-
-    if (remove) {
-      for (const entity of remove) {
-        await removeMethod(entity);
-      }
-    }
+    
+    return { message: 'Document removed successfully' };
   }
 }

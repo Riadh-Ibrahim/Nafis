@@ -1,5 +1,5 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Patient } from './entities/patient.entity';
@@ -11,17 +11,22 @@ export class PatientsService {
     @InjectRepository(Patient)
     private readonly patientsRepository: Repository<Patient>) {
   }
-  async create(createPatientDto: CreatePatientDto) {
-    const patient=this.patientsRepository.create(createPatientDto);
+  async create(adminId: number, userId: number) {
+    const patient=this.patientsRepository.create({admin: {id: adminId}, user: {id: userId}});
     return await this.patientsRepository.save(patient);
   }
 
   async findAll() {
-    return await this.patientsRepository.find();
+    return await this.patientsRepository.find({
+      relations: ['user'],
+    });
   }
 
-  async findOne(id: number) {
-    return await this.patientsRepository.findOne({where:{id}});
+  async findOne(patientId: number) {
+    return await this.patientsRepository.findOne({
+      where:{id: patientId},
+      relations: ['user'],
+    });
   }
 
   async update(id: number, updatePatientDto: UpdatePatientDto) {

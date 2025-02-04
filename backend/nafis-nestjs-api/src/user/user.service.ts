@@ -16,18 +16,9 @@ export class UserService {
     private readonly adminService: AdminService, // Inject AdminService
   ) {}
 
-  async add(s: SignupDto) {
-    // Create a new user
+  async add(s: CreateUserDto) {
     const userEntity = this.userRepository.create(s);
     const savedUser = await this.userRepository.save(userEntity);
-
-    // Now, you can safely create an admin for this user if needed
-    // You can decide whether every user should automatically have an admin or handle it based on some condition
-    await this.adminService.create(savedUser.id, {firstname:'',lastname:'',email:'',password:'',role:UserRoleEnum.VIDE
-      // You can pass other necessary fields here to create an Admin
-      // Assuming `CreateAdminDto` requires some fields like admin-related data
-    });
-
     return savedUser;
   }
 

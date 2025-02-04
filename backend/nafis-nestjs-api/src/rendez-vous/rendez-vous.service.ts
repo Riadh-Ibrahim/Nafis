@@ -124,7 +124,7 @@ export class RendezVousService {
           date: MoreThan(now),
           rappelEnvoye: false,
         },
-        relations: ['patient', 'medecin'],
+        relations: ['patient', 'medecin', 'patient.user', 'personnel.user'],
       });
 
       for (const appointment of appointments) {
@@ -148,7 +148,7 @@ export class RendezVousService {
 
 
    async sendReminder(appointment: RendezVous) {
-    if (!appointment.patient || !appointment.medecin) {
+    if (!appointment.patient?.user || !appointment.medecin?.user) {
       this.logger.error(
         `Appointment ${appointment.id} is missing patient or doctor details`,
       );
@@ -156,10 +156,8 @@ export class RendezVousService {
     }
 
     // Simulate sending a reminder (e.g., email, SMS, etc.)
-    this.logger.log(
-      `Sending reminder to Patient: ${appointment.patient.email} ` +
-      `for appointment with Dr. ${appointment.medecin.email}`,
-    );
+    const doctorEmail = appointment.medecin.user.email;
+    const patientEmail = appointment.patient.user.email;
 
     // Mark the reminder as sent
     appointment.rappelEnvoye = true;

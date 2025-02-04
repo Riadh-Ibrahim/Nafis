@@ -1,26 +1,15 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString, Matches, MinLength,} from "class-validator";
-import { UserRoleEnum } from "src/enums/user-role.enum";
+/* eslint-disable prettier/prettier */
+import { IsNotEmpty, IsOptional } from "class-validator";
+import { CreatePersonnelDto } from "src/personnels/dto/create-personnel.dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 import ErrorMessages from "src/utils/error-messages";
 
 export class SignupDto {
-    @IsString()
-    @IsNotEmpty({ message: ErrorMessages.firstnameIsRequired })
-    firstname: string;
+    @IsNotEmpty({message: ErrorMessages.commonFieldsRequired})
+    commonFields: CreateUserDto;
 
-    @IsString()
-    @IsNotEmpty({ message: ErrorMessages.lasttnameIsRequired })
-    lastname: string;
-
-    @IsEmail({}, { message: ErrorMessages.invalidEmail })
-    @IsNotEmpty({ message: ErrorMessages.emailRequired })
-    email: string;
-
-    @IsString()
-    @MinLength(6, { message: ErrorMessages.invalidLengthPassword })
-    @IsNotEmpty({ message: ErrorMessages.passwordRequired })
-    password: string;
-
-    @IsEnum(UserRoleEnum, { message: ErrorMessages.invalidRole})
-    role: UserRoleEnum;
-
+    @IsOptional()
+    personnelSpecificFields: CreatePersonnelDto
+        
+    
 }

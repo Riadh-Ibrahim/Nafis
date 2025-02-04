@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PatientsService } from './patients.service';
-import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 
 import { UseGuards } from '@nestjs/common';
@@ -8,33 +7,28 @@ import { UseGuards } from '@nestjs/common';
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
-  @Post()
-  create(@Body() createPatientDto: CreatePatientDto) {
-    return this.patientsService.create(createPatientDto);
-  }
 
   @Get()
-  
-  findAll() {
-    return this.patientsService.findAll();
+  async findAll() {
+    return await this.patientsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.patientsService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    return await this.patientsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
-    return this.patientsService.update(+id, updatePatientDto);
+  async update(@Param('id') id: number, @Body() updatePatientDto: UpdatePatientDto) {
+    return await this.patientsService.update(+id, updatePatientDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.patientsService.remove(+id);
+  async remove(@Param('id') id: number) {
+    return await this.patientsService.remove(+id);
   }
   @Get(':patientId/historique')
-  async findPatientHistory(@Param('patientId') patientId: string) {
-    return this.patientsService.findPatientHistory(+patientId);
+  async findPatientHistory(@Param('patientId') patientId: number) {
+    return await this.patientsService.findPatientHistory(patientId);
   }
 }

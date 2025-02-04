@@ -3,7 +3,6 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from './entities/admin.entity';
-import { CreateAdminDto } from './dto/create-admin.dto';
 
 @Injectable()
 export class AdminService {
@@ -12,10 +11,9 @@ export class AdminService {
     private adminRepository: Repository<Admin>,
   ) {}
 
-  async create(userId: number, newAdminData: CreateAdminDto): Promise<Admin> {
+  async create(userId: number): Promise<Admin> {
      try {
           const newAdmin=this.adminRepository.create({
-             ...newAdminData,
              user: {id: userId}
           });
           const adminEntity =  await this.adminRepository.save(newAdmin);
@@ -23,7 +21,7 @@ export class AdminService {
     
         } catch (error) {
           console.log(error);
-          throw new ConflictException("Cannot create patient");
+          throw new ConflictException("Cannot create admin");
         }
     
   }
@@ -37,11 +35,16 @@ export class AdminService {
   }
 
   async findAppropriateAdmin(): Promise<Admin> {
+    
     const admin = await this.adminRepository
         .createQueryBuilder('admin')
+        .leftJoinAndSelect('admin.user', 'user')
         .leftJoinAndSelect('admin.patients', 'patient')
+        .groupBy('admin.id')
+        .addGroupBy('user.id')
+        .addGroupBy('patient.id')
         .having('COUNT(patient.id) < 10') 
-        .orderBy('admin.createdAt', 'ASC')
+        .orderBy('user.createdAt', 'ASC')
         .getOne();
       return admin;
   }
