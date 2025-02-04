@@ -1,0 +1,84 @@
+<div class="profile-container">
+  <div class="upper">
+    <div class="profile-header">
+      <div class="profile-image">
+        <img
+          src="../../../assets/doctor1.jpg"
+          alt="Dr. Sweta Gupta"
+          class="rounded-full"
+        />
+      </div>
+      <div class="doctor-info">
+        <h1 class="doctor-name">Dr. Sweta Gupta</h1>
+        <h2 class="doctor-title">(Medical Director)</h2>
+      </div>
+    </div>
+    <div class="consultation-form">
+      <h2 class="form-title">Book Free IVF Consultation</h2>
+      <form class="contact-form">
+        <div class="form-group">
+          <input type="text" placeholder="Enter Name" class="form-input" />
+        </div>
+        <div class="form-group">
+          <div class="phone-input">
+            <span class="country-code">+91</span>
+            <input
+              type="tel"
+              placeholder="Enter Phone Number"
+              class="form-input"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="whatsapp-opt">
+            <input type="checkbox" />
+            <span>Opt-in for Whatsapp updates</span>
+          </label>
+        </div>
+        <button type="submit" class="submit-button">SUBMIT</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="experience-section">
+    <h2 class="section-title">25+ years of experience</h2>
+    <h3 class="subsection-title">
+      Certified For Proficiency In Clinical Medicine
+    </h3>
+
+    <ul class="qualifications-list">
+      <li>MBBS (Lady Hardinge Medical College, Delhi)</li>
+      <li>MD (Obstetrics & Gynaecology, Delhi)</li>
+      <li>MRCOG (London, UK)</li>
+      <li>DFSRH (UK)</li>
+      <li>Fellowship in ART and Reproductive medicine (London)</li>
+    </ul>
+  </div>
+
+  <div class="skills-section">
+    <h2 class="section-title">Expert Skills</h2>
+    <div class="skills-grid">
+      <!-- <div *ngFor="let skill of expertSkills" class="skill-item">
+        <span class="skill-name">{{ skill.name }}</span>
+        <div class="skill-rating">
+          <span
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            class="star"
+            [class.filled]="star <= skill.rating"
+            >★</span
+          >
+        </div>
+      </div> -->
+      @for (skill of expertSkills; track skill.name) {
+      <div class="skill-item">
+        <span class="skill-name">{{ skill.name }}</span>
+        <div class="skill-rating">
+          @for (star of [1, 2, 3, 4, 5]; track star) {
+          <span class="star" [class.filled]="star <= skill.rating">★</span>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

@@ -15,13 +15,20 @@ export const routes: Routes = [
         (m) => m.DASHBOARD_ROUTES
       ),
   },
-  // {
-  //   path: 'admin',
-  //   loadChildren: () =>
-  //     import('./features/admin-dashboard/admin-dashboard.routes').then(
-  //       (m) => m.DASHBOARD_ROUTES
-  //     ),
-  // },
+  {
+    path: 'doctor-profile',
+    loadChildren: () =>
+      import('./features/doctor-profile/doctor-profile.routes').then(
+        (m) => m.PROFILE_ROUTES
+      ),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin-dashboard/admin-dashboard.routes').then(
+        (m) => m.DASHBOARD_ROUTES
+      ),
+  },
 
   {
     path: 'login',
@@ -35,10 +42,13 @@ export const routes: Routes = [
       import(
         './features/constantes-formulaires/constantes-formulaires.routes'
       ).then((m) => m.CONSTANTES_ROUTES),
-   },
+  },
   {
     path: 'constantes-vitales',
-    loadChildren: () => import("./features/constantes-formulaires/constantes-formulaires.routes").then(m => m.CONSTANTES_ROUTES)
+    loadChildren: () =>
+      import(
+        './features/constantes-formulaires/constantes-formulaires.routes'
+      ).then((m) => m.CONSTANTES_ROUTES),
   },
 
   {

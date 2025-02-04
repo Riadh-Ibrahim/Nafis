@@ -8,5 +8,5 @@ export interface Patient {
   telephone: string;
   email?: string;
   photoUrl?: string;
+  status?: 'present' | 'absent';
 }
-

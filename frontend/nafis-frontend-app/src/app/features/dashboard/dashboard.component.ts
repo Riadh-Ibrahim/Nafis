@@ -14,6 +14,7 @@ import {
   switchMap,
   map,
 } from 'rxjs';
+import { SpecialitylistComponent } from '../specialitylist/specialitylist.component';
 
 interface DashboardState {
   type: 'doctor' | 'patient' | null;
@@ -32,6 +33,7 @@ interface DashboardState {
     DoctorDashboardComponent,
     PatientDashboardComponent,
     DashboardGreetingComponent,
+    SpecialitylistComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
