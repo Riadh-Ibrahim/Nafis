@@ -1,41 +1,15 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button.component';
+import { Speciality } from '../../interfaces/speciality';
+import { SpecialityCardComponent } from '../../shared/speciality-card/speciality-card.component';
 
-export interface Speciality {
-  name: string;
-  image: string;
-  description: string;
-}
-export interface Doctor {
-  id: number;
-  name: string;
-  image: string;
-}
 @Component({
   selector: 'app-specialitylist',
   standalone: true,
-  imports: [ButtonComponent],
   templateUrl: './specialitylist.component.html',
   styleUrl: './specialitylist.component.scss',
+  imports: [SpecialityCardComponent],
 })
 export class SpecialitylistComponent {
-  availableDocs: Doctor[] = [
-    {
-      id: 1,
-      name: 'Dr. A',
-      image: '../../../assets/doctor1.jpg',
-    },
-    {
-      id: 1,
-      name: 'Dr. B',
-      image: '../../../assets/doctor2.jpg',
-    },
-    {
-      id: 1,
-      name: 'Dr. C',
-      image: '../../../assets/doctor3.jpg',
-    },
-  ];
   medSpecialities: Speciality[] = [
     {
       name: 'General Diagnosis',
