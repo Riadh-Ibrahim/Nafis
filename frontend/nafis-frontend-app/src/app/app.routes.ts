@@ -5,7 +5,7 @@ import { NotificationComponent } from './features/notification/notification.comp
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/landing',
     pathMatch: 'full',
   },
   {
@@ -63,6 +63,13 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/notification/notification.routes').then(
         (m) => m.NOTIFICATION_ROUTES
+      ),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/landing/landing.routes').then(
+        (m) => m.LANDING_ROUTES
       ),
   },
 ];

@@ -1,5 +1,6 @@
 <div class="notification-container">
-    <div *ngFor="let alerte of alertes$ | async" class="notification" [class.acquittee]="alerte.acquittee">
+  <div *ngIf="alertes.length > 0; else noNotifications">
+    <div *ngFor="let alerte of alertes" class="notification" [class.acquittee]="alerte.acquittee">
       <p [ngClass]="{'critique': alerte.type === 'CRITIQUE', 'attention': alerte.type === 'ATTENTION', 'info': alerte.type === 'INFO'}">
         {{ alerte.message }}
       </p>
@@ -7,3 +8,7 @@
       <span *ngIf="alerte.acquittee">Acquittée par {{ alerte.acquitteePar }}</span>
     </div>
   </div>
+  <ng-template #noNotifications>
+    <p>Aucune notification pour le moment.</p>
+  </ng-template>
+</div>

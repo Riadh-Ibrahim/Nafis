@@ -30,7 +30,6 @@ export class NavbarComponent {
     { name: 'Home', href: '/home', icon: 'home' },
     { name: 'About', href: '/about', icon: 'info' },
     { name: 'Services', href: '/services', icon: 'package' },
-    { name: 'Pricing', href: '/pricing', icon: 'dollar-sign' },
     { name: 'Contact', href: '/contact', icon: 'phone' }
   ];
 
