@@ -32,8 +32,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked, OnDestroy {
   inputMessage = '';
   isOpen = false;
   isListening = false;
-  isTyping = false;
-  isSpeechSupported = false;
+  isTyping = true;
+  isSpeechSupported = false; 
   private recognition: any;
   private isBrowser: boolean;
   private readonly MAX_RETRIES = 3;
@@ -46,7 +46,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.messages = [{
       role: 'bot',
       content: 'Bonjour! Je suis Nafis Assistant, comment puis-je vous aider aujourd\'hui?',

@@ -7,8 +7,8 @@ import { IconsModule } from '../icons.module';
 
 import { ChatbotComponent } from './features/chatbot/chatbot.component';
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TemperatureChartComponent } from './features/charts/charts.component';
-import { RealtimeTemperatureChartComponent } from './shared/realtime-chart/realtime-chart.component';
+//import { TemperatureChartComponent } from './features/charts/charts.component';
+//import { RealtimeTemperatureChartComponent } from './shared/realtime-chart/realtime-chart.component';
 
 
 @Component({

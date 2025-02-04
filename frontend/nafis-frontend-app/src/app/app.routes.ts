@@ -15,13 +15,13 @@ export const routes: Routes = [
         (m) => m.DASHBOARD_ROUTES
       ),
   },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./features/admin-dashboard/admin-dashboard.routes').then(
-        (m) => m.DASHBOARD_ROUTES
-      ),
-  },
+  // {
+  //   path: 'admin',
+  //   loadChildren: () =>
+  //     import('./features/admin-dashboard/admin-dashboard.routes').then(
+  //       (m) => m.DASHBOARD_ROUTES
+  //     ),
+  // },
 
   {
     path: 'login',
