@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiResponse, FiltreRecherche, Pagination } from '../../interfaces/common';
+import {
+  ApiResponse,
+  FiltreRecherche,
+  Pagination,
+} from '../../interfaces/common';
 import { Rendezvous } from '../../interfaces/rendezvous';
 import { Personnel } from '../../interfaces/personnel';
 import { Chambre } from '../../interfaces/chambre';

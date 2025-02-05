@@ -1,0 +1,28 @@
+<article class="card__article">
+  <img src="{{ medSpeciality.image }}" alt="general doctor section" srcset="" />
+  <div class="card__data">
+    <span class="card__description">{{ medSpeciality.description }}</span>
+    <h2 class="card__title">{{ medSpeciality.name }}</h2>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.1rem;
+      "
+    >
+      <app-button variant="add">See Doctors</app-button>
+      <div class="card__doctor-profiles">
+        @for (availableDoc of availableDocs; track availableDoc.id) {
+        <div class="doctor-avatar-container">
+          <img
+            src="{{ availableDoc.image }}"
+            alt="{{ availableDoc.name }}"
+            class="doctor-avatar"
+          />
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</article>

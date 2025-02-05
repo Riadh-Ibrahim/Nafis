@@ -43,8 +43,8 @@ export class UserService {
     return `This action returns a #${id} user`;
   }
 
-  findByEmail(email: string) {
-    return this.userRepository.findOne({ where: { email: email } });
+  async findByEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email: email } });
   }
    async findAll() {
     return this.userRepository.find(); // This will return all users

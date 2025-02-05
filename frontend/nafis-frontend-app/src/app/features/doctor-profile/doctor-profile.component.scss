@@ -1,0 +1,144 @@
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.upper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-image img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.doctor-name {
+  font-size: 2rem;
+  color: #6b46c1;
+  margin: 0;
+}
+
+.doctor-title {
+  font-size: 1.25rem;
+  color: #6b46c1;
+  margin: 0.5rem 0;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #6b46c1;
+  margin: 2rem 0 1rem;
+}
+
+.subsection-title {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.qualifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.qualifications-list li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.qualifications-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #6b46c1;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-rating {
+  color: #d1d5db;
+}
+
+.star.filled {
+  color: #6b46c1;
+}
+
+.consultation-form {
+  max-width: 100%;
+  margin-top: 2rem;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.country-code {
+  padding: 0.75rem;
+  background: #f3f4f6;
+  border-radius: 0.375rem;
+}
+
+.whatsapp-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #6b46c1;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.submit-button:hover {
+  background: #5a32a3;
+}

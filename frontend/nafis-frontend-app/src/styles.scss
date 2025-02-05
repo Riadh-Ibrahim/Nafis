@@ -1,25 +1,181 @@
+@use "@angular/material" as mat;
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+// // Custom Theming for Angular Material
+// // For more information: https://material.angular.io/guide/theming
+
+// // Plus imports for other components in your app.
+
+// // Include the common styles for Angular Material. We include this here so that you only
+// // have to load a single css file for Angular Material in your app.
+// // Be sure that you only ever include this mixin once!
+// //@include mat.core();
+
+// // Define the palettes for your theme using the Material Design palettes available in palette.scss
+// // (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// // hue. Available color palettes: https://material.io/design/color/
+// // $nafis-frontend-app-primary: mat.define-palette(mat.$indigo-palette);
+// // $nafis-frontend-app-accent: mat.define-palette(
+// //   mat.$pink-palette,
+// //   A200,
+// //   A100,
+// //   A400
+// // );
+
+// // The warn palette is optional (defaults to red).
+// $nafis-frontend-app-warn: mat.define-palette(mat.$red-palette);
+
+// // Create the theme object. A theme consists of configurations for individual
+// // theming systems such as "color" or "typography".
+// $nafis-frontend-app-theme: mat.define-light-theme(
+//   (
+//     color: (
+//       primary: $nafis-frontend-app-primary,
+//       accent: $nafis-frontend-app-accent,
+//       warn: $nafis-frontend-app-warn,
+//     ),
+//     typography: mat.define-typography-config(),
+//     density: 0,
+//   )
+// );
+
+// // Include theme styles for core and each component used in your app.
+// // Alternatively, you can import and @include the theme mixins for each component
+// // that you are using.
+// @include mat.all-component-themes($nafis-frontend-app-theme);
+
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-html, body {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+body {
+  background-color: lightgray;
+}
+[role="list"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-block-size: 100vh;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+img,
+picture {
+  max-inline-size: 100%;
+  display: black;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+#root,
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+:root {
+  --first-color: hsl(82, 60%, 28%);
+  --title-color: hsl(0, 0%, 15%);
+  --text-color: hsl(0, 0%, 35%);
+  --body-color: hsl(0, 0%, 93%);
+  --container-color: hsl(0, 0%, 100%);
+
+  --body-font: "Poppins", sans-serif;
+  --h2-font-size: 1.25rem;
+  --small-font-size: 0.813rem;
+
+  @media screen and (min-width: 1128px) {
+    --h2-font-size: 1.5rem;
+    --small-font-size: 0.875rem;
   }
-  
-  #root, app-root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Full viewport height */
-  }
-  
-  main {
-    flex: 1; /* Push footer to the bottom */
-  }
-  
-  app-footer {
-    margin-top: auto; /* Push footer to the bottom */
-  } 
+}
+
+body {
+  font: var(--body-font);
+  background-color: var(--body-color);
+  color: var(--text-color);
+}
+
+main {
+  flex: 1; /* Push footer to the bottom */
+}
+
+app-footer {
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body.dark {
+  background-color: #252323;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
