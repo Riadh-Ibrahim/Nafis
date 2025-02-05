@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard/patient-dashboard.component';
@@ -17,6 +17,7 @@ import { CalendarSidebarComponent } from './calender-sidebar/calender-sidebar.co
 import { DashboardState } from '../../interfaces/dashboardState';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { tap } from 'rxjs/operators';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,8 @@ import { tap } from 'rxjs/operators';
     PatientDashboardComponent,
     DashboardGreetingComponent,
     CalendarSidebarComponent,
+    ButtonComponent,
+    RouterLink,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

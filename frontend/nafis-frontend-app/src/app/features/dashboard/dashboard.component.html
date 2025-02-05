@@ -7,12 +7,29 @@
           [fullName]="state.fullName"
           [subtitle]="state.subtitle"
         ></app-dashboard-greeting>
-
+        <div class="flex justify-center">
+          @if ( state.type == "patient") {
+          <a
+            [routerLink]="['/specialities']"
+            class="w-50 text-center bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-500 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105"
+          >
+            Need a Doctor?
+          </a>
+          } @else {
+          <a
+            [routerLink]="['/patient-profil']"
+            class="w-50 text-center bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-500 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105"
+          >
+            Show my patients
+          </a>
+          }
+        </div>
         <ng-container [ngSwitch]="state.type">
           <app-doctor-dashboard
             *ngSwitchCase="'doctor'"
             [stats]="state.stats"
           ></app-doctor-dashboard>
+
           <app-patient-dashboard
             *ngSwitchCase="'patient'"
             [stats]="state.stats"

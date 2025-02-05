@@ -1,11 +1,11 @@
 // navbar.component.ts
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule, Menu, X } from 'lucide-angular';
 import { Store } from '@ngrx/store';
 import * as AuthSelectors from '../../core/store/auth/selectors/auth.selectors';
-
+import * as AuthActions from '../../core/store/auth/actions/auth.actions';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -15,9 +15,12 @@ import * as AuthSelectors from '../../core/store/auth/selectors/auth.selectors';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  constructor(private store: Store) {}
   isAuthenticated$ = this.store.select(AuthSelectors.selectIsAuthenticated);
+  logout(): void {
+    this.store.dispatch(AuthActions.logout());
+  }
 
+  constructor(private store: Store) {}
   isOpen = false;
   showNotifications = false; // Contrôle l'affichage du menu déroulant des notifications
   unreadCount = 2; // Nombre de notifications non lues (à remplacer par une logique dynamique)
