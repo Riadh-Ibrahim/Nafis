@@ -30,6 +30,7 @@ import {
   Sun,
   LogOut,
   Ambulance,
+  Send,
 } from 'lucide-angular';
 
 @NgModule({
@@ -64,6 +65,7 @@ import {
       Sun,
       LogOut,
       Ambulance,
+      Send,
     }),
 
 
