@@ -73,7 +73,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: '**',
+    path: '',
     loadChildren: () =>
       import('./features/landing/landing.routes').then((m) => m.LANDING_ROUTES),
   },
