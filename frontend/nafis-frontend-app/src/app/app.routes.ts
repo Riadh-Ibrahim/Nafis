@@ -16,6 +16,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'doctor-search',
+    loadChildren: () =>
+      import('./features/doctor-search/doctor-search.routes').then(
+        (m) => m.DOCTOR_SEARCH_ROUTES
+      ),
+  },
+  {
     path: 'doctor-profile',
     loadChildren: () =>
       import('./features/doctor-profile/doctor-profile.routes').then(
@@ -66,10 +73,8 @@ export const routes: Routes = [
       ),
   },
   {
-    path: '',
+    path: '**',
     loadChildren: () =>
-      import('./features/landing/landing.routes').then(
-        (m) => m.LANDING_ROUTES
-      ),
+      import('./features/landing/landing.routes').then((m) => m.LANDING_ROUTES),
   },
 ];
