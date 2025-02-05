@@ -27,10 +27,10 @@ export class NavbarComponent {
 
 
   navigationItems = [
-    { name: 'Home', href: '/home', icon: 'home' },
-    { name: 'About', href: '/about', icon: 'info' },
-    { name: 'Services', href: '/services', icon: 'package' },
-    { name: 'Contact', href: '/contact', icon: 'phone' }
+    { name: 'Home', href: '/dashboard', fragment: '' },
+    { name: 'About', href: '/landing', fragment: 'about' },
+    { name: 'Services', href: '/landing', fragment: 'features' },
+    { name: 'Contact', href: '/landing', fragment: 'footer' }
   ];
 
   // Basculer l'affichage des notifications
@@ -44,6 +44,12 @@ export class NavbarComponent {
     if (notification && !notification.read) {
       notification.read = true;
       this.unreadCount -= 1;
+    }
+  }
+  scrollToFragment(fragment: string) {
+    const element = document.getElementById(fragment);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

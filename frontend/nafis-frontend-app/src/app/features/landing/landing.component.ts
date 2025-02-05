@@ -1,14 +1,15 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { gsap } from 'gsap';
 import { Router } from '@angular/router';
+import gsap from 'gsap';
 import { CommonModule } from '@angular/common';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule,FooterComponent],
 })
 export class LandingComponent implements AfterViewInit {
   features = [
@@ -62,4 +63,5 @@ export class LandingComponent implements AfterViewInit {
       featuresSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
+  
 }

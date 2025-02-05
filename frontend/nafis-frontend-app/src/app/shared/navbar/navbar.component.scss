@@ -1,36 +1,36 @@
-:host {
-    display: block;
-  }
+// :host {
+//     display: block;
+//   }
   
-  .router-link-active {
-    @apply text-white bg-cyan-500;
-  }
+//   .router-link-active {
+//     @apply text-white bg-cyan-500;
+//   }
   
-  @keyframes slideIn {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
+//   @keyframes slideIn {
+//     from {
+//       transform: translateY(-100%);
+//       opacity: 0;
+//     }
+//     to {
+//       transform: translateY(0);
+//       opacity: 1;
+//     }
+//   }
   
-  nav {
-    animation: slideIn 0.5s ease-out;
-  }
+//   nav {
+//     animation: slideIn 0.5s ease-out;
+//   }
   
-  .notification-dropdown {
-    max-height: 300px;
-    overflow-y: auto;
+//   .notification-dropdown {
+//     max-height: 300px;
+//     overflow-y: auto;
   
-    .notification-item {
-      border-bottom: 1px solid #e5e7eb;
+//     .notification-item {
+//       border-bottom: 1px solid #e5e7eb;
   
-      &:last-child {
-        border-bottom: none;
-      }
-    }
+//       &:last-child {
+//         border-bottom: none;
+//       }
+//     }
 
-  }
+//   }
