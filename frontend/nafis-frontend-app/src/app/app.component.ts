@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { FooterComponent } from './shared/footer/footer.component';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Send, X, ChevronUp } from 'lucide-angular';
 import { IconsModule } from '../icons.module';
 // import { ChatbotComponent } from './features/chatbot/chatbot.component';
 
@@ -10,8 +10,6 @@ import { IconsModule } from '../icons.module';
   selector: 'app-root',
   standalone: true,
   imports: [
-    
-    LucideAngularModule,
     RouterOutlet,
     NavbarComponent,
     FooterComponent,

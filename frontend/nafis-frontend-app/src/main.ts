@@ -7,13 +7,15 @@ import { provideEffects } from '@ngrx/effects';
 import { authReducer } from './app/core/store/auth/reducers/auth.reducer';
 import { AuthEffects } from './app/core/store/auth/effects/auth.effects';
 import { provideHttpClient } from '@angular/common/http';
+import { messagingReducer } from './app/core/services/chat/chat.reducer';
+import { MessagingEffects } from './app/core/services/chat/chat.effects';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(routes),
-    provideStore({ auth: authReducer }), 
-    provideEffects([AuthEffects]),     
+    provideStore({ auth: authReducer, messaging: messagingReducer }), 
+    provideEffects([AuthEffects, MessagingEffects]),     
   ],
 }).catch(err => console.error(err));
 

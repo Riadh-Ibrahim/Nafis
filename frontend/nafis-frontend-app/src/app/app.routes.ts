@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { NotificationComponent } from './features/notification/notification.component';
+import { ChatComponent } from './features/chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,11 @@ export const routes: Routes = [
   {
     path: 'notifications',
     loadChildren: () => import("./features/notification/notification.routes").then(m => m.NOTIFICATION_ROUTES)
+  },
+
+  {
+    path: 'chat',
+    component: ChatComponent
   }
 
 ];
