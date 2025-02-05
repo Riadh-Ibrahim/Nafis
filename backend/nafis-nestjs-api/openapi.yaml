@@ -10,6 +10,8 @@ servers:
     description: Serveur de production
 
 tags:
+  - name: Users
+    description: Gestion des users
   - name: Patients
     description: Gestion des patients
   - name: Surveillance
@@ -21,32 +23,48 @@ tags:
 
 paths:
   /api/auth/signup:
+      post:
+        tags:
+          - Users
+        summary:  création des users selon leurs roles (admin, patient, personnel)
+        requestBody:
+          required: true
+          content:
+            application/json: 
+              $ref: '#/components/schemas/SignupRequest'
+              example:
+                commonFields:
+                  firstname: "John"
+                  lastname: "Doe"
+                  email: "johndoe@example.com"
+                  password: "SecureP@ss123"
+                  role: "USER"
+                personnelSpecificFields:
+                  type: "MEDECIN"
+                  categorie: "TITULAIRE"
+                  specialite: "CARDIOLOGIE"
+                  service: "Cardiology Department"
+                  matricule: "12345"
+                  dateRecrutement: "2024-02-05"
+                  statut: "PRESENT" 
+
+  /api/auth/login:
     post:
-      tags:
+      tags: 
         - Users
-      summary: création des users selon leurs roles (admin, patient, doctor)
-      requestBody:
-        requireed: true
-        content:
-          application/json:   
-  /api/patients:
-    post:
-      tags:
-        - Patients
-      summary: Créer un nouveau patient
+      summary: login des users
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Patient'
-      responses:
-        '201':
-          description: Patient créé avec succès
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Patient'
+              $ref: '#/components/schemas/LoginDto'
+              example:
+              email: "johndoe@example.com"
+              password: "SecureP@ss123"
+              role: "PATIENT"
+
+  /api/patients:
     get:
       tags:
         - Patients
@@ -92,23 +110,141 @@ paths:
                 $ref: '#/components/schemas/Patient'
   
   /api/patients/{id}/historique:
-    get:
+    post:
       tags:
         - Patients
-      summary: Historique médical d'un patient
+      summary: Create medical history for a patient
       parameters:
         - name: id
           in: path
           required: true
+          description: The ID of the patient
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMedicalHistoryDto'
+      responses:
+        '201':
+          description: Medical history created successfully
+        '400':
+          description: Bad request, missing required fields or invalid data
+        '404':
+          description: Patient not found
+
+    get:
+      summary: Get medical history for a patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
           schema:
             type: integer
       responses:
         '200':
-          description: Historique médical
+          description: The patient's medical history
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HistoriqueMedical'
+                $ref: '#/components/schemas/MedicalHistory'
+        '404':
+          description: Patient not found
+
+  /patients/{id}/historique/documents:
+    get:
+      summary: Get all documents for a patient's medical history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+        '404':
+          description: Medical history not found for the patient
+
+    post:
+      summary: Add a new document to a patient's medical history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDocumentDto'
+      responses:
+        '201':
+          description: Document added successfully
+        '404':
+          description: Patient not found
+
+  /patients/{id}/historique/documents/{documentId}:
+    put:
+      summary: Update a document in a patient's medical history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
+          schema:
+            type: integer
+        - name: documentId
+          in: path
+          required: true
+          description: The ID of the document
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDocumentDto'
+      responses:
+        '200':
+          description: Document updated successfully
+        '404':
+          description: Document or patient not found
+
+    delete:
+      summary: Remove a document from a patient's medical history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the patient
+          schema:
+            type: integer
+        - name: documentId
+          in: path
+          required: true
+          description: The ID of the document
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Document removed successfully
+        '404':
+          description: Document or patient not found
 
   /api/messaging/request:
     post:
@@ -338,6 +474,99 @@ paths:
 
 components:
   schemas:
+    LoginDto:
+      type: object
+      required:
+        - email
+        - password
+        - role
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+          description: User email address
+        password:
+          type: string
+          format: password
+          minLength: 6
+          pattern: "^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{6,}$"
+          example: "Passw0rd!"
+          description: |
+            Password must contain at least 6 characters, including:
+            - At least one letter
+            - At least one number
+            - At least one special character (!@#$%^&*)
+        role:
+          type: string
+          enum:
+            - ADMIN
+            - PATIENT
+            - PERSONNEL
+          example: PATIENT
+          description: User role
+
+    CreateUserDto:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: "John"
+        lastname:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          example: "johndoe@example.com"
+        password:
+          type: string
+          format: password
+          minLength: 6
+          example: "securePass123"
+        role:
+          type: string
+          enum: ["ADMIN", "PATIENT", "PERSONNEL"] 
+          example: "ADMIN"
+
+    CreatePersonnelDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [MEDECIN, INFIRMIER, AIDE_SOIGNANT, ADMINISTRATIF, TECHNICIEN]
+          example: MEDECIN
+        categorie:
+          type: string
+          enum: [TITULAIRE, CONTRACTUEL, VACATAIRE, STAGIAIRE, RESIDENT]
+          example: TITULAIRE
+        specialite:
+          type: string
+          enum: [CARDIOLOGIE, PEDIATRIE, NEUROLOGIE, URGENCES, CHIRURGIE, RADIOLOGIE, PSYCHIATRIE, GENERALISTE, AUTRE]
+          example: CARDIOLOGIE
+        service:
+          type: string
+          example: Cardiology Department
+        matricule:
+          type: string
+          example: 12345
+        dateRecrutement:
+          type: string
+          format: date
+          example: "2024-01-15"
+        statut:
+          type: string
+          enum: [PRESENT, ABSENT, CONGE, MISSION]
+          example: PRESENT
+
+    SignupRequest: 
+      type: object
+      required:
+        properties:
+          commonFields:
+            $ref: "#/components/schemas/CreateUserDto"
+          personnelSpecificFields:
+            $ref: "#/components/schemas/CreatePersonnelDto"
     Admin:
       type: object
       required:
@@ -766,6 +995,133 @@ components:
           type: boolean
         pieceJointe:
           type: string
+    CreateMedicalHistoryDto:
+      type: object
+      properties:
+        consultations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateConsultationDto'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateDocumentDto'
+
+    CreateConsultationDto:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        medecinId:
+          type: integer
+        diagnostic:
+          type: string
+        prescriptions:
+          type: array
+          items:
+            type: string
+        patientId:
+          type: integer
+
+    CreateDocumentDto:
+      type: object
+      properties:
+        type:
+          type: string
+        date:
+          type: string
+          format: date-time
+        titre:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+          format: uri
+
+    UpdateDocumentDto:
+      type: object
+      properties:
+        type:
+          type: string
+        date:
+          type: string
+          format: date-time
+        titre:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+          format: uri
+
+    MedicalHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+        patient:
+          $ref: '#/components/schemas/Patient'
+        consultations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Consultation'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        age:
+          type: integer
+        gender:
+          type: string
+        medicalHistory:
+          $ref: '#/components/schemas/MedicalHistory'
+
+    Consultation:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        diagnostic:
+          type: string
+        prescriptions:
+          type: array
+          items:
+            type: string
+        medecinId:
+          type: integer
+        patientId:
+          type: integer
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        date:
+          type: string
+          format: date-time
+        titre:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+          format: uri
 
   securitySchemes:
     bearerAuth:

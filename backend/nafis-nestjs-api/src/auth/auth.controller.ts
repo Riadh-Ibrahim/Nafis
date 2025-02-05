@@ -24,7 +24,7 @@ export class AuthController {
           }
     }
 
-    @Post('/login')
+    @Post('login')
     async login(@Body() loginDto: LoginDto) {
         return await this.authService.login(loginDto);
     }
