@@ -30,7 +30,7 @@ export class NavbarComponent {
     { name: 'Home', href: '/dashboard', fragment: '' },
     { name: 'About', href: '/landing', fragment: 'about' },
     { name: 'Services', href: '/landing', fragment: 'features' },
-    { name: 'Contact', href: '/landing', fragment: 'footer' }
+    { name: 'Contact', href: '/landing', fragment: 'testimonials' }
   ];
 
   // Basculer l'affichage des notifications
