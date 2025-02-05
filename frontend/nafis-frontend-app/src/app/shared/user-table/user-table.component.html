@@ -8,7 +8,6 @@
         <tr>
           <th>ID</th>
           <th>Profile</th>
-
           <th>Firstname</th>
           <th>Lastname</th>
           <th>Email</th>
@@ -17,50 +16,49 @@
           <th>addresse</th>
           <th>phone</th>
           <th>Delete user</th>
+          <!-- Conditional headers -->
           @if (isDoctor) {
-
           <th>mark present</th>
           <th>Status</th>
+          } @else if (showRealTimevitals) {
+          <th>RealTime vitals</th>
           }
         </tr>
       </thead>
 
       <tbody>
         @for (patient of patients; track patient.id) {
-
         <tr>
           <td>{{ patient.id }}</td>
           <td>
-            <img
-              src="{{ patient.photoUrl }}"
-              alt="user profile picture"
-              srcset=""
-            />
+            <img src="{{ patient.photoUrl }}" alt="user profile picture" />
           </td>
           <td>{{ patient.nom }}</td>
           <td>{{ patient.prenom }}</td>
-
           <td>{{ patient.email || "-" }}</td>
           <td>{{ patient.numeroSecu }}</td>
           <td>{{ patient.dateNaissance }}</td>
           <td>{{ patient.adresse }}</td>
           <td>{{ patient.telephone }}</td>
-          <!-- <td>2022-01-01 12:00:00</td> -->
           <td>
             <app-button [variant]="'danger'">Delete</app-button>
           </td>
+          <!-- Conditional cells -->
+          @if (isDoctor && !showRealTimevitals) {
           <td>
-            @if (isDoctor) {
-            <td>
-              <app-checkbox [(ngModel)]="patient.status" label=""></app-checkbox>
-            </td>
-            <td class="status {{ patient.status }}">
-              {{ patient.status }}
-            </td>
-          }
+            <app-checkbox [(ngModel)]="patient.status" label=""></app-checkbox>
           </td>
+          <td class="status {{ patient.status }}">
+            {{ patient.status }}
+          </td>
+          } @if (showRealTimevitals) {
+          <td>
+            <app-button [routerLink]="['/patient-chart']" [variant]="'add'"
+              >Access</app-button
+            >
+          </td>
+          }
         </tr>
-
         }
       </tbody>
     </table>

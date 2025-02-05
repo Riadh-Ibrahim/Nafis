@@ -4,6 +4,7 @@ import { ConsultationByMonthComponent } from '../consultation-by-month/consultat
 import { ConsultationByCategoryComponent } from '../consultation-by-category/consultation-by-category.component';
 import { ConsultationByDoctorComponent } from '../consultation-by-doctor/consultation-by-doctor.component';
 import { LastFewTransactionsComponent } from '../last-few-transactions/last-few-transactions.component';
+import { GestionChambreComponent } from '../../gestion-chambre/gestion-chambre.component';
 
 export interface AdminSimpleWidget {
   category: string;
@@ -13,13 +14,7 @@ export interface AdminSimpleWidget {
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [
-    WidgetsComponent,
-    ConsultationByMonthComponent,
-    ConsultationByCategoryComponent,
-    ConsultationByDoctorComponent,
-    LastFewTransactionsComponent,
-  ],
+  imports: [GestionChambreComponent, WidgetsComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })

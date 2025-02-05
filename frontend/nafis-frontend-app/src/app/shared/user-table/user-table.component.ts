@@ -3,11 +3,12 @@ import { ButtonComponent } from '../button/button.component';
 import { Patient } from '../../interfaces/patient';
 import { CheckboxComponent } from '../checkbox/checkbox.component';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-table',
   standalone: true,
-  imports: [FormsModule, CheckboxComponent, ButtonComponent],
+  imports: [FormsModule, CheckboxComponent, ButtonComponent, RouterLink],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss',
 })
@@ -61,4 +62,5 @@ export class UserTableComponent {
   ];
   //@Input() patients!: any[];
   @Input() isDoctor: boolean = false;
+  @Input() showRealTimevitals!: boolean;
 }

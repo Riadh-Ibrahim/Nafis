@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { IconsModule } from '../../../../icons.module';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [IconsModule, LucideAngularModule],
+  imports: [IconsModule, LucideAngularModule, RouterLink],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.scss',
 })

@@ -23,10 +23,17 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'doctor-profile',
+    path: 'patient-profil',
     loadChildren: () =>
-      import('./features/doctor-profile/doctor-profile.routes').then(
-        (m) => m.PROFILE_ROUTES
+      import('./features/patient-profil/patient-profil.routes').then(
+        (m) => m.PATIENT_PROFIL_ROUTES
+      ),
+  },
+  {
+    path: 'patient-chart',
+    loadChildren: () =>
+      import('./features/patient-chart/patient-chart.routes').then(
+        (m) => m.PATIENT_CHART_ROUTES
       ),
   },
   {
@@ -56,6 +63,13 @@ export const routes: Routes = [
       import(
         './features/constantes-formulaires/constantes-formulaires.routes'
       ).then((m) => m.CONSTANTES_ROUTES),
+  },
+  {
+    path: 'doctor-profile',
+    loadChildren: () =>
+      import('./features/doctor-profile/doctor-profile.routes').then(
+        (m) => m.PROFILE_ROUTES
+      ),
   },
 
   {

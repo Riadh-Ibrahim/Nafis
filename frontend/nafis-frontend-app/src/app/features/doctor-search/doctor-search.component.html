@@ -23,10 +23,7 @@
   } } @else { @for (doctor of doctors(); track doctor.id) {
   <div class="doctor-card">
     <div class="doctor-info-container">
-      <div
-        class="doctor-image clickable"
-        [routerLink]="['/doctor-profile', doctor.id]"
-      >
+      <div class="doctor-image clickable" routerLink="/doctor-profile">
         <img
           [ngSrc]="doctor.imageUrl"
           [alt]="doctor.prenom + ' ' + doctor.nom"
