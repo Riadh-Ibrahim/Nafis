@@ -8,4 +8,6 @@ import { UserTableComponent } from '../../../shared/user-table/user-table.compon
   templateUrl: './patient-management.component.html',
   styleUrl: './patient-management.component.scss',
 })
-export class PatientManagementComponent {}
+export class PatientManagementComponent {
+  patients: any = [];
+}

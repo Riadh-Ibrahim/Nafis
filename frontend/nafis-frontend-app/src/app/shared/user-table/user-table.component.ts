@@ -59,5 +59,6 @@ export class UserTableComponent {
       //role: 'patient',
     },
   ];
+  //@Input() patients!: any[];
   @Input() isDoctor: boolean = false;
 }
