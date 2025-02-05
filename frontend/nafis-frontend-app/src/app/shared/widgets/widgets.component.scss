@@ -1,19 +1,22 @@
 .widget-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
+  gap: 20px;
 }
 
 .widget {
   display: flex;
+  flex: 1;
   align-items: center;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 200px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100px;
+  //transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .widget:hover {

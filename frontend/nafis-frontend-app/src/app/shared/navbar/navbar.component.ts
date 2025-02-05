@@ -1,7 +1,7 @@
 // navbar.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { LucideAngularModule, Menu, X } from 'lucide-angular';
 import { Store } from '@ngrx/store';
 import * as AuthSelectors from '../../core/store/auth/selectors/auth.selectors';
@@ -9,7 +9,7 @@ import * as AuthActions from '../../core/store/auth/actions/auth.actions';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule, RouterLink],
 
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
