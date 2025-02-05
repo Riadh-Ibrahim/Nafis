@@ -1,125 +1,233 @@
+// .auth-container {
+//   display: flex;
+//   min-height: 100vh;
+//   background-color: #ffffff;
+// }
+
+// .auth-illustration {
+//   flex: 1;
+//   background-color: #e6f3ff;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 2rem;
+
+//   .illustration-content {
+//     max-width: 400px;
+//     img {
+//       width: 100%;
+//       height: auto;
+//     }
+//   }
+// }
+
+// .auth-form {
+//   flex: 1;
+//   padding: 3rem;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   max-width: 480px;
+//   margin: 0 auto;
+
+//   h2 {
+//     margin-bottom: 2rem;
+//     font-size: 1.875rem;
+//     font-weight: 600;
+//     color: #1a1a1a;
+//   }
+// }
+
+// .form-group {
+//   margin-bottom: 1.5rem;
+
+//   label {
+//     display: block;
+//     margin-bottom: 0.5rem;
+//     font-weight: 500;
+//     color: #4a5568;
+//   }
+// }
+
+// .form-control {
+//   width: 100%;
+//   padding: 0.75rem 1rem;
+//   border: 1px solid #e2e8f0;
+//   border-radius: 0.375rem;
+//   font-size: 1rem;
+//   transition: border-color 0.2s ease;
+
+//   &:focus {
+//     outline: none;
+//     border-color: #3182ce;
+//     box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+//   }
+// }
+
+// .btn-submit {
+//   width: 100%;
+//   padding: 0.875rem;
+//   background-color: #002366;
+//   color: white;
+//   border: none;
+//   border-radius: 0.375rem;
+//   font-size: 1rem;
+//   font-weight: 500;
+//   cursor: pointer;
+//   transition: background-color 0.2s ease;
+
+//   &:hover {
+//     background-color: #001a4d;
+//   }
+
+//   &:disabled {
+//     background-color: #a0aec0;
+//     cursor: not-allowed;
+//   }
+// }
+
+// .auth-links {
+//   margin-top: 1.5rem;
+//   text-align: center;
+//   color: #4a5568;
+
+//   .toggle-mode {
+//     color: #0066cc;
+//     text-decoration: none;
+//     cursor: pointer;
+//     margin-left: 0.5rem;
+
+//     &:hover {
+//       text-decoration: underline;
+//     }
+//   }
+// }
+
+// .error-message {
+//   color: #e53e3e;
+//   font-size: 0.875rem;
+//   margin-top: 0.25rem;
+// }
+
+// @media (max-width: 768px) {
+//   .auth-container {
+//     flex-direction: column;
+//   }
+
+//   .auth-illustration {
+//     display: none;
+//   }
+
+//   .auth-form {
+//     padding: 2rem 1rem;
+//   }
+// }
+
 .auth-container {
-    display: flex;
-    min-height: 100vh;
-    background-color: #ffffff;
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('../../../assets/heart-pulse.jpg'); // Chemin vers votre GIF animé
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.auth-form {
+  background-color: rgba(255, 255, 255, 0.9); // Fond semi-transparent pour le formulaire
+  padding: 3rem;
+  margin-left: 12rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
   }
-  
-  .auth-illustration {
-    flex: 1;
-    background-color: #e6f3ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    
-    .illustration-content {
-      max-width: 400px;
-      img {
-        width: 100%;
-        height: auto;
-      }
-    }
-  }
-  
-  .auth-form {
-    flex: 1;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 480px;
-    margin: 0 auto;
-  
-    h2 {
-      margin-bottom: 2rem;
-      font-size: 1.875rem;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-  }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
-  
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: #4a5568;
-    }
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.375rem;
-    font-size: 1rem;
-    transition: border-color 0.2s ease;
-  
-    &:focus {
-      outline: none;
-      border-color: #3182ce;
-      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-    }
-  }
-  
-  .btn-submit {
-    width: 100%;
-    padding: 0.875rem;
-    background-color: #002366;
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    font-size: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
     font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  
-    &:hover {
-      background-color: #001a4d;
-    }
-  
-    &:disabled {
-      background-color: #a0aec0;
-      cursor: not-allowed;
-    }
-  }
-  
-  .auth-links {
-    margin-top: 1.5rem;
-    text-align: center;
     color: #4a5568;
-  
-    .toggle-mode {
-      color: #0066cc;
-      text-decoration: none;
-      cursor: pointer;
-      margin-left: 0.5rem;
-  
-      &:hover {
-        text-decoration: underline;
-      }
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #002366;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #001a4d;
+  }
+
+  &:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+  }
+}
+
+.auth-links {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #4a5568;
+
+  .toggle-mode {
+    color: #0066cc;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left: 0.5rem;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
-  
-  .error-message {
-    color: #e53e3e;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .auth-form {
+    padding: 2rem 1rem;
   }
-  
-  @media (max-width: 768px) {
-    .auth-container {
-      flex-direction: column;
-    }
-  
-    .auth-illustration {
-      display: none;
-    }
-  
-    .auth-form {
-      padding: 2rem 1rem;
-    }
-  }
-  
+}

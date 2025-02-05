@@ -1,13 +1,38 @@
 <div class="auth-container">
-  <div class="auth-illustration">
-    <div class="illustration-content">
-      <img src="assets\doctor-explain-coronavirus.png" alt="Medical Professional" />
-    </div>
-  </div>
-  
+  <!-- Formulaire de login centré -->
   <div class="auth-form">
     <h2>{{ isLoginMode ? 'Login' : 'Create Account' }}</h2>
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      <!-- Firstname and Lastname fields (only in registration mode) -->
+      <div *ngIf="!isLoginMode" class="form-group">
+        <label for="firstname">First Name</label>
+        <input
+          type="text"
+          id="firstname"
+          formControlName="firstname"
+          class="form-control"
+          placeholder="John"
+        />
+        <div *ngIf="authForm.get('firstname')?.errors?.['required'] && authForm.get('firstname')?.touched" class="error-message">
+          First name is required
+        </div>
+      </div>
+
+      <div *ngIf="!isLoginMode" class="form-group">
+        <label for="lastname">Last Name</label>
+        <input
+          type="text"
+          id="lastname"
+          formControlName="lastname"
+          class="form-control"
+          placeholder="Doe"
+        />
+        <div *ngIf="authForm.get('lastname')?.errors?.['required'] && authForm.get('lastname')?.touched" class="error-message">
+          Last name is required
+        </div>
+      </div>
+
+      <!-- Email field -->
       <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -25,6 +50,7 @@
         </div>
       </div>
 
+      <!-- Password field -->
       <div class="form-group">
         <label for="password">Password</label>
         <input
@@ -37,14 +63,31 @@
           Password is required
         </div>
         <div *ngIf="authForm.get('password')?.errors?.['minlength'] && authForm.get('password')?.touched" class="error-message">
-          Password must be at least 8 characters
+          Password must be at least 6 characters
         </div>
       </div>
 
-      <app-button type="submit" class="w-full" class="btn-submit" [disabled]="!authForm.valid">
+      <!-- Role field -->
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select
+          id="role"
+          formControlName="role"
+          class="form-control"
+        >
+          <option *ngFor="let role of userRoles" [value]="role">{{ role }}</option>
+        </select>
+        <div *ngIf="authForm.get('role')?.errors?.['required'] && authForm.get('role')?.touched" class="error-message">
+          Role is required
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <app-button type="submit" class="w-full btn-submit" [disabled]="!authForm.valid">
         {{ isLoginMode ? 'Login' : 'Register' }}
       </app-button>
 
+      <!-- Toggle mode link -->
       <div class="auth-links">
         <span>{{ isLoginMode ? 'New to Nafis?' : 'Already have an account?' }}</span>
         <a (click)="toggleAuthMode()" class="toggle-mode">

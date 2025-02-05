@@ -1,0 +1,27 @@
+<!-- temperature-chart.component.html -->
+
+<div class="chart-wrapper">
+  @if (isInitialized()) {
+  <canvas
+    *ngIf="isBrowser"
+    baseChart
+    [data]="chartData()"
+    [options]="chartOptions"
+    [type]="'line'"
+    class="temperature-chart"
+  >
+  </canvas>
+  } @else {
+  <div class="loading-indicator">
+    <span>Loading chart data...</span>
+  </div>
+  }
+</div>
+
+<div class="chart-footer">
+  @if (error()) {
+  <div class="error-message">
+    {{ error() }}
+  </div>
+  }
+</div>

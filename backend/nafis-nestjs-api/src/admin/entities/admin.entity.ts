@@ -9,7 +9,7 @@ export class Admin {
   id: number;
 
   @OneToOne(()=>User, { onDelete: 'CASCADE', eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: "user_id" })
   user: User;
 
   @OneToMany(() => Patient, (patient) => patient.admin)

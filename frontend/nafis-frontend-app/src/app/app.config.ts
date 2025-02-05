@@ -7,6 +7,7 @@
   import { provideEffects } from '@ngrx/effects';
   import { authReducer } from './core/store/auth/reducers/auth.reducer';
   import { AuthEffects } from './core/store/auth/effects/auth.effects';
+
   import { 
     LucideAngularModule, 
     Menu, 
@@ -21,7 +22,10 @@
     Bell,
     Package, 
     DollarSign,
-    Phone
+    Phone,
+    Stethoscope,
+    
+    
   } from 'lucide-angular';
   export const appConfig: ApplicationConfig = {
     providers: [
@@ -43,7 +47,8 @@
         Bell,
         'dollar-sign': DollarSign,
         Phone,
-       }).providers || []
+        Stethoscope, // Include the Lungs icon here
+      }).providers || []
 
       
     ]

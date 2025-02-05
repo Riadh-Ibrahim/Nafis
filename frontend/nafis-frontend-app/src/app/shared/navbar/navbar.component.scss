@@ -1,36 +1,35 @@
-:host {
-    display: block;
-  }
-  
-  .router-link-active {
-    @apply text-white bg-cyan-500;
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  nav {
-    animation: slideIn 0.5s ease-out;
-  }
-  
-  .notification-dropdown {
-    max-height: 300px;
-    overflow-y: auto;
-  
-    .notification-item {
-      border-bottom: 1px solid #e5e7eb;
-  
-      &:last-child {
-        border-bottom: none;
-      }
-    }
+// :host {
+//   display: block;
+// }
 
-  }
+// .router-link-active {
+//   background-color: #06b6d4;
+// }
+
+// @keyframes slideIn {
+//   from {
+//     transform: translateY(-100%);
+//     opacity: 0;
+//   }
+//   to {
+//     transform: translateY(0);
+//     opacity: 1;
+//   }
+// }
+
+// nav {
+//   animation: slideIn 0.5s ease-out;
+// }
+
+// .notification-dropdown {
+//   max-height: 300px;
+//   overflow-y: auto;
+
+//   .notification-item {
+//     border-bottom: 1px solid #e5e7eb;
+
+//     &:last-child {
+//       border-bottom: none;
+//     }
+//   }
+// }

@@ -1,0 +1,11 @@
+<label class="checkbox-wrapper" [class.disabled]="disabled">
+  <input
+    type="checkbox"
+    [checked]="checked"
+    [indeterminate]="indeterminate"
+    [disabled]="disabled"
+    (change)="toggleCheckbox($event)"
+  />
+  <span class="custom-checkbox" [class.checked]="checked"></span>
+  <span class="checkbox-label">{{ label }}</span>
+</label>

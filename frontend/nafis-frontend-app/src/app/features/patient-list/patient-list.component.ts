@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MockDataService } from '../../services/mock-data.service';
+import { MockDataService } from '../../core/services/services/mock-data.service';
 import { Patient } from '../../interfaces/patient';
 import { CommonModule } from '@angular/common';
 
