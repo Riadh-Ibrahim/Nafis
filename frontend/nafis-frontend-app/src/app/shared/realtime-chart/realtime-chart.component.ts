@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
 import { Chart, ChartConfiguration, ChartOptions } from 'chart.js';
-import { TemperatureService } from '../../services/Temperature.service';
+import { TemperatureService } from '../../core/services/Temperature.service';
 import 'chartjs-plugin-streaming';
 import { StreamingPlugin, RealTimeScale } from 'chartjs-plugin-streaming';
 import 'chartjs-adapter-date-fns'; // Required for time scale

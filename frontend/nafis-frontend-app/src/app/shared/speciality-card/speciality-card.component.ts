@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { Doctor, Speciality } from '../../interfaces/speciality';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-speciality-card',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, RouterLink],
   templateUrl: './speciality-card.component.html',
   styleUrl: './speciality-card.component.scss',
 })

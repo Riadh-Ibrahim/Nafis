@@ -1,29 +1,58 @@
-<div class="p-6 bg-antiflash-white">
-  <ng-container *ngIf="!(error$ | async); else errorTpl">
-    <ng-container *ngIf="(dashboardState$ | async)?.type as type">
-      <!-- <app-dashboard-greeting
-        [greetingMessage]="(dashboardState$ | async)?.greetingMessage || ''"
-        [fullName]="(dashboardState$ | async)?.fullName || ''"
-        [subtitle]="(dashboardState$ | async)?.subtitle || ''"
-      ></app-dashboard-greeting> -->
-      <app-specialitylist></app-specialitylist>
-      <app-doctor-dashboard
-        *ngIf="(dashboardState$ | async)?.type === 'doctor'"
-        [stats]="(dashboardState$ | async)?.stats"
-      ></app-doctor-dashboard>
-      <app-patient-dashboard
-        *ngIf="(dashboardState$ | async)?.type === 'patient'"
-        [stats]="(dashboardState$ | async)?.stats"
-      ></app-patient-dashboard>
+<div class="p-6 bg-antiflash-white flex">
+  <div class="w-3/4 pr-6">
+    <ng-container *ngIf="dashboardState$ | async as state">
+      <ng-container *ngIf="!state.error; else errorTpl">
+        <app-dashboard-greeting
+          [greetingMessage]="state.greetingMessage"
+          [fullName]="state.fullName"
+          [subtitle]="state.subtitle"
+        ></app-dashboard-greeting>
+        <div class="flex justify-center">
+          @if ( state.type == "patient") {
+          <a
+            [routerLink]="['/specialities']"
+            class="w-50 text-center bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-500 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105"
+          >
+            Need a Doctor?
+          </a>
+          } @else {
+          <a
+            [routerLink]="['/patient-profil']"
+            class="w-50 text-center bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-500 hover:to-cyan-600 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105"
+          >
+            Show my patients
+          </a>
+          }
+        </div>
+        <ng-container [ngSwitch]="state.type">
+          <app-doctor-dashboard
+            *ngSwitchCase="'doctor'"
+            [stats]="state.stats"
+          ></app-doctor-dashboard>
+
+          <app-patient-dashboard
+            *ngSwitchCase="'patient'"
+            [stats]="state.stats"
+          ></app-patient-dashboard>
+        </ng-container>
+      </ng-container>
     </ng-container>
-  </ng-container>
-  <ng-template #errorTpl>
-    <div class="flex items-center justify-center w-full h-full">
-      <img
-        src="../../assets/error_page.png"
-        alt="Error"
-        class="w-full h-full object-cover"
-      />
-    </div>
-  </ng-template>
+  </div>
+
+  <div class="w-1/4 ml-6">
+    <ng-container *ngIf="dashboardState$ | async as state">
+      <app-calender-sidebar [userId]="state.userId" [userType]="state.type">
+      </app-calender-sidebar>
+    </ng-container>
+  </div>
 </div>
+
+<ng-template #errorTpl>
+  <div class="flex items-center justify-center w-full h-full">
+    <img
+      src="../../assets/error_page.png"
+      alt="Error"
+      class="w-full h-full object-cover"
+    />
+  </div>
+</ng-template>

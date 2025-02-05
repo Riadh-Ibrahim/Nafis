@@ -77,4 +77,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/landing/landing.routes').then((m) => m.LANDING_ROUTES),
   },
+  {
+    path: 'specialities',
+    loadChildren: () =>
+      import('./features/specialitylist/specialitylist.routes').then(
+        (m) => m.SPECIALITYLIST_ROUTES
+      ),
+  },
 ];

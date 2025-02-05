@@ -4,10 +4,16 @@
       <!-- Logo and Description -->
       <div class="flex-shrink-0 mb-4 md:mb-0">
         <div class="flex items-center space-x-4">
-          <img src="../../../assets/medical.svg" class="h-10 w-auto" alt="NAFIS Logo" />
+          <img
+            src="../../../assets/medical.svg"
+            class="h-10 w-auto"
+            alt="NAFIS Logo"
+          />
           <span class="text-xl font-semibold tracking-wider">NAFIS</span>
         </div>
-        <p class="mt-2 text-sm">Empowering healthcare with advanced solutions.</p>
+        <p class="mt-2 text-sm">
+          Empowering healthcare with advanced solutions.
+        </p>
         <!-- Ajout de l'adresse e-mail avec une icône SVG -->
         <div class="mt-2 flex items-center space-x-2">
           <svg
@@ -22,16 +28,22 @@
             stroke-linejoin="round"
             class="feather feather-mail"
           >
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            ></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
-          <a href="mailto:nafiserp4&#64;gmail.com" class="text-sm hover:underline">nafiserp4&#64;gmail.com</a>
+          <a
+            href="mailto:nafiserp4&#64;gmail.com"
+            class="text-sm hover:underline"
+            >nafiserp4&#64;gmail.com</a
+          >
         </div>
       </div>
 
       <!-- Navigation Links -->
       <div class="flex flex-wrap space-x-6">
-        <a 
+        <a
           *ngFor="let link of footerLinks"
           [routerLink]="link.href"
           class="text-sm font-medium hover:underline"
