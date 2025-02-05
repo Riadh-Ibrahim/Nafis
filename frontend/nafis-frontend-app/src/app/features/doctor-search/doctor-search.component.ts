@@ -2,7 +2,7 @@
 import { Component, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
+import { LucideAngularModule } from 'lucide-angular';
 interface Personnel {
   id: number;
   nom: string;
@@ -43,7 +43,7 @@ enum PersonnelSpecialite {
 @Component({
   selector: 'app-doctor-search',
   standalone: true,
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink, LucideAngularModule],
   templateUrl: './doctor-search.component.html',
   styleUrls: ['./doctor-search.component.scss'],
 })
