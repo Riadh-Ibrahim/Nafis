@@ -5,6 +5,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { IconsModule } from '../icons.module';
 import { LucideAngularModule, Send, X, ChevronUp } from 'lucide-angular';
 import { ChatbotComponent } from './features/chatbot/chatbot.component';
+import { HttpClientJsonpModule } from '@angular/common/http';
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 //import { TemperatureChartComponent } from './features/charts/charts.component';
 //import { RealtimeTemperatureChartComponent } from './shared/realtime-chart/realtime-chart.component';
@@ -14,7 +15,7 @@ import { ChatbotComponent } from './features/chatbot/chatbot.component';
   standalone: true,
   imports: [
     RouterOutlet,
-    // NoopAnimationsModule,
+    HttpClientJsonpModule,
     LucideAngularModule,
     NavbarComponent,
     FooterComponent,

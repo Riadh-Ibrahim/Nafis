@@ -3,7 +3,7 @@ import { catchError, EMPTY, map, Observable, switchMap, of } from 'rxjs';
 import { DashboardState } from '../../interfaces/dashboardState';
 import { UrlSegment } from '@angular/router';
 import { MockDataService } from './mock-data.service';
-import {tap} from "rxjs/operators";
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +22,12 @@ export class DashboardService {
 
     console.log('Creating dashboard state for:', { type, id });
 
-    return (type === 'doctor'
+    return (
+      type === 'doctor'
         ? this.getDoctorDashboardState(id.toString())
         : this.getPatientDashboardState(id.toString())
     ).pipe(
-      tap(state => {
+      tap((state) => {
         console.log('Created dashboard state:', state);
       })
     );
@@ -37,7 +38,7 @@ export class DashboardService {
         if (!personnel) {
           return of({
             type: 'doctor',
-            userId: parseInt(id),  // Add this
+            userId: parseInt(id), // Add this
             stats: null,
             fullName: '',
             subtitle: '',
@@ -46,26 +47,33 @@ export class DashboardService {
           } as DashboardState);
         }
         return this.mockDataService.getMedicalStats(id).pipe(
-          map((stats) => ({
-            type: 'doctor',
-            userId: parseInt(id),  // Add this
-            stats,
-            fullName: `${personnel.prenom} ${personnel.nom}`,
-            subtitle: `${personnel?.specialite || 'Médecin'} - ${personnel?.service || 'Service inconnu'}`,
-            greetingMessage: this.getTimeOfDay(),
-            error: false,
-          } as DashboardState))
+          map(
+            (stats) =>
+              ({
+                type: 'doctor',
+                userId: parseInt(id), // Add this
+                stats,
+                fullName: `${personnel.prenom} ${personnel.nom}`,
+                subtitle: `${personnel?.specialite || 'Médecin'} - ${
+                  personnel?.service || 'Service inconnu'
+                }`,
+                greetingMessage: this.getTimeOfDay(),
+                error: false,
+              } as DashboardState)
+          )
         );
       }),
-      catchError(() => of({
-        type: 'doctor',
-        userId: parseInt(id),  // Add this
-        stats: null,
-        fullName: '',
-        subtitle: '',
-        greetingMessage: '',
-        error: true,
-      } as DashboardState))
+      catchError(() =>
+        of({
+          type: 'doctor',
+          userId: parseInt(id), // Add this
+          stats: null,
+          fullName: '',
+          subtitle: '',
+          greetingMessage: '',
+          error: true,
+        } as DashboardState)
+      )
     );
   }
 
@@ -89,7 +97,7 @@ export class DashboardService {
             type: 'patient' as const,
             userId: parseInt(id),
             stats,
-            fullName: `${patient.prenom} ${patient.nom}`,
+            fullName: `${patient.lastname} ${patient.firstname}`,
             subtitle: `№ Sécurité Sociale: ${patient?.numeroSecu || 'Inconnu'}`,
             greetingMessage: this.getTimeOfDay(),
             error: false,

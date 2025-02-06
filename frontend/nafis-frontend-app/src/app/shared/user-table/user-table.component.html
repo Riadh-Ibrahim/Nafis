@@ -31,10 +31,15 @@
         <tr>
           <td>{{ patient.id }}</td>
           <td>
-            <img src="{{ patient.photoUrl }}" alt="user profile picture" />
+            <img
+              src="{{
+                patient.photoUrl || '../../../../../assets/generic.jpg'
+              }}"
+              alt="user profile picture"
+            />
           </td>
-          <td>{{ patient.nom }}</td>
-          <td>{{ patient.prenom }}</td>
+          <td>{{ patient.lastname }}</td>
+          <td>{{ patient.firstname }}</td>
           <td>{{ patient.email || "-" }}</td>
           <td>{{ patient.numeroSecu }}</td>
           <td>{{ patient.dateNaissance }}</td>

@@ -21,23 +21,27 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: {
-     email: string; 
-     password: string; 
-     role: string;
-    }): Observable<{ access_token: string }> {
-    return this.http.post<{ access_token: string }>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response) => {
-        localStorage.setItem('access_token', response.access_token);
-      })
-    );
+    email: string;
+    password: string;
+    role: string;
+  }): Observable<{ access_token: string }> {
+    return this.http
+      .post<{ access_token: string }>(`${this.apiUrl}/login`, credentials)
+      .pipe(
+        tap((response) => {
+          localStorage.setItem('access_token', response.access_token);
+        })
+      );
   }
 
-  register(user: { 
-    firstname: string;
-    lastname: string;
-    email: string; 
-    password: string;
-    role: UserRoleEnum; 
+  register(user: {
+    commonFields: {
+      firstname: string;
+      lastname: string;
+      email: string;
+      password: string;
+      role: UserRoleEnum;
+    };
   }): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/signup`, user);
   }

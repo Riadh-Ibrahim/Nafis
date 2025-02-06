@@ -1,7 +1,7 @@
 <!-- admin-registration.component.html -->
 <app-auth-form
   mode="register"
-  [userRoles]="['admin']"
+  [userRoles]="['admin', 'doctor', 'patient']"
   (authSubmit)="handleRegister($event)"
 >
 </app-auth-form>

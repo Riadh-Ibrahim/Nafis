@@ -1,5 +1,16 @@
-import { IsString, IsEnum, IsOptional, IsDateString, IsNotEmpty } from 'class-validator';
-import { PersonnelType, PersonnelCategorie, Specialite, PersonnelStatut } from '../entities/personnel.entity';
+import {
+  IsString,
+  IsEnum,
+  IsOptional,
+  IsDateString,
+  IsNotEmpty,
+} from "class-validator";
+import {
+  PersonnelType,
+  PersonnelCategorie,
+  Specialite,
+  PersonnelStatut,
+} from "../entities/personnel.entity";
 
 export class CreatePersonnelDto {
   @IsNotEmpty()

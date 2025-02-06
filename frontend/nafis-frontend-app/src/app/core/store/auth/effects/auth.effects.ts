@@ -36,12 +36,29 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  // register$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(AuthActions.register),
+  //     mergeMap(({ firstname, lastname, email, password, role }) =>
+  //       this.authService
+  //         .register({ firstname, lastname, email, password, role })
+  //         .pipe(
+  //           map(() => AuthActions.registerSuccess()),
+  //           catchError((error) =>
+  //             of(AuthActions.registerFailure({ error: error.message }))
+  //           )
+  //         )
+  //     )
+  //   )
+  // );
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
       mergeMap(({ firstname, lastname, email, password, role }) =>
         this.authService
-          .register({ firstname, lastname, email, password, role })
+          .register({
+            commonFields: { firstname, lastname, email, password, role },
+          }) // Wrap inside commonFields
           .pipe(
             map(() => AuthActions.registerSuccess()),
             catchError((error) =>

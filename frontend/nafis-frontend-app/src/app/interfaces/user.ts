@@ -10,7 +10,7 @@ export interface User {
   email: string;
   password?: string;
   role: UserRoleEnum;
-  dateNaissance?: Date;
+  dateNaissance?: string;
   numeroSecu?: string;
   adresse?: string;
   telephone?: string;
@@ -21,4 +21,5 @@ export interface User {
   admin?: Admin;
   patients?: Patient[];
   personnel?: Personnel;
+  statut?: 'PRESENT' | 'ABSENT' | 'CONGE' | 'MISSION';
 }
