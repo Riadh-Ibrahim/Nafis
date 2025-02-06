@@ -1,20 +1,7 @@
-<div class="flex w-screen h-screen mt-5">
-    <!--
-    <div class="overflow-hidden flex-1">
-        <div class="w-full h-full px-4 flex flex-col gap-4">
-            <div class="h-[5.76%] w-full">
-                <app-input></app-input>
-            </div>
-                <app-message-preview 
-                    *ngFor="let message of messagesPreview" 
-                    [sender]="message.sender" 
-                    [content]="message.content"></app-message-preview>  
-        </div>
-    </div>
-    -->
+<div class="flex w-1/2 h-screen mt-5 mx-auto"> 
     <div class="flex flex-col flex-1 relative h-full">
-        <div class="overflow-auto mb-5 scrollbar-hide h-full">
-            <div class="border-2 border-gray-400 flex flex-col p-4 w-full">
+        <div class="mb-5 scrollbar-hide h-full overflow-y-hidden">
+            <div class="border-2 border-gray-400 flex flex-col p-4 w-full h-full bg-purple-300">
                 <div class='flex items-center justify-between absolute right-0 top-0 w-full p-4 bg-white border-x-2 border-t-2 border-gray-400 z-10'>
                     <i-lucide name="chevron-up"></i-lucide>
                     <h1>Médecin</h1>
