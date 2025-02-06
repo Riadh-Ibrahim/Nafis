@@ -1,1 +1,8 @@
-<app-user-table [isDoctor]="false"></app-user-table>
+<div
+  style="display: flex; flex-direction: column; gap: 20px; align-items: center"
+>
+  <app-user-table [isDoctor]="false"> </app-user-table>
+  <app-button [variant]="'add'" routerlink routerLink="add-patient"
+    >Add Patient</app-button
+  >
+</div>

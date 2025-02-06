@@ -1,0 +1,46 @@
+<div class="reporting-container">
+  <header class="reporting-header">
+    <h1>Hospital Reporting & Analytics</h1>
+    <p>Static Dashboard for Admin Overview</p>
+  </header>
+
+  <!-- Metrics Cards -->
+  <div class="metrics">
+    <div class="metric-card">
+      <h2>Total Patients</h2>
+      <p class="value">{{ totalPatients }}</p>
+      <span class="icon" title="Patients">👥</span>
+    </div>
+    <div class="metric-card">
+      <h2>Total Doctors</h2>
+      <p class="value">{{ totalDoctors }}</p>
+      <span class="icon" title="Doctors">👨‍⚕️</span>
+    </div>
+    <div class="metric-card">
+      <h2>Appointments Today</h2>
+      <p class="value">{{ appointmentsToday }}</p>
+      <span class="icon" title="Appointments">📅</span>
+    </div>
+    <div class="metric-card">
+      <h2>Revenue Today</h2>
+      <p class="value">${{ revenueToday }}</p>
+      <span class="icon" title="Revenue">💰</span>
+    </div>
+  </div>
+
+  <!-- Monthly Visits Chart -->
+  <div class="chart-container">
+    <h2>Monthly Visits</h2>
+    <div class="chart">
+      <!-- Simple static bar chart -->
+      <div class="bar-chart">
+        @for (data of monthlyVisits; track data.month) {
+        <div class="bar" [style.height.%]="data.visits / 6">
+          <span class="bar-value">{{ data.visits }}</span>
+          <span class="bar-label">{{ data.month }}</span>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

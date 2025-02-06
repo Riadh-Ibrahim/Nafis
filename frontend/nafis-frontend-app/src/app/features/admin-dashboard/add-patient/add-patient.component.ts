@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../shared/button/button.component';
-import * as AuthActions from '../../core/store/auth/actions/auth.actions';
-import * as AuthSelectors from '../../core/store/auth/selectors/auth.selectors';
+import * as AuthActions from '../../../core/store/auth/actions/auth.actions';
+import * as AuthSelectors from '../../../core/store/auth/selectors/auth.selectors';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideStore } from '@ngrx/store';
-import { authReducer } from '../../core/store/auth/reducers/auth.reducer';
-import { UserRoleEnum } from '../../core/enums/user-role.enum';
-import { AuthFormComponent } from '../../shared/auth-form/auth-form.component';
+import { authReducer } from '../../../core/store/auth/reducers/auth.reducer';
+import { UserRoleEnum } from '../../../core/enums/user-role.enum';
+import { AuthFormComponent } from '../../../shared/auth-form/auth-form.component';
 @Component({
-  selector: 'app-login',
+  selector: 'app-add-patient',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, AuthFormComponent],
-
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './add-patient.component.html',
+  styleUrl: './add-patient.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class AddPatientComponent implements OnInit {
   authForm: FormGroup;
   isLoginMode = true;
   userRoles = Object.values(UserRoleEnum);
@@ -66,8 +64,10 @@ export class LoginComponent implements OnInit {
     this.authForm.reset();
   }
   // dashboard.component.ts
-  handleLogin(credentials: any) {
-    // Dispatch the login action or call a service method
-    this.store.dispatch(AuthActions.login(credentials));
+  // admin-registration.component.ts
+  handleRegister(registrationData: any) {
+    // You might want to extract or transform data if needed before dispatching
+    const credentials = this.authForm.value;
+    this.store.dispatch(AuthActions.register(registrationData));
   }
 }

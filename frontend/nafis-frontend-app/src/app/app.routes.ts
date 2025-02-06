@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { NotificationComponent } from './features/notification/notification.component';
 import { ChatComponent } from './features/chat/chat.component';
+import { AddPatientComponent } from './features/admin-dashboard/add-patient/add-patient.component';
 
 export const routes: Routes = [
   {
@@ -91,6 +92,10 @@ export const routes: Routes = [
       import('./features/notification/notification.routes').then(
         (m) => m.NOTIFICATION_ROUTES
       ),
+  },
+  {
+    path: 'admin/add-patient',
+    component: AddPatientComponent,
   },
   {
     path: '',
