@@ -1,6 +1,4 @@
-import { User } from './user';
-
-export interface Patient extends User {
+export interface Patient {
   lastname: string;
   firstname: string;
   dateNaissance: string;
