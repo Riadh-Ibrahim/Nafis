@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAFIS HealthCare</title>
+    <link rel="stylesheet" href="landing.component.scss">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to NAFIS HealthCare</h1>
+            <p class="hero-subtitle">Your health management, made easy.</p>
+            <div class="hero-buttons">
+                <a href="javascript:void(0);" class="btn btn-primary" (click)="goToLogin()">Get Started</a>
+                <a href="javascript:void(0);" class="btn btn-secondary" (click)="scrollToFeatures()">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2>About Us</h2>
+                <p>
+                    At <strong>NAFIS HealthCare</strong>, we are dedicated to revolutionizing healthcare management. 
+                    Our platform seamlessly integrates expert care, record tracking, and virtual consultations, 
+                    ensuring a smooth and secure health experience for everyone.  
+                </p>
+                <p>
+                    With cutting-edge technology and a patient-first approach, we empower individuals 
+                    to take control of their health like never before. Whether you need a quick check-up 
+                    or long-term medical support, NAFIS HealthCare is here for you.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="../../../assets/logo.png" alt="Healthcare Professionals">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Intro -->
+    <section class="intro-text">
+        <h2>Our Features</h2>
+        <p>Discover how NAFIS HealthCare can simplify your health management with cutting-edge features designed for ease and security.</p>
+    </section>    
+
+    <!-- Features Section -->
+    <section id="features" class="features-section container">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🩺</div>
+                <h3 class="feature-title">Expert Care</h3>
+                <p>Professional healthcare services tailored to your needs.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📋</div>
+                <h3 class="feature-title">Easy Tracking</h3>
+                <p>Manage your health records with our intuitive platform.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💬</div>
+                <h3 class="feature-title">Consultation</h3>
+                <p>Online and in-person consultations available.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Intro -->
+    <section class="intro-text">
+        <h2>What Our Users Say</h2>
+        <p>Hear directly from our users about their experiences with NAFIS HealthCare.</p>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials"  class="testimonials-section container">
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <img src="../../../assets/testimonial.jpg" alt="John D.">
+                <p class="testimonial-quote">"NAFIS HealthCare transformed my health management experience!"</p>
+                <p>- John D.</p>
+            </div>
+            <div class="testimonial">
+                <img src="../../../assets/testimonial.jpg" alt="Sarah M.">
+                <p class="testimonial-quote">"Convenient, professional, and incredibly user-friendly."</p>
+                <p>- Samir M.</p>
+            </div>
+            <div class="testimonial">
+                <img src="../../../assets/testimonial.jpg" alt="Michael R.">
+                <p class="testimonial-quote">"Always there when I need healthcare support."</p>
+                <p>- Michael R.</p>
+            </div>
+        </div>
+    </section>
+
+<!--     <app-footer id="footer"></app-footer> -->
+</body>
+</html>

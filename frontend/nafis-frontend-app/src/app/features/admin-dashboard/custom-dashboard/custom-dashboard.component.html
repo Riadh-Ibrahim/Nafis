@@ -1,0 +1,43 @@
+<!-- admin-dashboard.component.html -->
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p>Reporting &amp; Analytics Overview</p>
+  </header>
+
+  <!-- Metrics Cards -->
+  <div class="metrics">
+    <div class="metric-card">
+      <h2>Total Patients</h2>
+      <p class="value">{{ metrics.totalPatients }}</p>
+    </div>
+    <div class="metric-card">
+      <h2>Total Doctors</h2>
+      <p class="value">{{ metrics.totalDoctors }}</p>
+    </div>
+    <div class="metric-card">
+      <h2>Appointments Today</h2>
+      <p class="value">{{ metrics.appointmentsToday }}</p>
+    </div>
+    <div class="metric-card">
+      <h2>Revenue Today</h2>
+      <p class="value">${{ metrics.revenueToday }}</p>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts">
+    <div class="chart-card">
+      <h2>Monthly Appointments</h2>
+      <div class="chart-wrapper">
+        <canvas id="staticChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h2>Real-Time Revenue Chart</h2>
+      <div class="chart-wrapper">
+        <canvas id="pollingChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,8 +13,12 @@ export class AuthEffects {
       ofType(AuthActions.login),
       mergeMap(({ email, password, role }) =>
         this.authService.login({ email, password, role }).pipe(
-          map((response) => AuthActions.loginSuccess({ access_token: response.access_token })),
-          catchError((error) => of(AuthActions.loginFailure({ error: error.message })))
+          map((response) =>
+            AuthActions.loginSuccess({ access_token: response.access_token })
+          ),
+          catchError((error) =>
+            of(AuthActions.loginFailure({ error: error.message }))
+          )
         )
       )
     )
@@ -26,7 +30,7 @@ export class AuthEffects {
         ofType(AuthActions.loginSuccess),
         tap(({ access_token }) => {
           this.authService.setToken(access_token);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard/patient/1']);
         })
       ),
     { dispatch: false }
@@ -36,10 +40,14 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.register),
       mergeMap(({ firstname, lastname, email, password, role }) =>
-        this.authService.register({ firstname, lastname, email, password, role }).pipe(
-          map(() => AuthActions.registerSuccess()),
-          catchError((error) => of(AuthActions.registerFailure({ error: error.message })))
-        )
+        this.authService
+          .register({ firstname, lastname, email, password, role })
+          .pipe(
+            map(() => AuthActions.registerSuccess()),
+            catchError((error) =>
+              of(AuthActions.registerFailure({ error: error.message }))
+            )
+          )
       )
     )
   );

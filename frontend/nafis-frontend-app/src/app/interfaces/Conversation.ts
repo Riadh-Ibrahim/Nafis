@@ -1,9 +1,8 @@
-import { Message } from "./message";
-
+import { Message } from './message';
 export interface Conversation {
-    id: number;
-    patientId: number;
-    doctorId: number;
-    dateDebut: string;
-    messages: Message[];
-  }
+  id: number;
+  patientId: number;
+  doctorId: number;
+  dateDebut: string;
+  messages: Message[];
+}

@@ -10,10 +10,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { provideStore } from '@ngrx/store';
 import { authReducer } from '../../core/store/auth/reducers/auth.reducer';
 import { UserRoleEnum } from '../../core/enums/user-role.enum';
+import { AuthFormComponent } from '../../shared/auth-form/auth-form.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, AuthFormComponent],
 
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
-      firstname: [''], 
+      firstname: [''],
       lastname: [''],
     });
   }
@@ -63,6 +64,10 @@ export class LoginComponent implements OnInit {
   toggleAuthMode(): void {
     this.isLoginMode = !this.isLoginMode;
     this.authForm.reset();
-
+  }
+  // dashboard.component.ts
+  handleLogin(credentials: any) {
+    // Dispatch the login action or call a service method
+    this.store.dispatch(AuthActions.login(credentials));
   }
 }

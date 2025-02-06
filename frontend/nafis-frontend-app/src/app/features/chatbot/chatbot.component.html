@@ -1,0 +1,144 @@
+<div class="fixed bottom-4 right-4 z-50">
+  <!-- Bouton du chatbot -->
+  <button
+    (click)="toggleChat()"
+    [class.scale-0]="isOpen"
+    class="p-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-lg transition-all duration-300 flex items-center justify-center"
+  >
+    <svg 
+      class="w-6 h-6" 
+      viewBox="0 0 64 64" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="12" y="8" width="40" height="36" rx="8" fill="currentColor"/>
+      <circle cx="24" cy="24" r="6" fill="white"/>
+      <circle cx="40" cy="24" r="6" fill="white"/>
+      <circle cx="24" cy="24" r="3" fill="#1E3A8A"/>
+      <circle cx="40" cy="24" r="3" fill="#1E3A8A"/>
+      <rect x="28" y="36" width="8" height="2" fill="white"/>
+      <rect x="31" y="33" width="2" height="8" fill="white"/>
+    </svg>
+  </button>
+
+  <!-- Fenêtre du chat -->
+  <div
+    *ngIf="isOpen"
+    class="fixed bottom-20 right-4 w-96 bg-white rounded-lg shadow-xl transition-all duration-300 transform"
+    [@slideInOut]
+  >
+    <!-- En-tête -->
+    <div class="flex items-center justify-between p-4 bg-blue-500 text-white rounded-t-lg">
+      <div class="flex items-center gap-2">
+        <svg class="w-6 h-6" viewBox="0 0 64 64" fill="none">
+          <!-- Même SVG que le bouton mais plus petit -->
+          <rect x="12" y="8" width="40" height="36" rx="8" fill="currentColor"/>
+          <circle cx="24" cy="24" r="6" fill="white"/>
+          <circle cx="40" cy="24" r="6" fill="white"/>
+          <circle cx="24" cy="24" r="3" fill="#1E3A8A"/>
+          <circle cx="40" cy="24" r="3" fill="#1E3A8A"/>
+          <rect x="28" y="36" width="8" height="2" fill="white"/>
+          <rect x="31" y="33" width="2" height="8" fill="white"/>
+        </svg>
+        <h3 class="font-semibold">Assistant Nafis</h3>
+      </div>
+      <button 
+        (click)="toggleChat()" 
+        class="hover:bg-blue-600 p-1 rounded transition-colors duration-200"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Zone des messages -->
+    <div 
+      #messageContainer 
+      class="h-96 overflow-y-auto p-4 bg-gray-50 space-y-4"
+    >
+      <div
+        *ngFor="let message of messages"
+        [class.justify-end]="message.role === 'user'"
+        [class.justify-start]="message.role === 'bot'"
+        class="flex animate-fadeIn"
+      >
+        <div
+          [class]="message.role === 'user' ? 
+            'bg-blue-500 text-white rounded-br-none' : 
+            'bg-white shadow-md rounded-bl-none'"
+          class="max-w-[80%] p-3 rounded-lg space-y-1"
+        >
+          <div [innerHTML]="message.content"></div>
+          <div class="text-xs opacity-70">
+            {{ message.timestamp | date:'HH:mm' }}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isTyping" class="flex justify-start">
+        <div class="bg-gray-200 rounded-lg px-4 py-2">
+          <span class="animate-bounce">.</span>
+          <span class="animate-bounce delay-100">.</span>
+          <span class="animate-bounce delay-200">.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zone de saisie -->
+    <div class="p-4 border-t bg-white rounded-b-lg">
+      <div class="flex gap-2 items-center">
+        <button
+          (click)="toggleVoice()"
+          [class.bg-red-500]="isListening"
+          [class.bg-gray-200]="!isListening"
+          [disabled]="!isSpeechSupported || isTyping"
+          class="p-2 rounded-full hover:bg-opacity-80 transition-colors duration-200 disabled:opacity-50"
+          [title]="isSpeechSupported ? 'Activer la reconnaissance vocale' : 'Reconnaissance vocale non supportée'"
+        >
+          <svg 
+            [class.text-white]="isListening"
+            [class.text-gray-600]="!isListening"
+            class="w-5 h-5" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+            />
+          </svg>
+        </button>
+        <input
+          [(ngModel)]="inputMessage"
+          (keyup.enter)="sendMessage()"
+          [disabled]="isTyping"
+          type="text"
+          placeholder="Tapez votre message..."
+          class="flex-1 p-2 border rounded-lg focus:outline-none focus:border-blue-500 disabled:opacity-50"
+        />
+        <button
+          (click)="sendMessage()"
+          [disabled]="!inputMessage.trim() || isTyping"
+          class="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-200 disabled:opacity-50"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path 
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

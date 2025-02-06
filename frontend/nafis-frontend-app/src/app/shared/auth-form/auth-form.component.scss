@@ -1,0 +1,97 @@
+// auth-form.component.scss
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f7f7f7; // A soft, light background
+
+  .auth-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    min-width: 600px;
+
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    form {
+      .form-group {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+
+        label {
+          margin-bottom: 0.5rem;
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #555;
+        }
+
+        input,
+        select {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1rem;
+          color: #333;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #007bff;
+            outline: none;
+          }
+        }
+
+        .error-message {
+          margin-top: 0.5rem;
+          font-size: 0.85rem;
+          color: #e74c3c; // Red for errors
+        }
+      }
+
+      // Ensure the submit button takes full width with proper spacing
+      app-button {
+        width: 100%;
+        margin-top: 1rem;
+      }
+    }
+
+    // Optional styling for links, if you decide to include them in the future
+    .auth-links {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+
+      .toggle-mode {
+        margin-left: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #0056b3;
+        }
+      }
+    }
+  }
+}

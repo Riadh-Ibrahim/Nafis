@@ -1,19 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { SignupDto } from 'src/auth/dto/signup.dto';
-import { AdminService } from 'src/admin/admin.service'; // Import AdminService
-import { UserRoleEnum } from 'src/enums/user-role.enum';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { User } from "./entities/user.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { SignupDto } from "src/auth/dto/signup.dto";
+import { AdminService } from "src/admin/admin.service"; // Import AdminService
+import { UserRoleEnum } from "src/enums/user-role.enum";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private readonly adminService: AdminService, // Inject AdminService
+    private readonly adminService: AdminService // Inject AdminService
   ) {}
 
   async add(s: CreateUserDto) {
@@ -37,10 +37,11 @@ export class UserService {
   async findByEmail(email: string) {
     return await this.userRepository.findOne({ where: { email: email } });
   }
-   async findAll() {
+  async findAll() {
     return this.userRepository.find(); // This will return all users
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }

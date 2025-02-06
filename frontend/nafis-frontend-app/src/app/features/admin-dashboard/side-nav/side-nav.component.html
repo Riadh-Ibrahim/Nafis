@@ -1,0 +1,116 @@
+<!-- <div class="nav-items flex flex-col">
+  <div class="nav-item inline-flex items-center">
+    <lucide-icon name="layout-dashboard"></lucide-icon>
+    <span>Dashboard</span>
+  </div>
+  <div class="nav-item inline-flex items-center">
+    <lucide-icon name="users"></lucide-icon>
+    <span>User Management</span>
+  </div>
+  <div class="nav-item inline-flex items-center">
+    <lucide-icon name="calendar"></lucide-icon>
+    <span>Scheduling</span>
+  </div>
+  <span class="nav-item inline-flex items-center">
+    <lucide-icon name="chart-no-axes-combined"></lucide-icon>
+    <span>Reporting & Analytics</span>
+  </span>
+  <div class="nav-item inline-flex items-center">
+    <lucide-icon name="settings-2"></lucide-icon>
+    <span>System Settings</span>
+  </div>
+</div> -->
+
+<nav class="sidebar close">
+  <div class="nav-header">
+    <div class="image-text">
+      <span class="image">
+        <img
+          src="../../../../assets/Admin-Profile-Vector-PNG-Photos.png"
+          alt="admin profile picture"
+        />
+      </span>
+      <div class="text header-text">
+        <span class="name">Khalil Lakhoua</span>
+        <span class="profession">Admin</span>
+      </div>
+    </div>
+    <svg
+      (click)="toggleSideNav()"
+      class="toggle"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 448 512"
+    >
+      <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+      <path
+        d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+      />
+    </svg>
+  </div>
+
+  <div class="menu-bar">
+    <div class="menu">
+      <!-- <li class="nav-link">
+        <lucide-icon name="layout-grid"></lucide-icon>
+        <span class="text nav-text">Dashboard</span>
+      </li> -->
+      <ul class="menu-links">
+        <li class="nav-link">
+          <a routerLink="/admin/dashboard">
+            <lucide-icon name="layout-grid" class="icon"></lucide-icon>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/admin/doctors">
+            <lucide-icon name="contact" class="icon"></lucide-icon>
+            <span class="text nav-text">Staff Management</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/admin/patients">
+            <lucide-icon name="user-round-search" class="icon"></lucide-icon>
+            <span class="text nav-text">Patient Management</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/dashboard/chambres">
+            <lucide-icon name="hospital" class="icon"></lucide-icon>
+            <span class="text nav-text">Rooms</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/admin/reporting">
+            <lucide-icon
+              name="file-chart-column-increasing"
+              class="icon"
+            ></lucide-icon>
+            <span class="text nav-text">Reporting & Analytics</span>
+          </a>
+        </li>
+      </ul>
+      S
+    </div>
+
+    <div class="bottom-content">
+      <li>
+        <a href="#">
+          <lucide-icon name="log-out" class="icon"></lucide-icon>
+          <span class="text nav-text">Logout</span>
+        </a>
+      </li>
+
+      <li class="mode">
+        <div class="moon-sun">
+          <lucide-icon name="moon" class="icon"></lucide-icon>
+          <lucide-icon name="sun" class="icon sun"></lucide-icon>
+        </div>
+
+        <span class="mode-text text">Dark Mode</span>
+        <div class="toggle-switch" (click)="toggleDarkMode()">
+          <span class="switch"></span>
+        </div>
+      </li>
+    </div>
+  </div>
+</nav>

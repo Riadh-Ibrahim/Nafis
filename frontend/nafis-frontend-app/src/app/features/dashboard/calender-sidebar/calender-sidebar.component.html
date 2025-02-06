@@ -1,0 +1,78 @@
+<div class="bg-space-cadet shadow-md rounded-lg p-4 space-y-4">
+
+  <div class="flex items-center justify-between text-center text-white font-bold text-lg">
+    <button (click)="changeMonth('prev')" class="px-2 py-1 hover:bg-blue-900 rounded transition-colors duration-200">
+      &lt;
+    </button>
+    <span>{{ currentMonth }} {{ currentYear }}</span>
+    <button (click)="changeMonth('next')" class="px-2 py-1 hover:bg-blue-900 rounded transition-colors duration-200">
+      &gt;
+    </button>
+  </div>
+
+  <div class="grid grid-cols-7 gap-2 text-sm text-white">
+    <div *ngFor="let day of weekdays" class="text-center font-medium">
+      {{ day }}
+    </div>
+  </div>
+
+  <div class="grid grid-cols-7 gap-2 text-white">
+    <div *ngFor="let date of calendar"
+         [class.bg-cyan-300]="isToday(date)"
+         [class.text-space-cadet]="isToday(date)"
+         [class.text-gray-400]="!isInCurrentMonth(date)"
+         [class.border-2]="isSelectedDate(date)"
+         [class.border-white]="isSelectedDate(date)"
+         [class.rounded]="isToday(date) || isSelectedDate(date)"
+         (click)="selectDate(date)"
+         class="relative text-center py-2 cursor-pointer hover:bg-blue-900 transition-colors duration-200">
+      <span class="text-sm">{{ date.getDate() }}</span>
+
+      <div *ngIf="hasAppointments(date)"
+           class="absolute bottom-0.5 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-cyan-300 rounded-full">
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 space-y-4">
+    <button routerLink="/appointment/new"
+            class="w-full px-4 py-2 bg-white text-space-cadet rounded hover:bg-blue-100 transition-colors duration-200 font-medium">
+      Réserver un rendez-vous
+    </button>
+
+    <div class="text-white space-y-3">
+      <h3 class="font-semibold text-lg border-b border-gray-700 pb-2">
+        {{ selectedDate ? 'Rendez-vous du ' + (selectedDate | date:'dd/MM/yyyy') : 'Tous les rendez-vous' }}
+      </h3>
+
+      <div *ngFor="let rdv of displayedAppointments"
+           class="p-3 bg-blue-900 rounded-lg space-y-2 hover:bg-blue-800 transition-colors duration-200">
+
+        <div class="text-xs text-gray-300">
+          {{ rdv.date | date:'EEEE dd MMMM yyyy' | titlecase }}
+        </div>
+
+        <div class="font-medium">{{ rdv.motif }}</div>
+
+        <div class="text-xs text-gray-300 flex items-center space-x-2">
+          <span>{{ rdv.date | date:'HH:mm' }}</span>
+          <span>•</span>
+          <span>{{ rdv.duree }} min</span>
+        </div>
+
+        <div class="text-xs" [ngClass]="{
+          'text-green-300': rdv.statut === 'CONFIRME',
+          'text-yellow-300': rdv.statut === 'PLANIFIE',
+          'text-red-300': rdv.statut === 'ANNULE'
+        }">
+          Status: {{ rdv.statut }}
+        </div>
+      </div>
+
+      <div *ngIf="displayedAppointments.length === 0"
+           class="text-sm text-gray-300 text-center py-4">
+        Aucun rendez-vous {{ selectedDate ? 'pour cette date' : '' }}
+      </div>
+    </div>
+  </div>
+</div>
