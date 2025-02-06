@@ -18,7 +18,7 @@ export class PersonnelsService {
     private readonly consultationService: ConsultationsService,
   ) {}
 
-  async create(userId: number, createPersonnelDto: CreatePersonnelDto) {
+  async create(adminId: number, userId: number, createPersonnelDto: CreatePersonnelDto) {
   
       const { 
         type,
@@ -31,6 +31,7 @@ export class PersonnelsService {
 
     const personnel = this.personnelsRepository.create(
       { user: {id: userId},
+        admin: {id: adminId},
         type,
         categorie,
         specialite,

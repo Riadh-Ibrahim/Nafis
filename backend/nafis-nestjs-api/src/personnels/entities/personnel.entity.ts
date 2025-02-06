@@ -1,7 +1,10 @@
-import { Entity,PrimaryGeneratedColumn,Column,OneToMany, JoinColumn, OneToOne} from 'typeorm';
+/* eslint-disable prettier/prettier */
+import { Entity,PrimaryGeneratedColumn,Column,OneToMany, JoinColumn, OneToOne, ManyToOne} from 'typeorm';
 import { Presence } from 'src/presences/entities/presence.entity';
 import { RendezVous } from 'src/rendez-vous/entities/rendez-vous.entity';
 import { User } from 'src/user/entities/user.entity';
+import { Admin } from 'src/admin/entities/admin.entity';
+
 export enum PersonnelType {
     MEDECIN = 'MEDECIN',
     INFIRMIER = 'INFIRMIER',
@@ -88,4 +91,7 @@ export class Personnel{
     @OneToOne(() => User, { cascade: true })
     @JoinColumn()
     user: User;
+
+    @ManyToOne(() => Admin, (admin) => admin.personnels)
+    admin: Admin
 }

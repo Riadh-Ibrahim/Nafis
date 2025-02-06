@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Patient } from 'src/patients/entities/patient.entity';
+import { Personnel } from 'src/personnels/entities/personnel.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 
@@ -14,6 +15,9 @@ export class Admin {
 
   @OneToMany(() => Patient, (patient) => patient.admin)
   patients: Patient[];
+
+  @OneToMany(() => Personnel, (personnel) => personnel.admin)
+  personnels: Personnel[];
 
   
 
