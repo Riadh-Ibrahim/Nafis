@@ -5,8 +5,8 @@ import {
   AdminStats,
   Personnel,
   StatistiquesPresence,
-} from '../interfaces/personnel';
-import { Patient } from '../interfaces/patient';
+} from '../../../interfaces/personnel';
+import { Patient } from '../../../interfaces/patient';
 
 @Injectable({
   providedIn: 'root',

@@ -7,15 +7,18 @@ import { provideEffects } from '@ngrx/effects';
 import { authReducer } from './app/core/store/auth/reducers/auth.reducer';
 import { AuthEffects } from './app/core/store/auth/effects/auth.effects';
 import { provideHttpClient } from '@angular/common/http';
-import { messagingReducer } from './app/core/services/chat/chat.reducer';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessagingEffects } from './app/core/services/chat/chat.effects';
+import { messagingReducer } from './app/core/services/chat/chat.reducer';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(routes),
-    provideStore({ auth: authReducer, messaging: messagingReducer }), 
-    provideEffects([AuthEffects, MessagingEffects]),     
+    provideStore({ auth: authReducer }),
+    provideStore({ auth: authReducer, messaging: messagingReducer }),
+    provideEffects([AuthEffects, MessagingEffects]),
+    provideEffects([AuthEffects]),
+    provideAnimationsAsync(),
   ],
-}).catch(err => console.error(err));
-
+}).catch((err) => console.error(err));

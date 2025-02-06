@@ -1,17 +1,29 @@
 <div class="w-full flex flex-col gap-8">
-    <div class="flex items-center" [ngClass]="{
-        'justify-start': incoming, 
-        'flex-row': incoming, 
-        'justify-start flex-row-reverse': !incoming}">
-        <div class="w-10 h-10 rounded-full bg-slate-400" [ngClass]="{  
-            'mr-7 text-left': incoming,
-            'ml-7 text-right': !incoming}"></div>
-        <div class="rounded-2xl p-4" [ngClass]="{
-            'bg-gray-300': incoming, 
-            'bg-tiffany-blue': !incoming, 
-            'text-white': !incoming}">
-            {{content}}
-        </div>
+  <div
+    class="flex items-center"
+    [ngClass]="{
+      'justify-start': incoming,
+      'flex-row': incoming,
+      'justify-start flex-row-reverse': !incoming
+    }"
+  >
+    <div
+      class="w-10 h-10 rounded-full bg-slate-400"
+      [ngClass]="{
+        'mr-7 text-left': incoming,
+        'ml-7 text-right': !incoming
+      }"
+    ></div>
+    <div
+      class="rounded-2xl p-4"
+      [ngClass]="{
+        'bg-gray-300': incoming,
+        'bg-tiffany-blue': !incoming,
+        'text-white': !incoming
+      }"
+    >
+      {{ content }}
     </div>
-    <h2 class="text-center">{{timestamp}}</h2>
+  </div>
+  <h2 class="text-center">{{ timestamp }}</h2>
 </div>

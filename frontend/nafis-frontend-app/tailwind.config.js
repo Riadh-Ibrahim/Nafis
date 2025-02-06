@@ -12,6 +12,9 @@ module.exports = {
         'taupe-gray': '#7E7E8Dff',
         'space-cadet': '#2D2C5Fff',
       },
+      gridTemplateColumns: {
+        'auto': 'repeat(auto-fill, minmax(250px, 1fr))',
+      }
     },
   },
   plugins: [],

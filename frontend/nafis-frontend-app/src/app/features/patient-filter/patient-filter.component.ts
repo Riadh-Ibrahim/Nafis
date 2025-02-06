@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Patient } from '../../interfaces/patient';
-import { MockDataService } from '../../services/mock-data.service';
+import { MockDataService } from '../../core/services/mock-data.service';
 
 @Component({
   selector: 'app-patient-filter',
@@ -31,9 +31,9 @@ export class PatientFilterComponent implements OnInit {
 
   onFilter() {
     const filterValues = this.filterForm.value;
-    
+
     this.mockDataService.getAllPatients().subscribe(patients => {
-      const filtered = patients.filter(patient => 
+      const filtered = patients.filter(patient =>
         this.matchesFilter(patient, filterValues)
       );
       console.log('Patients filtrés:', filtered);

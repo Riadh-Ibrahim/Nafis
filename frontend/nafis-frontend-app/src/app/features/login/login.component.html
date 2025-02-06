@@ -1,10 +1,5 @@
 <div class="auth-container">
-  <div class="auth-illustration">
-    <div class="illustration-content">
-      <img src="assets/doctor-explain-coronavirus.png" alt="Medical Professional" />
-    </div>
-  </div>
-  
+  <!-- Formulaire de login centré -->
   <div class="auth-form">
     <h2>{{ isLoginMode ? 'Login' : 'Create Account' }}</h2>
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()">

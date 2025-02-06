@@ -1,0 +1,10 @@
+<div class="container" style="width: 100vw">
+  <div class="card__container">
+    @for (medSpeciality of medSpecialities; track medSpeciality.name) {
+    <app-speciality-card
+      [medSpeciality]="medSpeciality"
+      class="card__article"
+    ></app-speciality-card>
+    }
+  </div>
+</div>
