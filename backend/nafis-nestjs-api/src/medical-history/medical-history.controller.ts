@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Body, Param, Post, Put, Delete } from '@nestjs/common';
 import { MedicalHistoryService } from './medical-history.service';
-import { UpdateMedicalHistoryDto } from './dto/update-medical-history.dto';
 import { CreateMedicalHistoryDto } from './dto/create-medical-history.dto';
 import { CreateDocumentDto } from 'src/documents/dto/create-document.dto';
 import { UpdateDocumentDto } from 'src/documents/dto/update-document.dto';

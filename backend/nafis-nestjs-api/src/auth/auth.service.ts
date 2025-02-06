@@ -65,7 +65,7 @@ export class AuthService {
     }
 
     else if (commonFields.role == UserRoleEnum.PATIENT) {
-      const admin = await this.adminService.findAppropriateAdmin();
+      const admin = await this.adminService.findAppropriateAdminForPatient();
 
       if (!admin) {
         throw new ConflictException("No admin was found");
@@ -90,7 +90,9 @@ export class AuthService {
       }
 
       try {
+        const admin = await this.adminService.findAppropriateAdminForPersonnel();
         await this.personnelService.create(
+          admin.id,
           userEntity.id,
           personnelSpecificFields
         );

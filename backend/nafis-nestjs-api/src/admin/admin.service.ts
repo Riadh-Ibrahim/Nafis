@@ -34,7 +34,24 @@ export class AdminService {
     return this.adminRepository.findOne({ where: { id } });
   }
 
-  async findAppropriateAdmin(): Promise<Admin> {
+
+  async findAppropriateAdminForPersonnel(): Promise<Admin> {
+    
+    const admin = await this.adminRepository
+        .createQueryBuilder('admin')
+        .leftJoinAndSelect('admin.user', 'user')
+        .leftJoinAndSelect('admin.personnel', 'personnel')
+        .groupBy('admin.id')
+        .addGroupBy('user.id')
+        .addGroupBy('personnel.id')
+        .having('COUNT(personnel.id) < 10') 
+        .orderBy('user.createdAt', 'ASC')
+        .getOne();
+      return admin;
+  }
+
+
+  async findAppropriateAdminForPatient(): Promise<Admin> {
     
     const admin = await this.adminRepository
         .createQueryBuilder('admin')

@@ -26,30 +26,6 @@ import { FormsModule, NgModel } from '@angular/forms';
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent implements OnInit {
-  messagesPreview = [
-    {
-      id: 1,
-      sender: 'John Doe',
-      content: 'Hey, are you free to meet up later today?',
-      timestamp: '2025-01-29T14:30:00',
-      isRead: false,
-    },
-    {
-      id: 2,
-      sender: 'Jane Smith',
-      content: 'I found a cool spot for lunch! Want to join?',
-      timestamp: '2025-01-29T13:45:00',
-      isRead: true,
-    },
-    {
-      id: 3,
-      sender: 'Mark Johnson',
-      content: "Don't forget to review the report before the meeting.",
-      timestamp: '2025-01-28T10:15:00',
-      isRead: true,
-    },
-  ];
-  //messagesPreview$: Observable<any[]>;
   chatMessages$: Observable<Message[]> = of([]);
   newMessage: string = '';
   activeConversationId: number = 1;
