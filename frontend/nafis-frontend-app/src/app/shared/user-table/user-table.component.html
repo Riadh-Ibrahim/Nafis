@@ -1,8 +1,9 @@
-<div class="table">
-  <section class="table__header">
-    <h1>NAFIS Patients</h1>
+<div class="user-table">
+  <section class="table-header">
+    <h1 class="table-title">NAFIS {{ isDoctor ? "Doctors" : "Patients" }}</h1>
   </section>
-  <section class="table__body">
+
+  <section class="table-body">
     <table>
       <thead>
         <tr>
@@ -16,7 +17,6 @@
           <th>addresse</th>
           <th>phone</th>
           <th>Delete user</th>
-          <!-- Conditional headers -->
           @if (isDoctor) {
           <th>mark present</th>
           <th>Status</th>
@@ -29,8 +29,8 @@
       <tbody>
         @for (patient of patients; track patient.id) {
         <tr>
-          <td>{{ patient.id }}</td>
-          <td>
+          <td class="id-cell">{{ patient.id }}</td>
+          <td class="profile-cell">
             <img
               src="{{
                 patient.photoUrl || '../../../../../assets/generic.jpg'
@@ -40,17 +40,18 @@
           </td>
           <td>{{ patient.lastname }}</td>
           <td>{{ patient.firstname }}</td>
-          <td>{{ patient.email || "-" }}</td>
+          <td class="email-cell">{{ patient.email || "-" }}</td>
           <td>{{ patient.numeroSecu }}</td>
           <td>{{ patient.dateNaissance }}</td>
           <td>{{ patient.adresse }}</td>
           <td>{{ patient.telephone }}</td>
           <td>
-            <app-button [variant]="'danger'">Delete</app-button>
+            <app-button [variant]="'danger'" class="delete-btn"
+              >Delete</app-button
+            >
           </td>
-          <!-- Conditional cells -->
           @if (isDoctor && !showRealTimevitals) {
-          <td>
+          <td class="checkbox-cell">
             <app-checkbox [(ngModel)]="patient.status" label=""></app-checkbox>
           </td>
           <td class="status {{ patient.status }}">
@@ -58,9 +59,13 @@
           </td>
           } @if (showRealTimevitals) {
           <td>
-            <app-button [routerLink]="['/patient-chart']" [variant]="'add'"
-              >Access</app-button
+            <app-button
+              [routerLink]="['/patient-chart']"
+              [variant]="'add'"
+              class="access-btn"
             >
+              Access
+            </app-button>
           </td>
           }
         </tr>
