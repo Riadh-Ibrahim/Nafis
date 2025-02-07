@@ -122,12 +122,12 @@ export class GestionChambreService {
     this.addToHistory(roomNumber, {
       date: new Date().toISOString(),
       statut: 'OCCUPE',
-      message: `Patient ${patient.nom} ${patient.prenom} ajouté à la chambre`,
+      message: `Patient ${patient.lastname} ${patient.firstname} ajouté à la chambre`,
       patient: {
         id: patient.id,
         action: 'ADDED',
-        nom: patient.nom,
-        prenom: patient.prenom,
+        nom: patient.lastname,
+        prenom: patient.firstname,
       },
     });
   }
@@ -158,12 +158,12 @@ export class GestionChambreService {
     this.addToHistory(roomNumber, {
       date: new Date().toISOString(),
       statut: room.patients.length === 1 ? 'LIBRE' : 'OCCUPE',
-      message: `Patient ${patient.nom} ${patient.prenom} retiré de la chambre`,
+      message: `Patient ${patient.lastname} ${patient.firstname} retiré de la chambre`,
       patient: {
         id: patient.id,
         action: 'REMOVED',
-        nom: patient.nom,
-        prenom: patient.prenom,
+        nom: patient.lastname,
+        prenom: patient.firstname,
       },
     });
   }

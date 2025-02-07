@@ -9,7 +9,7 @@ import { MockDataService } from '../../core/services/mock-data.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './patient-filter.component.html',
-  styleUrl: './patient-filter.component.scss'
+  styleUrl: './patient-filter.component.scss',
 })
 export class PatientFilterComponent implements OnInit {
   @Output() filteredPatients = new EventEmitter<Patient[]>();
@@ -25,15 +25,15 @@ export class PatientFilterComponent implements OnInit {
       nom: [''],
       prenom: [''],
       numeroSecu: [''],
-      telephone: ['']
+      telephone: [''],
     });
   }
 
   onFilter() {
     const filterValues = this.filterForm.value;
 
-    this.mockDataService.getAllPatients().subscribe(patients => {
-      const filtered = patients.filter(patient =>
+    this.mockDataService.getAllPatients().subscribe((patients) => {
+      const filtered = patients.filter((patient) =>
         this.matchesFilter(patient, filterValues)
       );
       console.log('Patients filtrés:', filtered);
@@ -43,9 +43,14 @@ export class PatientFilterComponent implements OnInit {
 
   private matchesFilter(patient: Patient, filters: any): boolean {
     return (
-      (!filters.nom || patient.nom.toLowerCase().includes(filters.nom.toLowerCase())) &&
-      (!filters.prenom || patient.prenom.toLowerCase().includes(filters.prenom.toLowerCase())) &&
-      (!filters.numeroSecu || patient.numeroSecu.includes(filters.numeroSecu)) &&
+      (!filters.nom ||
+        patient.lastname.toLowerCase().includes(filters.nom.toLowerCase())) &&
+      (!filters.prenom ||
+        patient.firstname
+          .toLowerCase()
+          .includes(filters.prenom.toLowerCase())) &&
+      (!filters.numeroSecu ||
+        patient.numeroSecu.includes(filters.numeroSecu)) &&
       (!filters.telephone || patient.telephone.includes(filters.telephone))
     );
   }

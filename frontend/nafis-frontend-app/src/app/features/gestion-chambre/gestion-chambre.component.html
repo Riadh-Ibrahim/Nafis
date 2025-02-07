@@ -2,13 +2,25 @@
   <!-- Header -->
   <div class="mb-6">
     <h1 class="text-2xl font-bold mb-4">Gestion des Chambres</h1>
-    
+
     <!-- Status Legend -->
     <div class="flex gap-4 mb-4">
       <div class="flex items-center gap-2">
-        <span class="px-3 py-1 rounded-full text-sm" [class]="getStatusColor('LIBRE')">Libre</span>
-        <span class="px-3 py-1 rounded-full text-sm" [class]="getStatusColor('OCCUPE')">Occupé</span>
-        <span class="px-3 py-1 rounded-full text-sm" [class]="getStatusColor('NETTOYAGE')">Nettoyage</span>
+        <span
+          class="px-3 py-1 rounded-full text-sm"
+          [class]="getStatusColor('LIBRE')"
+          >Libre</span
+        >
+        <span
+          class="px-3 py-1 rounded-full text-sm"
+          [class]="getStatusColor('OCCUPE')"
+          >Occupé</span
+        >
+        <span
+          class="px-3 py-1 rounded-full text-sm"
+          [class]="getStatusColor('NETTOYAGE')"
+          >Nettoyage</span
+        >
       </div>
       <div class="flex items-center gap-2 border-l pl-4">
         <div class="flex items-center gap-1">
@@ -29,32 +41,44 @@
 
   <!-- Room Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div *ngFor="let room of rooms(); trackBy: trackByNumero"
-         class="border rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow"
-         [class.ring-2]="selectedRoom()?.numero === room.numero"
-         [class.ring-blue-500]="selectedRoom()?.numero === room.numero"
-         (click)="selectRoom(room)">
-      
+    <div
+      *ngFor="let room of rooms(); trackBy: trackByNumero"
+      class="border rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow"
+      [class.ring-2]="selectedRoom()?.numero === room.numero"
+      [class.ring-blue-500]="selectedRoom()?.numero === room.numero"
+      (click)="selectRoom(room)"
+    >
       <!-- Room Header -->
       <div class="flex justify-between items-center mb-4">
         <div class="flex items-center gap-2">
-          <h2 class="text-lg font-semibold">Chambre {{room.numero}}</h2>
-          <span class="text-sm text-gray-500">({{ getRoomTypeLabel(room.type) }})</span>
+          <h2 class="text-lg font-semibold">Chambre {{ room.numero }}</h2>
+          <span class="text-sm text-gray-500"
+            >({{ getRoomTypeLabel(room.type) }})</span
+          >
         </div>
-        <span class="px-3 py-1 rounded-full text-sm" [class]="getStatusColor(room.statut)">
+        <span
+          class="px-3 py-1 rounded-full text-sm"
+          [class]="getStatusColor(room.statut)"
+        >
           {{ room.statut }}
         </span>
       </div>
 
       <!-- Room Info -->
       <div class="space-y-2">
-        <p class="text-sm">Patients: {{ room.patients.length }}/{{ getRoomCapacity(room.type) }}</p>
-        
+        <p class="text-sm">
+          Patients: {{ room.patients.length }}/{{ getRoomCapacity(room.type) }}
+        </p>
+
         <!-- Patient List -->
-        <div *ngFor="let patient of room.patients" 
-             class="text-sm mt-2 p-2 bg-gray-50 rounded flex justify-between items-center">
+        <div
+          *ngFor="let patient of room.patients"
+          class="text-sm mt-2 p-2 bg-gray-50 rounded flex justify-between items-center"
+        >
           <div>
-            <span class="font-medium">{{ patient.nom }} {{ patient.prenom }}</span>
+            <span class="font-medium"
+              >{{ patient.lastname }} {{ patient.firstname }}</span
+            >
             <span class="text-gray-500 text-xs ml-2">#{{ patient.id }}</span>
           </div>
         </div>
@@ -64,7 +88,9 @@
 
   <!-- Selected Room Details -->
   <div *ngIf="selectedRoom()" class="mt-6 border rounded-lg p-4">
-    <h2 class="text-xl font-bold mb-4">Détails de la Chambre {{ selectedRoom()!.numero }}</h2>
+    <h2 class="text-xl font-bold mb-4">
+      Détails de la Chambre {{ selectedRoom()!.numero }}
+    </h2>
 
     <div class="grid grid-cols-2 gap-4 mb-4">
       <div>
@@ -75,7 +101,10 @@
       </div>
       <div>
         <h3 class="font-medium mb-2">Statut</h3>
-        <span class="px-3 py-1 rounded-full text-sm" [class]="getStatusColor(selectedRoom()!.statut)">
+        <span
+          class="px-3 py-1 rounded-full text-sm"
+          [class]="getStatusColor(selectedRoom()!.statut)"
+        >
           {{ selectedRoom()!.statut }}
         </span>
       </div>
@@ -85,19 +114,23 @@
     <div class="mb-4">
       <h3 class="font-medium mb-2">Patients</h3>
       <div class="space-y-2">
-        <div *ngFor="let patient of selectedRoom()!.patients" 
-             class="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+        <div
+          *ngFor="let patient of selectedRoom()!.patients"
+          class="p-3 bg-gray-50 rounded-lg flex justify-between items-center"
+        >
           <div>
-            <p class="font-medium">{{ patient.nom }} {{ patient.prenom }}</p>
+            <p class="font-medium">
+              {{ patient.lastname }} {{ patient.firstname }}
+            </p>
             <p class="text-sm text-gray-600">
               ID: {{ patient.id }} | Sécu: {{ formatSecu(patient.numeroSecu) }}
             </p>
-            <p class="text-sm text-gray-600">
-              Tel: {{ patient.telephone }}
-            </p>
+            <p class="text-sm text-gray-600">Tel: {{ patient.telephone }}</p>
           </div>
-          <button class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600"
-                  (click)="removePatient(patient.id)">
+          <button
+            class="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600"
+            (click)="removePatient(patient.id)"
+          >
             Retirer
           </button>
         </div>
@@ -108,29 +141,37 @@
     <div class="space-y-2">
       <h3 class="font-medium mb-2">Actions</h3>
       <div class="flex gap-2">
-        <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                [disabled]="!canAddPatient()"
-                [class.opacity-50]="!canAddPatient()"
-                [class.cursor-not-allowed]="!canAddPatient()"
-                (click)="openAddPatientDialog()">
+        <button
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          [disabled]="!canAddPatient()"
+          [class.opacity-50]="!canAddPatient()"
+          [class.cursor-not-allowed]="!canAddPatient()"
+          (click)="openAddPatientDialog()"
+        >
           Ajouter Patient
         </button>
-        <button class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-                [disabled]="selectedRoom()!.patients.length === 0"
-                [class.opacity-50]="selectedRoom()!.patients.length === 0"
-                [class.cursor-not-allowed]="selectedRoom()!.patients.length === 0"
-                (click)="updateStatus('LIBRE')">
+        <button
+          class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+          [disabled]="selectedRoom()!.patients.length === 0"
+          [class.opacity-50]="selectedRoom()!.patients.length === 0"
+          [class.cursor-not-allowed]="selectedRoom()!.patients.length === 0"
+          (click)="updateStatus('LIBRE')"
+        >
           Libérer
         </button>
         <ng-container *ngIf="selectedRoom()!.statut !== 'NETTOYAGE'">
-          <button class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
-                  (click)="updateStatus('NETTOYAGE')">
+          <button
+            class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+            (click)="updateStatus('NETTOYAGE')"
+          >
             Marquer pour Nettoyage
           </button>
         </ng-container>
         <ng-container *ngIf="selectedRoom()!.statut === 'NETTOYAGE'">
-          <button class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-                  (click)="finishCleaning()">
+          <button
+            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+            (click)="finishCleaning()"
+          >
             Terminer Nettoyage
           </button>
         </ng-container>
@@ -141,18 +182,24 @@
     <div *ngIf="getRoomHistory().length > 0" class="mt-4">
       <h3 class="font-medium mb-2">Historique</h3>
       <div class="space-y-2">
-        <div *ngFor="let log of getRoomHistory(); trackBy: trackByDate" 
-             class="text-sm p-3 bg-gray-50 rounded-lg">
+        <div
+          *ngFor="let log of getRoomHistory(); trackBy: trackByDate"
+          class="text-sm p-3 bg-gray-50 rounded-lg"
+        >
           <div class="flex items-center gap-2">
             <span class="font-medium">{{ formatDate(log.date) }}</span>
-            <span class="px-2 py-0.5 rounded text-xs" [class]="getStatusColor(log.statut)">
+            <span
+              class="px-2 py-0.5 rounded text-xs"
+              [class]="getStatusColor(log.statut)"
+            >
               {{ log.statut }}
             </span>
           </div>
           <p class="mt-1">{{ log.message }}</p>
           <div *ngIf="log.patient" class="mt-1 text-xs text-gray-600">
-            Patient: {{ log.patient.nom }} {{ log.patient.prenom }} 
-            ({{ log.patient.action === 'ADDED' ? 'Ajouté' : 'Retiré' }})
+            Patient: {{ log.patient.nom }} {{ log.patient.prenom }} ({{
+              log.patient.action === "ADDED" ? "Ajouté" : "Retiré"
+            }})
           </div>
         </div>
       </div>

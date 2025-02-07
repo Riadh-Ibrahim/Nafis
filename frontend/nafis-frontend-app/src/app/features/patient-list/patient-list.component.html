@@ -1,27 +1,26 @@
 <div class="patient-list">
-    <table class="patient-table">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Date de Naissance</th>
-          <th>Numéro Sécu</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Loop through the patients array and display each patient's details -->
-        <tr *ngFor="let patient of patients">
-          <td>{{ patient.nom }}</td>
-          <td>{{ patient.prenom }}</td>
-          <td>{{ patient.dateNaissance }}</td>
-          <td>{{ patient.numeroSecu }}</td>
-          <td>
-            <!-- Trigger the method when the button is clicked -->
-            <button (click)="viewPatientDetails(patient.id)">Détails</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <table class="patient-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Date de Naissance</th>
+        <th>Numéro Sécu</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loop through the patients array and display each patient's details -->
+      <tr *ngFor="let patient of patients">
+        <td>{{ patient.lastname }}</td>
+        <td>{{ patient.firstname }}</td>
+        <td>{{ patient.dateNaissance }}</td>
+        <td>{{ patient.numeroSecu }}</td>
+        <td>
+          <!-- Trigger the method when the button is clicked -->
+          <button (click)="viewPatientDetails(patient.id)">Détails</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

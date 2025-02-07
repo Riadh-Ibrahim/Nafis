@@ -219,8 +219,8 @@ export class MockDataService {
     const patients: { [key: number]: Patient } = {
       1: {
         id: 1,
-        nom: 'Durant',
-        prenom: 'Martin',
+        lastname: 'Durant',
+        firstname: 'Martin',
         dateNaissance: '1980-05-15',
         numeroSecu: '180055789456123',
         adresse: '123 rue de la Santé, 75014 Paris',
@@ -229,8 +229,8 @@ export class MockDataService {
       },
       2: {
         id: 2,
-        nom: 'Dupont',
-        prenom: 'Sophie',
+        lastname: 'Dupont',
+        firstname: 'Sophie',
         dateNaissance: '1990-08-25',
         numeroSecu: '190085678912345',
         adresse: '456 avenue de la Liberté, 75010 Paris',
@@ -239,8 +239,8 @@ export class MockDataService {
       },
       3: {
         id: 3,
-        nom: 'Leroy',
-        prenom: 'Jean',
+        lastname: 'Leroy',
+        firstname: 'Jean',
         dateNaissance: '1975-03-10',
         numeroSecu: '175035678912345',
         adresse: '789 rue de la République, 69002 Lyon',
@@ -256,8 +256,8 @@ export class MockDataService {
     const patients: Patient[] = [
       {
         id: 1,
-        nom: 'Durant',
-        prenom: 'Martin',
+        lastname: 'Durant',
+        firstname: 'Martin',
         dateNaissance: '1980-05-15',
         numeroSecu: '180055789456123',
         adresse: '123 rue de la Santé, 75014 Paris',
@@ -266,8 +266,8 @@ export class MockDataService {
       },
       {
         id: 2,
-        nom: 'Dupont',
-        prenom: 'Sophie',
+        lastname: 'Dupont',
+        firstname: 'Sophie',
         dateNaissance: '1990-08-25',
         numeroSecu: '190085678912345',
         adresse: '456 avenue de la Liberté, 75010 Paris',
@@ -277,8 +277,8 @@ export class MockDataService {
       // Ajoutez d'autres patients si nécessaire
       {
         id: 3,
-        nom: 'Leroy',
-        prenom: 'Jean',
+        lastname: 'Leroy',
+        firstname: 'Jean',
         dateNaissance: '1975-03-10',
         numeroSecu: '175035678912345',
         adresse: '789 rue de la République, 69002 Lyon',
