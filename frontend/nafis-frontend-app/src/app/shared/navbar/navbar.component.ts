@@ -38,7 +38,7 @@ export class NavbarComponent {
   ];
 
   navigationItems = [
-    { name: 'Home', href: '/dashboard', fragment: '' },
+    { name: 'Home', href: '/landing', fragment: 'hero' },
     { name: 'About', href: '/landing', fragment: 'about' },
     { name: 'Services', href: '/landing', fragment: 'features' },
     { name: 'Contact', href: '/landing', fragment: 'testimonials' },

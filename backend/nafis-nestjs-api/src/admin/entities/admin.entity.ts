@@ -9,9 +9,9 @@ export class Admin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(()=>User, { onDelete: 'CASCADE', eager: true })
-  @JoinColumn({name: "user_id"})
-  user: User;
+  @OneToOne(() => User, (user) => user.admin, { cascade: true })
+    @JoinColumn({ name: "user_id" })
+    user: User;
 
   @OneToMany(() => Patient, (patient) => patient.admin)
   patients: Patient[];

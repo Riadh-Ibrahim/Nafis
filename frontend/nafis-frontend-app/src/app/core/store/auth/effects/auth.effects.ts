@@ -69,9 +69,11 @@ import { of } from 'rxjs';
 import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import * as AuthActions from '../actions/auth.actions';
 import { AuthService } from '../../../services/auth.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable()
 export class AuthEffects {
+  http: any;
   constructor(
     private actions$: Actions,
     private authService: AuthService,
@@ -105,13 +107,13 @@ export class AuthEffects {
             const role = this.authService.getUserRole(); // Example method to get role from AuthService
             //const userId = this.authService.getUserId();
 
-            if (role === 'patient') {
+            // if (role === 'patient') {
               this.router.navigate([`/dashboard/patient/1`]);
-            } else if (role === 'personnel') {
-              this.router.navigate([`/dashboard/doctor/1`]);
-            } else {
-              this.router.navigate([`/dashboard`]);
-            }
+            // } else if (role === 'personnel') {
+            //   this.router.navigate([`/dashboard/doctor/1`]);
+            // } else {
+            //   this.router.navigate([`/landing`]);
+            // }
           } else {
             this.router.navigate(['/login']); // Navigate to login page if not authenticated
           }
@@ -125,13 +127,11 @@ export class AuthEffects {
       ofType(AuthActions.register),
       mergeMap(({ firstname, lastname, email, password, role }) =>
         this.authService
-          .register({ firstname, lastname, email, password, role })
+          .register({
+            commonFields: { firstname, lastname, email, password, role },
+          }) // Wrap inside commonFields
           .pipe(
-            map((response) =>
-              AuthActions.registerSuccess({
-                access_token: response.access_token,
-              })
-            ),
+            map(() => AuthActions.registerSuccess()),
             catchError((error) =>
               of(AuthActions.registerFailure({ error: error.message }))
             )
@@ -140,28 +140,40 @@ export class AuthEffects {
     )
   );
 
-  registerSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.registerSuccess),
-        tap(() => {
-          const isAuthenticated = this.authService.isAuthenticated();
-          if (isAuthenticated) {
-            const role = this.authService.getUserRole(); // Example method to get role from AuthService
-            if (role === 'patient') {
-              this.router.navigate(['/patients']);
-            } else if (role === 'doctor') {
-              this.router.navigate(['/doctor']);
-            } else {
-              this.router.navigate(['/dashboard']);
-            }
-          } else {
-            this.router.navigate(['/login']); // Navigate to login page if not authenticated
-          }
-        })
-      ),
-    { dispatch: false }
-  );
+
+  // registerSuccess$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(AuthActions.registerSuccess),
+  //     tap(({ access_token }) => {
+  //       if (access_token) {
+  //         try {
+  //           const decoded: any = jwtDecode(access_token);
+  //           const email = decoded?.email; // Ensure token contains email
+  //           if (email) {
+  //             this.http.post('/api/user/send-welcome-email', { email }).subscribe();
+  //           }
+  //         } catch (error) {
+  //           console.error('Error decoding token:', error);
+  //         }
+  //       }
+  
+  //       const isAuthenticated = this.authService.isAuthenticated();
+  //       if (isAuthenticated) {
+  //         const role = this.authService.getUserRole();
+  //         if (role === 'patient') {
+  //           this.router.navigate(['/patients']);
+  //         } else if (role === 'doctor') {
+  //           this.router.navigate(['/doctor']);
+  //         } else {
+  //           this.router.navigate(['/dashboard']);
+  //         }
+  //       } else {
+  //         this.router.navigate(['/login']);
+  //       }
+  //     })
+  //   ),
+  //   { dispatch: false }
+  // );   
 
   logout$ = createEffect(
     () =>

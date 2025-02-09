@@ -5,6 +5,7 @@ export const login = createAction(
   '[Auth] Login',
   props<{ email: string; password: string }>()
 );
+export const resetForm = createAction('[Auth] Reset Form');
 
 export const loginSuccess = createAction(
   '[Auth] Login Success',
@@ -28,8 +29,7 @@ export const register = createAction(
 );
 
 export const registerSuccess = createAction(
-  '[Auth] Register Success',
-  props<{ access_token: string }>()
+  '[Auth] Register Success' // Pas de payload car on ne reçoit pas de données après une inscription réussie
 );
 
 export const registerFailure = createAction(

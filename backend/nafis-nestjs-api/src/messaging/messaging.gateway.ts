@@ -43,6 +43,6 @@ export class MessagingGateway {
   @SubscribeMessage('joinConversation')
   handleJoinConversation(@MessageBody() conversationId: number, @ConnectedSocket() client: Socket) {
     const room = `conversation_${conversationId}`;
-    client.join(room);  // Join the conversation room
+    client.join(room);
   }
 }  

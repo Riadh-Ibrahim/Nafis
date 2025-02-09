@@ -32,7 +32,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked, OnDestroy {
   inputMessage = '';
   isOpen = false;
   isListening = false;
-  isTyping = true;
+  isTyping = false;
   isSpeechSupported = false; 
   private recognition: any;
   private isBrowser: boolean;

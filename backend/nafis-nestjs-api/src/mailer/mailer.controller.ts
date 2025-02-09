@@ -7,8 +7,8 @@ export class MailController {
 
   @Post('send-email')
   async sendEmail(@Body('email') email: string) {
-    const token = Math.random().toString(36).substring(7);
-    await this.mailService.sendmail(email, token);
+    await this.mailService.sendWelcomeEmail(email);
+
     return { message: 'Email sent successfully!' };
   }
 }

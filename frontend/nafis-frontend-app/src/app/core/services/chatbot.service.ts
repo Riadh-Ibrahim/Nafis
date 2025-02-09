@@ -5,6 +5,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { GeminiResponse } from '../../interfaces/chatbot.types';
 
+
 @Injectable({
   providedIn: 'root'
 })

@@ -156,7 +156,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+import { UserRoleEnum } from '../enums/user-role.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -175,17 +176,15 @@ export class AuthService {
   }
 
   register(user: {
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    role: string;
-  }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/signup`, user).pipe(
-      tap((response) => {
-        localStorage.setItem('access_token', response.access_token);
-      })
-    );
+    commonFields: {
+      firstname: string;
+      lastname: string;
+      email: string;
+      password: string;
+      role: string;
+    };
+  }): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/signup`, user);
   }
 
   logout(): void {
@@ -199,16 +198,32 @@ export class AuthService {
 
   getUserRole(): string | null {
     const token = localStorage.getItem('access_token');
-    if (token) {
-      const decoded: any = jwtDecode.jwtDecode(token);
-      return decoded.role; // Example: Extract role from token payload
+  
+    if (!token) {
+      console.error("No token found in localStorage");
+      return null;
     }
-    return null;
+  
+    try {
+      const decoded: any = jwtDecode(token);
+  
+      if (!decoded || !decoded.role) {
+        console.error("Token is invalid or missing 'role' field:", decoded);
+        return null;
+      }
+  
+      console.log("User Role:", decoded.role);
+      return decoded.role; 
+    } catch (error) {
+      console.error("Invalid Token:", error);
+      return null;
+    }
   }
+  
   getUserId(): string | null {
     const token = localStorage.getItem('access_token');
     if (token) {
-      const decoded: any = jwtDecode.jwtDecode(token);
+      const decoded: any = jwtDecode(token);
       return decoded.id; // Example: Extract role from token payload
       console.log(decoded.id);
     }
