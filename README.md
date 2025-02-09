@@ -10,6 +10,7 @@ A comprehensive web application for managing healthcare services efficiently. Th
 - 🛠️ **Admin Dashboard** (User & Data Management)  
 - 📱 **Responsive UI** with Tailwind CSS  
 - 🎨 **Smooth Animations** using GSAP  
+- 🔔 **Real-time Notifications** with MQTT WebSockets
 
 ## 🛠 Tech Stack
 
